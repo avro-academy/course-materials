@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JavaScript Cheat Sheet · Avro Academy</title>
+<style>
+  @page { size: A4; margin: 10mm 9mm; }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: "Helvetica Neue", Arial, sans-serif; font-size: 8.6pt; line-height: 1.38; color: #1d2b4f; }
+  header { display: flex; justify-content: space-between; align-items: flex-end; border-bottom: 3px solid #ff5a5f; padding-bottom: 5px; margin-bottom: 8px; }
+  header h1 { margin: 0; font-size: 19pt; letter-spacing: -0.3px; }
+  header h1 span { color: #ff5a5f; }
+  header p { margin: 0; font-size: 8pt; color: #56607a; text-align: right; }
+  .cols { column-count: 3; column-gap: 8px; }
+  section { break-inside: avoid; background: #f5f7fb; border-radius: 6px; padding: 6px 8px 7px; margin: 0 0 8px; border-top: 3px solid #2bb3a3; }
+  section.coral { border-top-color: #ff5a5f; }
+  section.amber { border-top-color: #f5a623; }
+  h2 { margin: 0 0 4px; font-size: 10pt; }
+  p { margin: 3px 0; }
+  pre { margin: 3px 0; padding: 4px 5px; background: #1d2b4f; color: #e8ecf5; border-radius: 4px; font-family: Menlo, Consolas, "Courier New", monospace; font-size: 6.5pt; line-height: 1.38; white-space: pre-wrap; word-break: break-word; }
+  pre .c { color: #8fa0c2; }
+  code { font-family: Menlo, Consolas, "Courier New", monospace; font-size: 7.6pt; background: #e4e8f1; padding: 0 3px; border-radius: 3px; }
+  table { width: 100%; border-collapse: collapse; margin: 3px 0; }
+  td { padding: 1.5px 3px; vertical-align: top; border-bottom: 1px solid #e1e5ee; }
+  td:first-child { white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  ul { margin: 3px 0; padding-left: 14px; }
+  li { margin: 1px 0; }
+  footer { margin-top: 2px; font-size: 7.4pt; color: #6b7590; text-align: center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>JavaScript <span>Cheat Sheet</span></h1>
+  <p><strong>JavaScript for Beginners: Code Your First Web Apps</strong><br>Avro Academy · avro.academy</p>
+</header>
+
+<div class="cols">
+
+<section>
+  <h2>Output and comments</h2>
+<pre>console.log("Hello, world!");
+console.log(2 + 3);   <span class="c">// 5</span>
+<span class="c">// A comment: JavaScript ignores it</span></pre>
+  <p>Open the console: <code>Ctrl+Shift+J</code> (Chrome/Edge), <code>Ctrl+Shift+K</code> (Firefox), <code>Cmd+Option+J</code> on a Mac. JavaScript is <strong>case-sensitive</strong>.</p>
+</section>
+
+<section>
+  <h2>Variables</h2>
+<pre>const cafeName = "Corner Café"; <span class="c">// can't change</span>
+let customers = 12;            <span class="c">// can change</span>
+customers = customers + 1;
+customers += 5;  customers -= 2;  customers++;</pre>
+  <p>Use <code>const</code> by default, <code>let</code> when the value changes. Avoid old <code>var</code>. Names in <code>camelCase</code>: <code>hoursWorked</code>, <code>totalPrice</code>.</p>
+</section>
+
+<section>
+  <h2>Types of values</h2>
+  <table>
+    <tr><td><code>"text"</code> <code>'text'</code></td><td>string</td></tr>
+    <tr><td><code>42</code> <code>4.5</code></td><td>number</td></tr>
+    <tr><td><code>true</code> <code>false</code></td><td>boolean</td></tr>
+    <tr><td><code>[1, 2, 3]</code></td><td>array (a list)</td></tr>
+    <tr><td><code>{ name: "Sam" }</code></td><td>object</td></tr>
+    <tr><td><code>undefined</code></td><td>no value yet</td></tr>
+    <tr><td><code>NaN</code></td><td>"Not a Number"</td></tr>
+  </table>
+<pre>typeof 42      <span class="c">// "number"</span>
+typeof "42"    <span class="c">// "string"</span></pre>
+</section>
+
+<section>
+  <h2>Maths</h2>
+  <table>
+    <tr><td><code>+ - * /</code></td><td>add, subtract, multiply, divide</td></tr>
+    <tr><td><code>17 % 5</code></td><td>remainder → 2</td></tr>
+    <tr><td><code>2 ** 3</code></td><td>power → 8</td></tr>
+    <tr><td><code>(2 + 3) * 4</code></td><td>brackets first → 20</td></tr>
+  </table>
+<pre>(21.989).toFixed(2)  <span class="c">// "21.99" (text)</span>
+Math.round(21.989)   <span class="c">// 22</span>
+0.1 + 0.2            <span class="c">// 0.30000000000000004</span></pre>
+  <p>Round money before you show it.</p>
+</section>
+
+<section class="coral">
+  <h2>Strings (text)</h2>
+<pre>const name = "Priya";
+`Order for ${name}: ${2 * 4.5}` <span class="c">// backticks</span>
+
+"  Jordan Lee ".trim()   <span class="c">// "Jordan Lee"</span>
+"Jordan".length          <span class="c">// 6 (no brackets)</span>
+"Jordan".toUpperCase()   <span class="c">// "JORDAN"</span>
+"Jordan".toLowerCase()   <span class="c">// "jordan"</span>
+"Jordan Lee".includes("Lee") <span class="c">// true</span>
+"Jordan Lee".slice(0, 6) <span class="c">// "Jordan"</span>
+"Sam".startsWith("S")    <span class="c">// true</span></pre>
+</section>
+
+<section class="coral">
+  <h2>Numbers that are really text</h2>
+  <p>Anything from a form or <code>.value</code> is a <strong>string</strong>.</p>
+<pre>"7" + 3          <span class="c">// "73" (joins text!)</span>
+Number("7") + 3  <span class="c">// 10</span>
+Number("hello")  <span class="c">// NaN</span></pre>
+</section>
+
+<section>
+  <h2>Comparisons and logic</h2>
+  <table>
+    <tr><td><code>===</code> <code>!==</code></td><td>equal / not equal (always 3 =)</td></tr>
+    <tr><td><code>&gt; &lt; &gt;= &lt;=</code></td><td>greater / less than (or equal)</td></tr>
+    <tr><td><code>a &amp;&amp; b</code></td><td>and: both true</td></tr>
+    <tr><td><code>a || b</code></td><td>or: at least one true</td></tr>
+    <tr><td><code>!a</code></td><td>not: flips true/false</td></tr>
+  </table>
+  <p><code>=</code> puts a value in a variable. <code>===</code> compares.</p>
+</section>
+
+<section>
+  <h2>if / else</h2>
+<pre>if (stock === 0) {
+  console.log("Out of stock");
+} else if (stock &lt; 5) {
+  console.log("Low stock");
+} else {
+  console.log("In stock");
+}
+
+<span class="c">// Ternary: condition ? ifTrue : ifFalse</span>
+const msg = hours &gt;= 5 ? "Break" : "No break";</pre>
+  <p>The first true condition runs; the rest are skipped.</p>
+</section>
+
+<section class="amber">
+  <h2>Arrays (lists)</h2>
+<pre>const drinks = ["Flat white", "Latte", "Chai"];
+drinks[0]              <span class="c">// "Flat white" (starts at 0!)</span>
+drinks[drinks.length - 1] <span class="c">// last item</span>
+drinks.length          <span class="c">// 3</span>
+drinks.push("Mocha")   <span class="c">// add to end</span>
+drinks.pop()           <span class="c">// remove from end</span>
+drinks[1] = "Iced latte" <span class="c">// replace</span>
+drinks.includes("Chai") <span class="c">// true</span>
+drinks.indexOf("Chai")  <span class="c">// 2</span></pre>
+</section>
+
+<section class="amber">
+  <h2>Loops</h2>
+<pre><span class="c">// every item</span>
+for (const task of tasks) {
+  console.log(task);
+}
+<span class="c">// counting</span>
+for (let i = 1; i &lt;= 3; i++) { ... }
+<span class="c">// repeat while true</span>
+while (stock &gt; 0) { stock--; }
+
+<span class="c">// running total</span>
+let total = 0;
+for (const h of shiftHours) { total += h; }</pre>
+  <p>A condition that never becomes false = infinite loop. Close the tab and fix it.</p>
+</section>
+
+<section class="amber">
+  <h2>Array methods</h2>
+<pre>prices.filter((p) =&gt; p &lt; 10)  <span class="c">// keep some</span>
+prices.map((p) =&gt; p * 1.1)    <span class="c">// change each</span>
+names.find((n) =&gt; n.startsWith("S")) <span class="c">// first match</span>
+scores.forEach((s) =&gt; console.log(s))
+scores.some((s) =&gt; s &gt; 90)   <span class="c">// any? true/false</span>
+scores.every((s) =&gt; s &gt; 50)  <span class="c">// all? true/false</span>
+[...nums].sort((a, b) =&gt; a - b) <span class="c">// numbers low→high</span></pre>
+  <p><code>filter</code>, <code>map</code> and <code>find</code> give a new result; the original array stays the same.</p>
+</section>
+
+<section>
+  <h2>Functions</h2>
+<pre>function calculatePay(hours, rate) {
+  return hours * rate;
+}
+calculatePay(5, 25)   <span class="c">// 125</span>
+
+<span class="c">// Arrow functions</span>
+const double = (n) =&gt; n * 2;
+const isWeekend = (day) =&gt; {
+  return day === "Saturday" || day === "Sunday";
+};
+
+<span class="c">// Default parameter</span>
+function welcome(name = "friend") {
+  return `Welcome, ${name}!`;
+}</pre>
+  <p><code>return</code> hands a value back; <code>console.log</code> only shows it. Variables made inside <code>{ }</code> only exist there (<strong>scope</strong>).</p>
+</section>
+
+<section class="coral">
+  <h2>Objects</h2>
+<pre>const order = {
+  item: "Flat white",
+  quantity: 2,
+  price: 4.5,
+  total() { return this.quantity * this.price; },
+};
+order.item          <span class="c">// "Flat white"</span>
+order["price"]      <span class="c">// 4.5</span>
+order.size = "Large" <span class="c">// add or change</span>
+delete order.size    <span class="c">// remove</span>
+order.total()       <span class="c">// 9 (a method)</span>
+order.colour        <span class="c">// undefined</span></pre>
+</section>
+
+<section class="coral">
+  <h2>Arrays of objects</h2>
+<pre>const roster = [
+  { name: "Sam", day: "Saturday", hours: 5 },
+  { name: "Ali", day: "Sunday", hours: 4 },
+];
+roster.filter((s) =&gt; s.day === "Saturday")
+roster.find((s) =&gt; s.name === "Ali")
+roster.map((s) =&gt; s.name)  <span class="c">// ["Sam", "Ali"]</span></pre>
+</section>
+
+<section>
+  <h2>JSON</h2>
+<pre>JSON.stringify(obj)  <span class="c">// object → text</span>
+JSON.parse(text)     <span class="c">// text → object</span></pre>
+  <p>Keys and strings in double quotes. No functions, comments or trailing commas.</p>
+</section>
+
+<section>
+  <h2>The DOM: changing the page</h2>
+<pre>&lt;script src="script.js"&gt;&lt;/script&gt; <span class="c">// just before &lt;/body&gt;</span>
+
+const title = document.querySelector("#title"); <span class="c">// id</span>
+const msg = document.querySelector(".message"); <span class="c">// class</span>
+title.textContent = "Welcome!";
+title.style.color = "#1d2b4f";
+msg.classList.add("highlight");
+msg.classList.remove("highlight");
+msg.hidden = true;
+
+const li = document.createElement("li");
+li.textContent = "Restock fridge";
+list.append(li);</pre>
+  <p>Use <code>textContent</code>, not <code>innerHTML</code>, for anything a user typed.</p>
+</section>
+
+<section>
+  <h2>Events</h2>
+<pre>button.addEventListener("click", () =&gt; {
+  output.textContent = "Clicked!";
+});
+input.addEventListener("input", () =&gt; {
+  console.log(input.value); <span class="c">// always a string</span>
+});
+form.addEventListener("submit", (event) =&gt; {
+  event.preventDefault(); <span class="c">// no page reload</span>
+});</pre>
+  <p>Common events: <code>click</code>, <code>input</code>, <code>change</code>, <code>submit</code>, <code>keydown</code>.</p>
+</section>
+
+<section>
+  <h2>Saving in the browser</h2>
+<pre>localStorage.setItem("tasks", JSON.stringify(tasks));
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];</pre>
+  <p>One browser, one device, strings only. Never for passwords or private data.</p>
+</section>
+
+<section class="coral">
+  <h2>Reading errors</h2>
+  <table>
+    <tr><td><strong>SyntaxError</strong></td><td>code written wrong: missing bracket or quote</td></tr>
+    <tr><td><strong>ReferenceError</strong></td><td>unknown name: a typo like <code>consol</code></td></tr>
+    <tr><td><strong>TypeError</strong></td><td>wrong kind of value, e.g. <code>null</code> from a wrong id</td></tr>
+  </table>
+  <p><strong>Routine:</strong> read the message → go to the line (and the one above) → check spelling, capitals, <code>() {} []</code>, quotes, commas → change one thing, save, refresh.</p>
+</section>
+
+<section class="coral">
+  <h2>Debugging toolkit</h2>
+  <ul>
+    <li><code>console.log("hours:", hours, typeof hours)</code></li>
+    <li>Breakpoints: Sources tab (Debugger in Firefox) → click a line number, or write <code>debugger;</code></li>
+    <li>Rubber duck: explain your code out loud, line by line</li>
+    <li>Didn't change? Save the file and refresh the page</li>
+    <li><code>querySelector</code> gives <code>null</code>? Check the id and that the script tag is at the end of <code>&lt;body&gt;</code></li>
+  </ul>
+</section>
+
+<section class="amber">
+  <h2>Using AI tools well</h2>
+  <ul>
+    <li>Ask it to explain code or errors, or for hints rather than answers</li>
+    <li>Test everything: AI code can be wrong or insecure</li>
+    <li>Never paste passwords, keys or private data</li>
+    <li><strong>If you can't explain every line, don't use it.</strong></li>
+  </ul>
+</section>
+
+<section class="amber">
+  <h2>Keep learning</h2>
+  <ul>
+    <li>MDN Web Docs: developer.mozilla.org</li>
+    <li>freeCodeCamp · The Odin Project</li>
+    <li>Share projects free with GitHub Pages</li>
+  </ul>
+</section>
+
+</div>
+
+<footer>Avro Academy · JavaScript for Beginners · Free forever · Pay rates in course examples are made up for practice; real rates depend on your award (fairwork.gov.au).</footer>
+</body>
+</html>

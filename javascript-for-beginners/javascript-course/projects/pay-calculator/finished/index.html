@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shift Pay Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="card">
+    <h1>Shift Pay Calculator</h1>
+    <p class="intro">Enter your hours and the day you worked to see your pay.</p>
+
+    <label for="hours">Hours worked</label>
+    <input id="hours" type="number" min="0" step="0.25" placeholder="e.g. 4.5">
+
+    <label for="day">Day</label>
+    <select id="day">
+      <option>Monday</option>
+      <option>Tuesday</option>
+      <option>Wednesday</option>
+      <option>Thursday</option>
+      <option>Friday</option>
+      <option>Saturday</option>
+      <option>Sunday</option>
+    </select>
+
+    <button id="calculate" type="button">Calculate pay</button>
+
+    <p id="result" class="result" hidden></p>
+
+    <p class="note">Example rates for practice: $25 an hour, Saturday × 1.25, Sunday × 1.5.
+      Real pay rates depend on your award: check fairwork.gov.au.</p>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
