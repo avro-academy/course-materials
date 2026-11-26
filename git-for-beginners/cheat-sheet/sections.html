@@ -1,0 +1,201 @@
+<section>
+  <h2>Words you'll use</h2>
+  <table>
+    <tr><td><strong>Repository</strong></td><td>a project folder Git is tracking</td></tr>
+    <tr><td><strong>Commit</strong></td><td>a saved snapshot with a message</td></tr>
+    <tr><td><strong>Staging area</strong></td><td>the "box" of changes for the next commit</td></tr>
+    <tr><td><strong>Branch</strong></td><td>a separate line of work</td></tr>
+    <tr><td><strong>Remote / origin</strong></td><td>your repo on GitHub</td></tr>
+    <tr><td><strong>Push / pull</strong></td><td>send commits to / get commits from GitHub</td></tr>
+    <tr><td><strong>Clone</strong></td><td>copy a repo, with its history</td></tr>
+    <tr><td><strong>Pull request</strong></td><td>ask for changes to be reviewed and merged</td></tr>
+    <tr><td><strong>Fork</strong></td><td>your own copy of someone else's repo</td></tr>
+  </table>
+</section>
+
+<section>
+  <h2>Set up once</h2>
+<pre>git --version
+git config --global user.name "Sam Lee"
+git config --global user.email "12345678+sam-lee@users.noreply.github.com"
+git config --global init.defaultBranch main
+git config --global --list</pre>
+  <p>Use your <strong>private</strong> GitHub email: Settings → Emails → <em>Keep my email addresses private</em>.</p>
+</section>
+
+<section>
+  <h2>Terminal basics</h2>
+  <table>
+    <tr><td><code>pwd</code></td><td>which folder am I in?</td></tr>
+    <tr><td><code>ls</code></td><td>list files</td></tr>
+    <tr><td><code>mkdir name</code></td><td>make a folder</td></tr>
+    <tr><td><code>cd name</code> / <code>cd ..</code></td><td>go in / back up one</td></tr>
+  </table>
+  <p>No output usually means it worked.</p>
+</section>
+
+<section class="coral">
+  <h2>Start a project</h2>
+<pre>mkdir my-portfolio
+cd my-portfolio
+git init         <span class="c"># creates the hidden .git folder</span></pre>
+  <p>Never delete or edit <code>.git</code>: it holds all your history.</p>
+</section>
+
+<section class="coral">
+  <h2>Save your work: add, then commit</h2>
+<pre>git status                  <span class="c"># what changed?</span>
+git add index.html          <span class="c"># stage one file</span>
+git add .                   <span class="c"># stage everything here</span>
+git commit -m "Add home page"
+git commit -am "Fix typo"   <span class="c"># add + commit tracked files</span></pre>
+  <p>Check <code>git status</code> before <code>git add .</code> so nothing sneaks in.</p>
+</section>
+
+<section class="coral">
+  <h2>See history and changes</h2>
+<pre>git log                     <span class="c"># full history (q to quit)</span>
+git log --oneline           <span class="c"># one line per commit</span>
+git log --oneline --graph   <span class="c"># show branches joining</span>
+git diff                    <span class="c"># unstaged changes</span></pre>
+  <p>In a diff, <code>-</code> lines were removed and <code>+</code> lines were added.</p>
+</section>
+
+<section>
+  <h2>Good commit messages</h2>
+  <ul>
+    <li>Start with a verb: <em>Add</em>, <em>Fix</em>, <em>Update</em>, <em>Remove</em></li>
+    <li>Say what changed, in about 50 characters</li>
+    <li>Small and often: one idea per commit</li>
+  </ul>
+  <table>
+    <tr><td>❌ <code>update</code></td><td>✅ <code>Add contact section to home page</code></td></tr>
+    <tr><td>❌ <code>fixed stuff</code></td><td>✅ <code>Fix broken link to projects page</code></td></tr>
+  </table>
+</section>
+
+<section class="amber">
+  <h2>Undo mistakes</h2>
+<pre>git restore index.html          <span class="c"># throw away unsaved edits</span>
+git restore --staged draft.txt  <span class="c"># un-stage, keep the file</span>
+git merge --abort               <span class="c"># cancel a merge</span></pre>
+  <p><code>git restore</code> can't be undone: those edits are gone for good.</p>
+</section>
+
+<section class="amber">
+  <h2>.gitignore</h2>
+<pre>.DS_Store
+Thumbs.db
+draft.txt
+.env</pre>
+  <p>Files listed here are never tracked. <strong>Never commit passwords, API keys or personal details.</strong> Once public, assume it's been copied.</p>
+</section>
+
+<section>
+  <h2>Connect to GitHub and push</h2>
+<pre>git remote add origin https://github.com/sam-lee/my-portfolio.git
+git remote -v
+git push -u origin main     <span class="c"># first time</span>
+git push                    <span class="c"># after that</span></pre>
+  <p>Passwords don't work for Git. Sign in through the browser: Git Credential Manager (Windows) or <code>gh auth login</code> (Mac/Linux).</p>
+</section>
+
+<section>
+  <h2>Pull and clone</h2>
+<pre>git pull                    <span class="c"># get new commits from GitHub</span>
+git clone https://github.com/sam-lee/my-portfolio.git</pre>
+  <p>A clone has the whole history and is already connected as <code>origin</code>.</p>
+</section>
+
+<section class="coral">
+  <h2>The daily routine</h2>
+<pre>git pull
+<span class="c"># ... work on your files ...</span>
+git status
+git add .
+git commit -m "Describe the change"
+git push</pre>
+</section>
+
+<section class="amber">
+  <h2>Branches</h2>
+<pre>git branch                  <span class="c"># list (* = current)</span>
+git switch -c add-projects  <span class="c"># create and move to it</span>
+git switch main             <span class="c"># move back</span>
+git merge add-projects      <span class="c"># bring work into main</span>
+git branch -d add-projects  <span class="c"># delete when merged</span>
+git push -u origin add-contact <span class="c"># share a branch</span></pre>
+  <p>Name branches with dashes: <code>add-contact-page</code>, <code>fix-mobile-menu</code>.</p>
+</section>
+
+<section class="amber">
+  <h2>Merge conflicts</h2>
+<pre>&lt;&lt;&lt;&lt;&lt;&lt;&lt; HEAD
+  &lt;p&gt;Your branch's version&lt;/p&gt;
+=======
+  &lt;p&gt;The incoming version&lt;/p&gt;
+&gt;&gt;&gt;&gt;&gt;&gt;&gt; new-intro</pre>
+  <ol style="margin:3px 0;padding-left:16px">
+    <li>Decide what the line should say</li>
+    <li>Delete all three marker lines</li>
+    <li>Save, <code>git add</code>, <code>git commit</code></li>
+  </ol>
+  <p>VS Code offers <em>Accept Current / Incoming / Both</em>. Fewer conflicts: pull often, keep branches short.</p>
+</section>
+
+<section>
+  <h2>Pull requests</h2>
+  <ol style="margin:3px 0;padding-left:16px">
+    <li>Push a branch, then <strong>Compare &amp; pull request</strong></li>
+    <li>Check <em>base: main ← compare: your-branch</em></li>
+    <li>Title + description: what, why, how to check</li>
+    <li>Review in <strong>Files changed</strong>: Comment, Approve or Request changes</li>
+    <li>More commits to the branch update the PR</li>
+    <li><strong>Merge pull request</strong> → delete branch → <code>git switch main</code> + <code>git pull</code></li>
+  </ol>
+  <p>Write <code>Fixes #3</code> in a PR to close issue 3 when it merges.</p>
+</section>
+
+<section>
+  <h2>Contributing to other projects</h2>
+  <ul>
+    <li><strong>Fork</strong> → clone your fork → branch → push → PR to the original</li>
+    <li>Read README and CONTRIBUTING first</li>
+    <li>Look for <em>good first issue</em>; comment before big work</li>
+    <li>Small, focused PRs; be patient and kind</li>
+  </ul>
+</section>
+
+<section class="coral">
+  <h2>GitHub Pages</h2>
+  <ul>
+    <li>Repo → Settings → Pages → <em>Deploy from a branch</em> → <code>main</code>, <code>/ (root)</code> → Save</li>
+    <li>Site: <code>https://username.github.io/my-portfolio/</code></li>
+    <li>Repo named <code>username.github.io</code> → <code>https://username.github.io</code></li>
+    <li>Home page must be <code>index.html</code>; file names are case-sensitive</li>
+    <li>Not working? Check the <strong>Actions</strong> tab</li>
+  </ul>
+</section>
+
+<section class="coral">
+  <h2>Markdown (README.md)</h2>
+<pre># Title        ## Heading
+**bold**   *italic*   `code`
+- bullet item
+[link text](https://avro.academy)</pre>
+</section>
+
+<section class="amber">
+  <h2>Stay safe</h2>
+  <ul>
+    <li>Turn on two-factor authentication; keep recovery codes safe</li>
+    <li>Use your private noreply email for commits</li>
+    <li>No phone, address or school on your profile</li>
+    <li>Everything in a public repo is public</li>
+  </ul>
+</section>
+
+<section class="amber">
+  <h2>Apps that run Git for you</h2>
+  <p><strong>VS Code</strong> Source Control panel: stage (+), commit, Sync Changes. <strong>GitHub Desktop</strong>: commit, history, Push origin. They run the same commands underneath.</p>
+</section>
