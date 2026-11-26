@@ -1,0 +1,210 @@
+[
+ {
+  "id": "m1-products",
+  "module": "1. Meet the data",
+  "title": "Every product",
+  "task": "Show every column of every row in the <code>products</code> table.",
+  "answer": "SELECT * FROM products;",
+  "ordered": false
+ },
+ {
+  "id": "m1-names-prices",
+  "module": "1. Meet the data",
+  "title": "Names and prices",
+  "task": "Show just <code>product_name</code> and <code>list_price</code> for every product.",
+  "answer": "SELECT product_name, list_price FROM products;",
+  "ordered": false
+ },
+ {
+  "id": "m1-first-orders",
+  "module": "1. Meet the data",
+  "title": "First ten orders",
+  "task": "Show the first 10 rows of <code>orders</code>, in order of <code>order_id</code>.",
+  "answer": "SELECT * FROM orders ORDER BY order_id LIMIT 10;",
+  "ordered": true
+ },
+ {
+  "id": "m1-margin",
+  "module": "1. Meet the data",
+  "title": "Profit per product",
+  "task": "For each product, show <code>product_name</code> and the profit per unit (<code>list_price - unit_cost</code>) as a column called <code>margin</code>.",
+  "answer": "SELECT product_name, list_price - unit_cost AS margin FROM products;",
+  "ordered": false
+ },
+ {
+  "id": "m2-lighting",
+  "module": "2. Filter and sort",
+  "title": "Lighting products",
+  "task": "Show the name and price of every product in the <code>Lighting</code> category.",
+  "answer": "SELECT product_name, list_price FROM products WHERE category = 'Lighting';",
+  "ordered": false
+ },
+ {
+  "id": "m2-expensive",
+  "module": "2. Filter and sort",
+  "title": "Most expensive first",
+  "task": "List products that cost more than $150, most expensive first. Show name and price.",
+  "answer": "SELECT product_name, list_price FROM products WHERE list_price > 150 ORDER BY list_price DESC;",
+  "ordered": true
+ },
+ {
+  "id": "m2-candles",
+  "module": "2. Filter and sort",
+  "title": "Find the candles",
+  "task": "Show every product whose name contains the word <code>Candle</code>.",
+  "answer": "SELECT * FROM products WHERE product_name LIKE '%Candle%';",
+  "ordered": false
+ },
+ {
+  "id": "m2-no-city",
+  "module": "2. Filter and sort",
+  "title": "Missing cities",
+  "task": "Show the customers who have no <code>city</code> recorded.",
+  "answer": "SELECT * FROM customers WHERE city IS NULL;",
+  "ordered": false
+ },
+ {
+  "id": "m2-blackfriday",
+  "module": "2. Filter and sort",
+  "title": "Black Friday weekend",
+  "task": "Show orders placed from 28 November to 1 December 2025 (inclusive) that used a discount code.",
+  "answer": "SELECT * FROM orders WHERE order_date BETWEEN '2025-11-28' AND '2025-12-01' AND discount_code IS NOT NULL;",
+  "ordered": false
+ },
+ {
+  "id": "m3-count-orders",
+  "module": "3. Summarise",
+  "title": "How many orders?",
+  "task": "How many orders were delivered? Return one number.",
+  "answer": "SELECT COUNT(*) FROM orders WHERE status = 'delivered';",
+  "ordered": false
+ },
+ {
+  "id": "m3-by-category",
+  "module": "3. Summarise",
+  "title": "Products per category",
+  "task": "Show each category and how many products it has, biggest first.",
+  "answer": "SELECT category, COUNT(*) AS products FROM products GROUP BY category ORDER BY products DESC, category;",
+  "ordered": true
+ },
+ {
+  "id": "m3-codes",
+  "module": "3. Summarise",
+  "title": "Discount codes",
+  "task": "For each discount code, show how many orders used it and the total discount given. Leave out orders with no code.",
+  "answer": "SELECT discount_code, COUNT(*) AS orders, ROUND(SUM(discount), 2) AS total_discount FROM orders WHERE discount_code IS NOT NULL GROUP BY discount_code;",
+  "ordered": false
+ },
+ {
+  "id": "m3-return-reasons",
+  "module": "3. Summarise",
+  "title": "Common return reasons",
+  "task": "Show return reasons that happened more than 70 times, with their counts.",
+  "answer": "SELECT reason, COUNT(*) AS returns FROM returns GROUP BY reason HAVING COUNT(*) > 70;",
+  "ordered": false
+ },
+ {
+  "id": "m3-price-bands",
+  "module": "3. Summarise",
+  "title": "Price bands",
+  "task": "Put products into bands — <code>Under $50</code>, <code>$50–$149</code>, <code>$150 and over</code> — and count the products in each band.",
+  "answer": "SELECT CASE WHEN list_price < 50 THEN 'Under $50' WHEN list_price < 150 THEN '$50–$149' ELSE '$150 and over' END AS band, COUNT(*) FROM products GROUP BY band;",
+  "ordered": false
+ },
+ {
+  "id": "m4-order-customers",
+  "module": "4. Join tables",
+  "title": "Who ordered?",
+  "task": "Show each order's <code>order_id</code>, <code>order_date</code> and the customer's first and last name.",
+  "answer": "SELECT o.order_id, o.order_date, c.first_name, c.last_name FROM orders o JOIN customers c ON c.customer_id = o.customer_id;",
+  "ordered": false
+ },
+ {
+  "id": "m4-revenue-category",
+  "module": "4. Join tables",
+  "title": "Revenue by category",
+  "task": "Show each product category and its revenue (<code>quantity × unit_price</code>) from delivered orders, highest first, rounded to cents.",
+  "answer": "SELECT p.category, ROUND(SUM(i.quantity * i.unit_price), 2) AS revenue FROM order_items i JOIN orders o ON o.order_id = i.order_id JOIN products p ON p.product_id = i.product_id WHERE o.status = 'delivered' GROUP BY p.category ORDER BY revenue DESC;",
+  "ordered": true
+ },
+ {
+  "id": "m4-never-ordered",
+  "module": "4. Join tables",
+  "title": "Customers who never ordered",
+  "task": "Show customers who have never placed an order.",
+  "answer": "SELECT c.* FROM customers c LEFT JOIN orders o ON o.customer_id = c.customer_id WHERE o.order_id IS NULL;",
+  "ordered": false
+ },
+ {
+  "id": "m4-channel-customers",
+  "module": "4. Join tables",
+  "title": "Customers by channel",
+  "task": "Show each marketing channel's name and how many customers signed up through it.",
+  "answer": "SELECT ch.channel_name, COUNT(c.customer_id) FROM channels ch LEFT JOIN customers c ON c.channel_id = ch.channel_id GROUP BY ch.channel_name;",
+  "ordered": false
+ },
+ {
+  "id": "m5-monthly",
+  "module": "5. Analyst toolkit",
+  "title": "Monthly orders",
+  "task": "Show each month of 2025 (as <code>YYYY-MM</code>) and how many delivered orders it had, in date order.",
+  "answer": "SELECT strftime('%Y-%m', order_date) AS month, COUNT(*) FROM orders WHERE status = 'delivered' GROUP BY month ORDER BY month;",
+  "ordered": true
+ },
+ {
+  "id": "m5-above-average",
+  "module": "5. Analyst toolkit",
+  "title": "Above-average products",
+  "task": "Show products whose <code>list_price</code> is above the average list price.",
+  "answer": "SELECT * FROM products WHERE list_price > (SELECT AVG(list_price) FROM products);",
+  "ordered": false
+ },
+ {
+  "id": "m5-rank",
+  "module": "5. Analyst toolkit",
+  "title": "Rank within category",
+  "task": "For every product, show its category, name, price and its price rank within its category (1 = most expensive), using <code>RANK()</code>.",
+  "answer": "SELECT category, product_name, list_price, RANK() OVER (PARTITION BY category ORDER BY list_price DESC) AS price_rank FROM products;",
+  "ordered": false
+ },
+ {
+  "id": "m5-running",
+  "module": "5. Analyst toolkit",
+  "title": "Running total",
+  "task": "Using a CTE of monthly revenue (delivered orders), show each month, its revenue and a running total for the year, in date order. Round both to cents.",
+  "answer": "WITH monthly AS (SELECT strftime('%Y-%m', o.order_date) AS month, SUM(i.quantity * i.unit_price) AS revenue FROM orders o JOIN order_items i ON i.order_id = o.order_id WHERE o.status = 'delivered' GROUP BY month) SELECT month, ROUND(revenue, 2), ROUND(SUM(revenue) OVER (ORDER BY month), 2) FROM monthly ORDER BY month;",
+  "ordered": true
+ },
+ {
+  "id": "m6-states",
+  "module": "6. Clean data and tell the story",
+  "title": "Messy states",
+  "task": "Show each different way <code>state</code> was typed in <code>customers</code>, and how many customers used it.",
+  "answer": "SELECT state, COUNT(*) FROM customers GROUP BY state;",
+  "ordered": false
+ },
+ {
+  "id": "m6-clean-states",
+  "module": "6. Clean data and tell the story",
+  "title": "Clean the states",
+  "task": "Count customers per state after cleaning: make <code>Vic</code>, <code>Victoria</code> → <code>VIC</code>, <code>nsw</code>, <code>New South Wales</code> → <code>NSW</code>, <code>Qld</code> → <code>QLD</code>, <code>W.A.</code> → <code>WA</code> and <code>Tas</code> → <code>TAS</code>.",
+  "answer": "SELECT CASE WHEN state IN ('Vic','Victoria') THEN 'VIC' WHEN state IN ('nsw','New South Wales') THEN 'NSW' WHEN state = 'Qld' THEN 'QLD' WHEN state = 'W.A.' THEN 'WA' WHEN state = 'Tas' THEN 'TAS' ELSE state END AS clean_state, COUNT(*) FROM customers GROUP BY clean_state;",
+  "ordered": false
+ },
+ {
+  "id": "m6-duplicates",
+  "module": "6. Clean data and tell the story",
+  "title": "Duplicate customers",
+  "task": "Find email addresses that belong to more than one customer once you ignore upper and lower case. Show the lower-case email and how many customers have it.",
+  "answer": "SELECT LOWER(email) AS email, COUNT(*) FROM customers GROUP BY LOWER(email) HAVING COUNT(*) > 1;",
+  "ordered": false
+ },
+ {
+  "id": "m6-may-channels",
+  "module": "6. Clean data and tell the story",
+  "title": "The May mystery",
+  "task": "For April, May and June 2025, show each month, each marketing channel name and how many orders came from customers of that channel.",
+  "answer": "SELECT strftime('%Y-%m', o.order_date) AS month, ch.channel_name, COUNT(*) FROM orders o JOIN customers c ON c.customer_id = o.customer_id JOIN channels ch ON ch.channel_id = c.channel_id WHERE o.order_date BETWEEN '2025-04-01' AND '2025-06-30' GROUP BY month, ch.channel_name;",
+  "ordered": false
+ }
+]

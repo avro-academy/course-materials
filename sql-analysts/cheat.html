@@ -1,0 +1,75 @@
+<style>body{font-size:7.6pt} pre{font-size:6.3pt;line-height:1.2} td{padding-top:0;padding-bottom:0} p{margin:2px 0}</style>
+<section><h2>The shape of a query</h2><pre>SELECT   columns, calculations
+FROM     table
+WHERE    row filter
+GROUP BY groups
+HAVING   group filter
+ORDER BY sort
+LIMIT    n;</pre><p>Written in that order. Runs as FROM, WHERE, GROUP BY, HAVING, SELECT, ORDER BY, LIMIT, so a SELECT alias works in ORDER BY but not in WHERE.</p></section>
+<section class="coral"><h2>Look first</h2><pre>SELECT * FROM orders LIMIT 5;
+SELECT COUNT(*) FROM customers;
+SELECT DISTINCT category
+FROM products;
+SELECT product_name,
+       list_price - unit_cost AS margin
+FROM products
+ORDER BY margin DESC;</pre></section>
+<section><h2>Filtering</h2><table><tr><td><code>=  &lt;&gt;  &lt;  &gt;=</code></td><td>compare</td></tr><tr><td><code>AND OR NOT</code></td><td>bracket mixed AND/OR</td></tr><tr><td><code>IN ('Bath','Kitchen')</code></td><td>any of a list</td></tr><tr><td><code>BETWEEN a AND b</code></td><td>includes both ends</td></tr><tr><td><code>LIKE '%Lamp%'</code></td><td><code>%</code> any text, <code>_</code> one letter</td></tr><tr><td><code>IS NULL</code></td><td>never <code>= NULL</code></td></tr></table><pre>WHERE order_date BETWEEN '2025-11-28'
+                     AND '2025-12-01'</pre></section>
+<section class="amber"><h2>Summarise</h2><pre>SELECT category,
+       COUNT(*) AS products,
+       ROUND(AVG(list_price), 2)
+         AS avg_price
+FROM products
+GROUP BY category
+HAVING COUNT(*) &gt;= 6
+ORDER BY avg_price DESC;</pre><p><code>COUNT(*)</code> rows, <code>COUNT(col)</code> non-NULL values, <code>COUNT(DISTINCT col)</code> different values. <code>SUM AVG MIN MAX</code> skip NULLs. Every SELECT column is grouped or aggregated.</p></section>
+<section><h2>CASE: your own groups</h2><pre>SELECT CASE
+         WHEN list_price &lt; 50
+           THEN 'Under $50'
+         WHEN list_price &lt; 150
+           THEN '$50-$149'
+         ELSE '$150 and over'
+       END AS price_band,
+       COUNT(*) AS products
+FROM products
+GROUP BY price_band;</pre><p>Count a condition: <code>SUM(CASE WHEN x THEN 1 ELSE 0 END)</code></p></section>
+<section class="coral"><h2>Joins</h2><pre>SELECT o.order_id, c.first_name
+FROM orders AS o
+JOIN customers AS c
+  ON c.customer_id = o.customer_id;
+
+-- customers who never ordered
+SELECT c.customer_id
+FROM customers AS c
+LEFT JOIN orders AS o
+  ON o.customer_id = c.customer_id
+WHERE o.order_id IS NULL;</pre><p><b>JOIN</b> keeps matches only. <b>LEFT JOIN</b> keeps every left row (NULLs where nothing matches).</p></section>
+<section class="amber"><h2>Fan-out: the join trap</h2><p>Joining orders to order_items repeats each order once per item, so <code>SUM(shipping_fee)</code> counts shipping again for every item. Check with <code>COUNT(*)</code> against <code>COUNT(DISTINCT order_id)</code>. Fix: summarise each table first (CTE), then join.</p></section>
+<section><h2>Dates (SQLite)</h2><pre>strftime('%Y-%m', order_date)  -- 2025-05
+strftime('%m', d)  -- month 01-12
+strftime('%w', d)  -- weekday 0=Sun
+date(d, '+30 days')
+julianday(a) - julianday(b) -- days</pre><p>Store dates as <code>YYYY-MM-DD</code> text so they sort and compare correctly.</p></section>
+<section class="coral"><h2>Subqueries and CTEs</h2><pre>SELECT product_name, list_price
+FROM products
+WHERE list_price &gt;
+  (SELECT AVG(list_price) FROM products);
+
+WITH items AS (
+  SELECT order_id,
+         SUM(quantity * unit_price)
+           AS items_total
+  FROM order_items
+  GROUP BY order_id
+)
+SELECT ROUND(AVG(items_total), 2)
+FROM items;</pre></section>
+<section class="amber"><h2>Window functions</h2><pre>RANK() OVER (PARTITION BY category
+             ORDER BY list_price DESC)
+SUM(revenue) OVER (ORDER BY month)
+LAG(revenue) OVER (ORDER BY month)</pre><table><tr><td>RANK</td><td>1, 2, 2, 4</td></tr><tr><td>DENSE_RANK</td><td>1, 2, 2, 3</td></tr><tr><td>ROW_NUMBER</td><td>1, 2, 3, 4</td></tr></table><p>Top N per group: ROW_NUMBER in a CTE, then <code>WHERE n &lt;= 2</code>. Change %: <code>100.0 * (x - LAG(x)) / LAG(x)</code></p></section>
+<section><h2>Traps</h2><ul><li><code>7 / 2</code> is 3: use <code>7 / 2.0</code> or <code>CAST(x AS REAL)</code></li><li>NULL is not 0: missing shipping isn't free shipping</li><li>Text matches are exact: <code>UPPER(TRIM(x))</code></li><li>Filter status: delivered orders for revenue</li></ul></section>
+<section class="coral"><h2>Check new data</h2><ul><li>Row count as expected?</li><li>Duplicates: <code>GROUP BY LOWER(TRIM(email)) HAVING COUNT(*) &gt; 1</code></li><li>NULLs: <code>COUNT(*) - COUNT(col)</code></li><li>Spellings: GROUP BY text columns, fix with CASE</li><li>MIN/MAX of numbers and dates</li></ul><p>Clean in a CTE at the top, not in the original data.</p></section>
+<section class="amber"><h2>Investigate a change</h2><p>1 Confirm it. 2 Break it down (category, state, channel). 3 Find where it's concentrated. 4 Ask the people who know why. 5 Answer in plain words: lead with the answer, round the numbers, say what's included.</p></section>
+<section><h2>Other databases</h2><table><tr><td>First rows</td><td>LIMIT n (SQL Server: TOP n)</td></tr><tr><td>Join text</td><td><code>||</code> or CONCAT()</td></tr><tr><td>Year-month</td><td>Postgres <code>to_char(d,'YYYY-MM')</code>, MySQL <code>DATE_FORMAT(d,'%Y-%m')</code></td></tr><tr><td>Ignore case</td><td>Postgres ILIKE</td></tr></table></section>
