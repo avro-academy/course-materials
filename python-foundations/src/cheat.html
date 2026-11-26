@@ -1,0 +1,92 @@
+<section><h2>Running Python</h2><table><tr><td><strong>Colab</strong></td><td>colab.research.google.com → New notebook</td></tr><tr><td><strong>Run a cell</strong></td><td>Shift + Enter</td></tr><tr><td><strong>Run a file</strong></td><td><code>python quiz.py</code> (Mac: <code>python3</code>)</td></tr></table><pre>print("Hello, world!")
+print("Hours:", 4.5)     <span class="c"># Hours: 4.5</span>
+# a comment: Python ignores it</pre></section>
+<section><h2>Values and types</h2><table><tr><td><code>"Latte"</code></td><td>str (text)</td></tr><tr><td><code>12</code></td><td>int (whole number)</td></tr><tr><td><code>4.5</code></td><td>float (decimal)</td></tr><tr><td><code>True</code> / <code>False</code></td><td>bool</td></tr><tr><td><code>None</code></td><td>nothing</td></tr></table><pre>type(4.5)       <span class="c"># &lt;class 'float'&gt;</span>
+int("7")  float("4.5")  str(16)</pre></section>
+<section><h2>Variables</h2><pre>cafe_name = "Corner Café"
+customers = 12
+customers += 1          <span class="c"># 13</span>
+BASE_RATE = 25          <span class="c"># CAPITALS = don't change</span></pre><p>Use <strong>snake_case</strong>, clear names, no spaces, don't start with a number.</p></section>
+<section class="coral"><h2>Maths</h2><table><tr><td><code>+ - * /</code></td><td><code>90 / 4</code> → 22.5</td></tr><tr><td><code>//</code></td><td>whole division: <code>17 // 5</code> → 3</td></tr><tr><td><code>%</code></td><td>remainder: <code>17 % 5</code> → 2</td></tr><tr><td><code>**</code></td><td>power: <code>2 ** 3</code> → 8</td></tr><tr><td><code>round(x, 2)</code></td><td>round to 2 places</td></tr></table><p><code>0.1 + 0.2</code> → 0.30000000000000004 and <code>round(2.5)</code> → 2 (halves go to even).</p></section>
+<section class="coral"><h2>Strings and f-strings</h2><pre>name = "Priya"; price = 4.5
+f"Hi {name}! ${price * 3:.2f}"   <span class="c"># Hi Priya! $13.50</span>
+f"{day:&lt;9}"  f"{pay:&gt;7.2f}"      <span class="c"># line up</span></pre><table><tr><td><code>.strip()</code></td><td>remove spaces at the ends</td></tr><tr><td><code>.upper() .lower() .title()</code></td><td>change capitals</td></tr><tr><td><code>len(s)</code></td><td>number of characters</td></tr><tr><td><code>"x" in s</code></td><td>True/False</td></tr><tr><td><code>s[0:6]</code></td><td>slice</td></tr><tr><td><code>.isdigit()</code></td><td>all digits?</td></tr></table></section>
+<section class="coral"><h2>Input</h2><pre>name = input("Name? ")          <span class="c"># always a string!</span>
+hours = float(input("Hours: "))
+"4.5" * 2      <span class="c"># "4.54.5" — convert first</span></pre></section>
+<section class="amber"><h2>Decisions</h2><pre>if stock == 0:
+    print("Out of stock")
+elif stock &lt; 5:
+    print("Low stock")
+else:
+    print("In stock")</pre><p>Colon at the end · 4-space indent · <code>==</code> compares, <code>=</code> stores.</p><table><tr><td><code>== != &lt; &gt; &lt;= &gt;=</code></td><td>compare</td></tr><tr><td><code>and or not</code></td><td>combine</td></tr><tr><td><code>day in ("Sat", "Sun")</code></td><td>one of these?</td></tr></table><pre>msg = "Break" if hours &gt;= 5 else "No break"</pre></section>
+<section class="amber"><h2>Lists</h2><pre>drinks = ["Flat white", "Latte", "Chai"]
+drinks[0]   drinks[-1]   len(drinks)
+drinks.append("Mocha")
+drinks.remove("Latte")
+sorted(drinks)   "Chai" in drinks
+sum(h)  min(h)  max(h)</pre><p>Counting starts at <strong>0</strong>.</p></section>
+<section class="amber"><h2>Loops</h2><pre>for task in tasks:
+    print(f"- {task}")
+
+for n in range(1, 4):      <span class="c"># 1 2 3</span>
+    print(n)
+
+for i, t in enumerate(tasks, start=1):
+    print(i, t)
+
+while stock &gt; 0:
+    stock -= 1</pre><p><code>break</code> stops a loop · <code>continue</code> skips to the next.</p></section>
+<section><h2>List comprehensions</h2><pre>[p * 1.1 for p in prices]
+[p for p in prices if p &lt; 10]
+[n.title() for n in names]</pre><p>"this, for each item in that, if condition".</p></section>
+<section><h2>Functions</h2><pre>def add_gst(price):
+    """Return price with 10% GST."""
+    return round(price * 1.1, 2)
+
+add_gst(20)                <span class="c"># 22.0</span>
+
+def welcome(name="friend"):
+    return f"Hi, {name}!"
+welcome()  welcome(name="Ali")</pre><p><strong>return</strong> gives a value back; no return → <code>None</code>. Variables inside a function stay inside (scope).</p></section>
+<section><h2>Tuples</h2><pre>shift = ("Saturday", 6)       <span class="c"># can't change</span>
+for day, hours in week:       <span class="c"># unpack</span>
+    ...</pre></section>
+<section class="coral"><h2>Dictionaries</h2><pre>p = {"name": "Banana bread", "price": 5.5}
+p["name"]                   <span class="c"># Banana bread</span>
+p["price"] = 6              <span class="c"># change</span>
+p["category"] = "Food"      <span class="c"># add</span>
+p.get("phone", "none")      <span class="c"># safe</span>
+"name" in p
+for k, v in p.items(): ...
+
+counts[x] = counts.get(x, 0) + 1</pre></section>
+<section class="coral"><h2>Lists of dictionaries</h2><pre>[s["name"] for s in roster if s["day"] == "Saturday"]
+sum(s["hours"] for s in roster)
+max(roster, key=lambda s: s["hours"])
+sorted(roster, key=lambda s: s["hours"], reverse=True)</pre></section>
+<section class="amber"><h2>Files and CSV</h2><pre>with open("tasks.txt", "w") as f:
+    f.write("Wipe tables\n")
+with open("tasks.txt") as f:
+    for line in f:
+        print(line.strip())
+
+import csv
+with open("roster.csv", "w", newline="") as f:
+    w = csv.DictWriter(f, ["name", "hours"])
+    w.writeheader(); w.writerows(roster)
+with open("roster.csv", newline="") as f:
+    for row in csv.DictReader(f):
+        float(row["hours"])</pre><p>"w" replaces · "a" adds · CSV values are always text.</p></section>
+<section class="amber"><h2>Errors: try / except</h2><pre>try:
+    hours = float(text)
+except ValueError:
+    print("Please enter a number")</pre><table><tr><td>SyntaxError</td><td>missing ( " or :</td></tr><tr><td>IndentationError</td><td>spaces at line start</td></tr><tr><td>NameError</td><td>typo, or cell not run</td></tr><tr><td>TypeError</td><td>mixing text and numbers</td></tr><tr><td>ValueError</td><td><code>int("hello")</code></td></tr><tr><td>KeyError</td><td>missing dict key</td></tr></table><p>Read tracebacks from the <strong>bottom up</strong>.</p></section>
+<section><h2>Modules</h2><pre>import math, random
+from datetime import date
+math.sqrt(16)   math.ceil(4.2)
+random.randint(1, 6)   random.choice(items)
+random.shuffle(items)
+date.today()   d.strftime("%A %d %B %Y")
+(date(2026,12,25) - date.today()).days</pre><p>Also: <code>os</code>, <code>csv</code>, <code>json</code>, <code>statistics</code>.</p></section>
+<section><h2>Debugging and AI</h2><ul><li><code>print("hours:", hours, type(hours))</code></li><li>Test small pieces; explain your code out loud</li><li>Colab acting strange? Runtime → Restart and run all</li><li>AI tools: ask for explanations and hints; only use code you can explain; never paste private data</li></ul></section>
