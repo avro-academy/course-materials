@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Café Helper · Corner Café</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>☕ Café Helper</h1>
+    <p>Ask about Corner Café: opening hours, the menu, allergies, bookings and more.</p>
+  </header>
+  <main id="chat" aria-live="polite">
+    <div class="msg bot">G'day! I'm Café Helper. What would you like to know about Corner Café?</div>
+  </main>
+  <form id="ask">
+    <input id="question" autocomplete="off" maxlength="1000" placeholder="Type your question…" aria-label="Your question" required>
+    <button>Send</button>
+  </form>
+  <p class="note">Café Helper is an AI and can make mistakes. For anything important, phone us on (02) 5550 0000.</p>
+  <script src="{{ url_for('static', filename='chat.js') }}"></script>
+</body>
+</html>

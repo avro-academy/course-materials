@@ -1,0 +1,59 @@
+<style>body{font-size:6.9pt} pre{font-size:6.0pt;line-height:1.25} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>The words</h2><table><tr><td>LLM</td><td>Predicts the next token, again and again</td></tr><tr><td>Parameters</td><td>The billions of numbers a model learned (3B = 3 billion)</td></tr><tr><td>Token</td><td>A word or piece of one. 100 tokens ≈ 75 words</td></tr><tr><td>Context window</td><td>How much it can see at once (Ollama: 4,096 tokens by default)</td></tr><tr><td>System prompt</td><td>Your instructions: job, tone, rules</td></tr><tr><td>Temperature</td><td>0 = predictable, ~1 = varied. Low for facts</td></tr><tr><td>Embedding</td><td>Numbers describing what a text means</td></tr><tr><td>RAG</td><td>Retrieve notes, add them to the prompt, generate</td></tr><tr><td>Hallucination</td><td>A confident, made-up answer</td></tr><tr><td>Prompt injection</td><td>A message that tries to override your rules</td></tr></table></section>
+<section><h2>Ollama in the terminal</h2><table>
+<tr><td><code>ollama pull llama3.2</code></td><td>Download a model (once)</td></tr>
+<tr><td><code>ollama list</code> · <code>ollama ps</code></td><td>Downloaded · loaded now</td></tr>
+<tr><td><code>ollama run llama3.2</code></td><td>Chat (<code>--verbose</code> adds speed)</td></tr>
+<tr><td><code>ollama run llama3.2 "Why is the sky blue?"</code></td><td>One question</td></tr>
+<tr><td><code>ollama show llama3.2</code></td><td>Size, context, quantisation, licence</td></tr>
+<tr><td><code>ollama rm llama3.2:1b</code></td><td>Delete a model</td></tr>
+</table><p>In a chat: <code>/bye</code> · <code>/clear</code> · <code>/set system "…"</code> · <code>/set parameter temperature 0.2</code> · <code>/?</code></p></section>
+<section class="coral"><h2>Sizes (roughly)</h2><table><tr><td>1B</td><td>~1 GB</td><td>Any 8 GB computer; fast, more mistakes</td></tr><tr><td>3–4B</td><td>2–3 GB</td><td>8 GB: the sweet spot</td></tr><tr><td>7–9B</td><td>4–6 GB</td><td>16 GB, or an 8 GB graphics card</td></tr><tr><td>70B+</td><td>40 GB+</td><td>A workstation or server</td></tr></table><p>Try: <code>llama3.2</code>, <code>gemma3:4b</code>, <code>qwen3</code>. Read the licence.</p></section>
+<section class="coral"><h2>Python: one question</h2><pre>import ollama
+response = ollama.chat(
+    model="llama3.2",
+    messages=[
+      {"role": "system",
+       "content": "Be brief."},
+      {"role": "user", "content": "Hi!"},
+    ],
+)
+print(response["message"]["content"])
+response["prompt_eval_count"]  # in
+response["eval_count"]         # out</pre><p>Roles: <code>system</code> (you) · <code>user</code> (them) · <code>assistant</code> (the model).</p></section>
+<section><h2>Memory and streaming</h2><pre>messages.append({"role": "user",
+                 "content": question})
+reply = ""
+for chunk in ollama.chat(model=MODEL,
+        messages=messages, stream=True):
+    piece = chunk["message"]["content"]
+    print(piece, end="", flush=True)
+    reply += piece
+messages.append({"role": "assistant",
+                 "content": reply})</pre><p>The model remembers nothing: send the whole conversation every time (keep the latest 20).</p>
+<pre>options={"temperature": 0,
+         "num_predict": 100,
+         "num_ctx": 8192, "seed": 42}</pre></section>
+<section><h2>Embeddings and search</h2><pre>vectors = ollama.embed(
+    model="nomic-embed-text",
+    input=texts)["embeddings"]
+
+def cosine(a, b):
+    dot = sum(x * y for x, y in zip(a, b))
+    sa = math.sqrt(sum(x * x for x in a))
+    sb = math.sqrt(sum(y * y for y in b))
+    return dot / (sa * sb)</pre><p>1 = same meaning, 0 = unrelated. Split notes into sections, embed them once, embed the question, send the best 3. nomic-embed-text: prefix <code>search_document:</code> and <code>search_query:</code>.</p></section>
+<section class="coral"><h2>A good system prompt</h2><table><tr><td>Who and where</td><td>"Café Helper, on Corner Café's website"</td></tr><tr><td>How</td><td>Two or three short sentences</td></tr><tr><td>Tone</td><td>Warm, Australian English</td></tr><tr><td>Limits</td><td>Only the café; what to say otherwise</td></tr><tr><td>When unsure</td><td>Say so; phone (02) 5550 0000</td></tr><tr><td>Sources</td><td>Answer only from the notes below</td></tr></table><p>Rules make behaviour likely, not certain. Test it.</p></section>
+<section class="coral"><h2>Testing (evals)</h2><pre>question,expect,avoid
+How much is a flat white?,4.80,
+What's the capital of France?,
+    café|only help,paris</pre><p>(One row per line in the real file.) Check answers contain the right words and avoid the wrong ones. Run several times; add real questions; read a sample by hand.</p></section>
+<section><h2>Safe and responsible</h2><table>
+<tr><td>Secrets</td><td>Never in a prompt: assume it can leak</td></tr>
+<tr><td>Powers</td><td>Check every action in code; a person approves big ones</td></tr>
+<tr><td>Inputs</td><td>No system messages from the browser; limit length</td></tr>
+<tr><td>Output</td><td>Show it with <code>textContent</code>, never as HTML</td></tr>
+<tr><td>Honesty</td><td>Say it's an AI; give a way to reach a person</td></tr>
+<tr><td>Facts</td><td>Check numbers, names, dates, links</td></tr>
+<tr><td>Hand over</td><td>Allergies, health, legal, money: ask a person</td></tr>
+</table></section>
