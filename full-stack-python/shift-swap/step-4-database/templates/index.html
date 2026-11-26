@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Open shifts</h1>
+{% if shifts %}
+<ul class="shifts">
+  {% for shift in shifts %}
+  <li class="shift">
+    <div>
+      <strong>{{ shift['day'] }}</strong> · {{ shift['start'] }}–{{ shift['finish'] }}
+      <span class="tag">{{ shift['role'] }}</span>
+      {% if shift['note'] %}<div class="note">{{ shift['note'] }}</div>{% endif %}
+      <div class="muted">Posted by {{ shift['name'] }}</div>
+    </div>
+    <form method="post" action="{{ url_for('delete_shift', shift_id=shift['id']) }}">
+      <button class="danger">Remove</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">No open shifts right now. 🎉</p>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Open shifts</h1>
+{% if shifts %}
+<ul class="shifts">
+  {% for shift in shifts %}
+  <li class="shift">
+    <div>
+      <strong>{{ shift.day }}</strong> · {{ shift.start }}–{{ shift.finish }}
+      <span class="tag">{{ shift.role }}</span>
+      <div class="muted">Posted by {{ shift.posted_by }}</div>
+    </div>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p class="empty">No open shifts right now. 🎉</p>
+{% endif %}
+{% endblock %}

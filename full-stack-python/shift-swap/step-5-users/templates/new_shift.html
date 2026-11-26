@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block title %}Post a shift · Shift Swap{% endblock %}
+{% block content %}
+<h1>Post a shift you can't work</h1>
+<form method="post" class="card">
+  <label>Date <input type="date" name="day" value="{{ form.get('day', '') }}" required></label>
+  <div class="row">
+    <label>Start <input type="time" name="start" value="{{ form.get('start', '') }}" required></label>
+    <label>Finish <input type="time" name="finish" value="{{ form.get('finish', '') }}" required></label>
+  </div>
+  <label>Role
+    <select name="role" required>
+      <option value="">Choose…</option>
+      {% for role in roles %}<option {% if form.get('role') == role %}selected{% endif %}>{{ role }}</option>{% endfor %}
+    </select>
+  </label>
+  <label>Note (optional) <input name="note" maxlength="200" value="{{ form.get('note', '') }}" placeholder="e.g. Includes closing"></label>
+  <button>Post shift</button>
+</form>
+{% endblock %}

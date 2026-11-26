@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}Log in · Shift Swap{% endblock %}
+{% block content %}
+<h1>Log in</h1>
+<form method="post" class="card">
+  <label>Username <input name="username" autocomplete="username" required></label>
+  <label>Password <input type="password" name="password" autocomplete="current-password" required></label>
+  <button>Log in</button>
+</form>
+<p>New here? <a href="{{ url_for('register') }}">Make an account</a></p>
+{% endblock %}

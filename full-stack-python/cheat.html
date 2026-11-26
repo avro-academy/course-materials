@@ -1,0 +1,85 @@
+<style>body{font-size:7.4pt} pre{font-size:6.9pt}</style>
+<section><h2>Set up and run</h2><pre># Windows
+py -m venv .venv
+.venv\Scripts\activate
+# Mac / Linux
+python3 -m venv .venv
+source .venv/bin/activate
+
+pip install -r requirements.txt
+flask --app app init-db
+flask --app app run --debug</pre><p>Open <strong>http://127.0.0.1:5000</strong>. Ctrl + C stops the server. Activate the venv in every new terminal.</p></section>
+<section><h2>Routes</h2><pre>from flask import Flask
+app = Flask(__name__)
+
+@app.route("/")
+def index():
+    return "&lt;h1&gt;Hi&lt;/h1&gt;"
+
+@app.route("/hello/&lt;name&gt;")
+def hello(name): ...
+
+@app.route("/shifts/&lt;int:shift_id&gt;")
+def show(shift_id): ...
+
+@app.route("/shifts/new",
+           methods=["GET", "POST"])</pre></section>
+<section><h2>Requests and responses</h2><table><tr><td><strong>GET</strong></td><td>Show something. Never changes data</td></tr><tr><td><strong>POST</strong></td><td>Do something: forms, take, delete, log out</td></tr><tr><td>200</td><td>OK</td></tr><tr><td>302</td><td>Redirect</td></tr><tr><td>400</td><td>Bad request</td></tr><tr><td>401 / 403</td><td>Not logged in / not allowed</td></tr><tr><td>404</td><td>Not found</td></tr><tr><td>409</td><td>Conflict (already taken)</td></tr><tr><td>500</td><td>Server code crashed</td></tr></table></section>
+<section class="coral"><h2>Jinja templates</h2><pre>{{ shift.day }}            print (escaped)
+{% for s in shifts %} … {% endfor %}
+{% if shifts %} … {% else %} … {% endif %}
+{% extends "base.html" %}  use the layout
+{% block content %}{% endblock %}</pre><pre>render_template("index.html", shifts=rows)
+url_for("index")
+url_for("static", filename="style.css")
+url_for("delete_shift", shift_id=7)</pre></section>
+<section class="coral"><h2>Forms</h2><pre>&lt;form method="post"&gt;
+  &lt;input name="day" type="date" required&gt;
+  &lt;button&gt;Post shift&lt;/button&gt;
+&lt;/form&gt;</pre><pre>from flask import request, flash, redirect
+if request.method == "POST":
+    day = request.form.get("day", "").strip()
+    if not day:
+        flash("Choose a date.")
+    else:
+        ...save...
+        flash("Shift posted.")
+        return redirect(url_for("index"))</pre><p><strong>Post/Redirect/Get:</strong> redirect after a successful POST. Check everything on the server.</p></section>
+<section class="coral"><h2>SQLite</h2><pre>CREATE TABLE shifts (id INTEGER PRIMARY KEY AUTOINCREMENT, day TEXT NOT NULL);
+INSERT INTO shifts (day) VALUES (?)
+SELECT * FROM shifts WHERE day &gt;= ? ORDER BY day
+UPDATE shifts SET claimed_by = ? WHERE id = ? AND claimed_by IS NULL
+DELETE FROM shifts WHERE id = ?</pre><pre>db = get_db()
+rows = db.execute("SELECT * FROM shifts WHERE id = ?", (shift_id,)).fetchall()
+db.commit()        # after INSERT / UPDATE / DELETE
+cur.rowcount       # rows changed</pre><p>UPDATE or DELETE without WHERE changes every row.</p></section>
+<section class="amber"><h2>Accounts</h2><pre>from werkzeug.security import (
+    generate_password_hash, check_password_hash)
+session.clear()
+session["user_id"] = user["id"]
+g.user          # loaded in @app.before_request</pre><pre>@app.route("/shifts/new", methods=["GET", "POST"])
+@login_required
+def new_shift(): ...
+
+if shift["owner_id"] != g.user["id"]:
+    abort(403)</pre></section>
+<section class="amber"><h2>Security checklist</h2><ul><li><strong>Passwords:</strong> hashed, never stored</li><li><strong>SQL:</strong> <code>?</code> placeholders, never f-strings</li><li><strong>CSRF:</strong> hidden token in every POST form</li><li><strong>XSS:</strong> let Jinja escape, no <code>| safe</code> on user text</li><li><strong>Permissions:</strong> check on the server, not just hide buttons</li><li><strong>Redirects:</strong> only follow <code>?next=</code> paths starting with one <code>/</code></li><li><strong>Secrets:</strong> <code>os.environ.get("SECRET_KEY")</code></li><li><strong>Production:</strong> debug off, HTTPS on</li></ul><pre>python -c "import secrets; print(secrets.token_hex(32))"</pre></section>
+<section><h2>JSON API and fetch</h2><pre>@app.route("/api/shifts")
+def api_shifts():
+    return jsonify([shift_json(s) for s in open_shifts()])
+
+return jsonify(error="Already taken"), 409</pre><pre>const res = await fetch(`/api/shifts/${id}/claim`, {
+  method: "POST",
+  headers: { "X-CSRF-Token": token },
+});
+const data = await res.json();
+if (res.ok) { ... }</pre></section>
+<section><h2>Tests with pytest</h2><pre>python -m pytest</pre><pre>@pytest.fixture
+def client(app):
+    return app.test_client()
+
+def test_board_loads(client):
+    r = client.get("/")
+    assert r.status_code == 200
+    assert b"Open shifts" in r.data</pre><p>Test the security rules, not just the happy path.</p></section>
+<section class="coral"><h2>Go live: PythonAnywhere</h2><ol><li>Upload app.py, schema.sql, requirements.txt, templates, static</li><li>Web tab: Manual configuration, newest Python</li><li>WSGI file: add your folder to <code>sys.path</code>, set <code>SECRET_KEY</code>, <code>from app import app as application</code></li><li>Bash console: <code>flask --app app init-db</code></li><li>Reload. Problems? Check the error log</li></ol></section>

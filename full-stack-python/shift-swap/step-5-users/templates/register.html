@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}Sign up · Shift Swap{% endblock %}
+{% block content %}
+<h1>Make an account</h1>
+<form method="post" class="card">
+  <label>Username <input name="username" autocomplete="username" pattern="[A-Za-z0-9_]{3,20}" required></label>
+  <label>Password (8 or more characters) <input type="password" name="password" autocomplete="new-password" minlength="8" required></label>
+  <button>Sign up</button>
+</form>
+{% endblock %}
