@@ -1,0 +1,44 @@
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background: #f6f3ee; color: #2b2118; }
+.topbar { background: #3b2a1e; color: #fff; padding: 12px 20px; }
+.brand span { opacity: .8; margin-left: 6px; }
+.layout { display: grid; grid-template-columns: 1fr 340px; gap: 20px; max-width: 1100px; margin: 0 auto; padding: 20px; }
+h1 { margin: 0 0 12px; }
+.search label { display: block; font-weight: 600; margin-bottom: 4px; }
+input, select, textarea { font: inherit; padding: 8px 10px; border: 1px solid #b9a998; border-radius: 6px; width: 100%; background: #fff; color: inherit; }
+button { font: inherit; padding: 8px 14px; border-radius: 6px; border: 1px solid #8a6f58; background: #fff; color: #3b2a1e; cursor: pointer; }
+button.primary { background: #b4532a; border-color: #b4532a; color: #fff; font-weight: 600; }
+.categories { display: flex; flex-wrap: wrap; gap: 6px; margin: 12px 0; }
+.cat.active { background: #3b2a1e; color: #fff; }
+.menu { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; }
+.menu li { background: #fff; border-radius: 10px; padding: 12px; display: flex; flex-direction: column; gap: 4px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+.menu .name { font-weight: 700; }
+.menu .cat-name { font-size: .85rem; color: @@MUTED@@; }
+.menu .price { font-weight: 600; }
+.menu button { align-self: flex-start; margin-top: 4px; }
+#order-section { background: #fff; border-radius: 12px; padding: 16px; align-self: start; }
+.order-lines { list-style: none; padding: 0; margin: 0 0 12px; }
+.order-lines li { display: grid; grid-template-columns: 1fr 60px auto; gap: 6px; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee3d6; }
+.order-lines .opts { display: block; font-size: .85rem; color: #6d5d4f; }
+.order-lines .line-total { grid-column: 1 / -1; text-align: right; font-weight: 600; }
+.order-lines input { padding: 4px 6px; }
+.discount label, .dialog label[for], .dialog legend { display: block; font-weight: 600; margin: 10px 0 4px; }
+.row { display: flex; gap: 8px; }
+.row.end { justify-content: flex-end; margin-top: 14px; }
+.totals { display: grid; grid-template-columns: 1fr auto; gap: 4px 10px; margin: 12px 0 4px; }
+.totals dd { margin: 0; text-align: right; }
+.grand { font-weight: 700; font-size: 1.15rem; }
+.muted { color: #6d5d4f; }
+.small { font-size: .85rem; }
+.msg { min-height: 1.2em; margin: 6px 0; font-size: .9rem; }
+.msg.error { color: #b3261e; }
+#to-checkout { width: 100%; margin-top: 8px; }
+.overlay { position: fixed; inset: 0; background: rgba(30, 20, 10, .55); display: flex; align-items: center; justify-content: center; padding: 16px; }
+.overlay[hidden] { display: none; }
+.dialog { background: #fff; border-radius: 12px; padding: 20px; width: 100%; max-width: 420px; max-height: 95vh; overflow: auto; }
+.dialog h2 { margin-top: 0; }
+fieldset { border: 1px solid #e3d6c8; border-radius: 8px; margin: 8px 0; }
+fieldset label { display: block; padding: 3px 0; font-weight: 400; }
+fieldset input { width: auto; }
+.confirm-lines { padding-left: 18px; }
+@@MOBILE_CSS@@

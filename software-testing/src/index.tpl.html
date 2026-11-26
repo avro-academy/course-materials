@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Ahead · Corner Café</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">☕ <strong>Corner Café</strong> <span>Order Ahead</span></div>
+  </header>
+
+  <main class="layout">
+    <section id="menu-section" aria-labelledby="menu-heading">
+      <h1 id="menu-heading">Menu</h1>
+      <div class="search">
+        <label for="search">Search the menu</label>
+        <input id="search" type="search" placeholder="e.g. latte">
+      </div>
+      <div class="categories" role="group" aria-label="Categories">
+        <button type="button" class="cat active" data-cat="All">All</button>
+        <button type="button" class="cat" data-cat="Coffee">Coffee</button>
+        <button type="button" class="cat" data-cat="Tea">Tea</button>
+        <button type="button" class="cat" data-cat="Drinks">Drinks</button>
+        <button type="button" class="cat" data-cat="Food">Food</button>
+      </div>
+      <ul id="menu" class="menu"></ul>
+      <p id="no-results" class="muted" hidden>No items match your search.</p>
+    </section>
+
+    <aside id="order-section" aria-labelledby="order-heading">
+      <h2 id="order-heading">Your order</h2>
+      <p id="empty-order" class="muted">Nothing here yet.</p>
+      <ul id="order-lines" class="order-lines"></ul>
+      <div class="discount">
+        <label for="discount">Discount code</label>
+        <div class="row"><input id="discount" type="text" autocomplete="off"><button type="button" id="apply">Apply</button></div>
+        <p id="discount-msg" class="msg" role="status"></p>
+      </div>
+      <dl class="totals">
+        <dt>Subtotal</dt><dd id="subtotal">$0.00</dd>
+        <dt>Discount</dt><dd id="discount-amount">−$0.00</dd>
+        <dt class="grand">Total</dt><dd id="total" class="grand">$0.00</dd>
+      </dl>
+      <p class="muted small">Prices include GST. Pay when you collect.</p>
+      <button type="button" id="to-checkout" class="primary">Go to checkout</button>
+      <p id="checkout-msg" class="msg error" role="alert"></p>
+    </aside>
+  </main>
+
+  <!-- Options dialog -->
+  <div id="options" class="overlay" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="options-title">
+      <h2 id="options-title">Item</h2>
+      <p id="options-price" class="muted"></p>
+      <fieldset id="size-set">
+        <legend>Size</legend>
+        <label><input type="radio" name="size" value="Regular" checked> Regular</label>
+        <label><input type="radio" name="size" value="Large"> Large (+$1.00)</label>
+      </fieldset>
+      <fieldset id="milk-set">
+        <legend>Milk</legend>
+        <label><input type="radio" name="milk" value="Full cream" checked> Full cream</label>
+        <label><input type="radio" name="milk" value="Skim"> Skim</label>
+        <label><input type="radio" name="milk" value="Oat"> Oat (+$0.80)</label>
+      </fieldset>
+      <label for="qty">Quantity</label>
+      <input id="qty" type="number" value="1" min="1" max="10" step="1">
+      <p id="qty-msg" class="msg error" role="alert"></p>
+      <div class="row end">
+        <button type="button" id="cancel-options">Cancel</button>
+        <button type="button" id="add-to-order" class="primary">Add to order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Checkout -->
+  <div id="checkout" class="overlay" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="checkout-title">
+      <h2 id="checkout-title">Checkout</h2>
+      <label for="name">Your name</label>
+      <input id="name" type="text" autocomplete="name">
+@@PHONE_LABEL@@
+      <input id="phone" type="tel" autocomplete="tel" @@PHONE_PLACEHOLDER@@>
+      <label for="pickup">Pickup time</label>
+      <select id="pickup"></select>
+      <label for="notes">Notes (optional)</label>
+      <textarea id="notes" rows="3" maxlength="@@NOTES_MAX@@"></textarea>
+      <p class="muted small"><span id="notes-count">0</span>/200</p>
+      <p id="form-msg" class="msg error" role="alert"></p>
+      <div class="row end">
+        <button type="button" id="back-to-order">Back</button>
+        <button type="button" id="place-order" class="primary">Place order</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Confirmation -->
+  <div id="confirmation" class="overlay" hidden>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <h2 id="confirm-title">Order placed</h2>
+      <p>Order number <strong id="order-number"></strong></p>
+      <p id="confirm-text"></p>
+      <ul id="confirm-lines" class="confirm-lines"></ul>
+      <p>Total to pay at the counter: <strong id="confirm-total"></strong></p>
+      <button type="button" id="new-order" class="primary">Start a new order</button>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
