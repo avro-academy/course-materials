@@ -1,0 +1,77 @@
+<style>body{font-size:6.8pt} pre{font-size:6.1pt;line-height:1.25} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>Start a project</h2><pre>npm create vite@latest job-tracker -- --template react-ts
+cd job-tracker
+npm install
+npm run dev       # http://localhost:5173
+npm run lint      # oxlint
+npm run build     # tsc -b &amp;&amp; vite build → dist/
+npm run preview   # http://localhost:4173</pre></section>
+<section><h2>Components and JSX</h2><pre>export default function JobCard({ job }: Props) {
+  return (
+    &lt;li className="card"&gt;
+      &lt;h3&gt;{job.role}&lt;/h3&gt;
+      {job.location &amp;&amp; ` · ${job.location}`}
+    &lt;/li&gt;
+  );
+}</pre><ul><li>Name starts with a capital; one outer element or <code>&lt;&gt;…&lt;/&gt;</code></li><li><code>className</code>, <code>htmlFor</code>, <code>onClick</code>; close every tag</li><li><code>{ }</code> runs JavaScript; <code>{/* comment */}</code></li></ul></section>
+<section><h2>Props and TypeScript</h2><pre>type Props = { job: Job; onEdit?: (id: string) =&gt; void };
+export const STATUSES = ["Saved", "Applied"] as const;
+type Status = (typeof STATUSES)[number];
+type JobInput = Omit&lt;Job, "id"&gt;;
+type Errors = Partial&lt;Record&lt;keyof JobInput, string&gt;&gt;;</pre><p>Props are read-only. <code>children</code> = what's between the tags.</p></section>
+<section><h2>Lists and conditions</h2><pre>{jobs.map((job) =&gt; &lt;JobCard key={job.id} job={job} /&gt;)}
+{done &amp;&amp; &lt;p&gt;Saved!&lt;/p&gt;}
+{open ? &lt;A /&gt; : &lt;B /&gt;}
+{jobs.length &gt; 0 &amp;&amp; …}   // not jobs.length &amp;&amp; (shows 0)</pre><p>Keys: unique and stable (an id), not the index.</p></section>
+<section class="coral"><h2>State</h2><pre>const [search, setSearch] = useState("");
+const [jobs, setJobs] = useState&lt;Job[]&gt;(() =&gt; sampleJobs());
+&lt;input value={search} onChange={(e) =&gt; setSearch(e.target.value)} /&gt;
+onClick={handle}     // ✅ pass the function
+onClick={handle()}   // ❌ runs it every render</pre><p>Hooks: top level only, never in <code>if</code> or loops. Calculate what you can, don't store it.</p></section>
+<section class="coral"><h2>Update without changing</h2><table><tr><td>Add</td><td><code>setJobs([job, ...jobs])</code></td></tr><tr><td>Change one</td><td><code>jobs.map(j =&gt; j.id === id ? { ...j, status } : j)</code></td></tr><tr><td>Remove</td><td><code>jobs.filter(j =&gt; j.id !== id)</code></td></tr><tr><td>One field</td><td><code>setJob({ ...job, [field]: value })</code></td></tr></table><p><strong>Lift state up</strong> to the closest shared parent; pass data down, functions up. Change a <code>key</code> to reset a component.</p></section>
+<section class="coral"><h2>Forms</h2><pre>function handleSubmit(e: React.FormEvent&lt;HTMLFormElement&gt;) {
+  e.preventDefault();
+  const found = validateJob(job);
+  setErrors(found);
+  if (Object.keys(found).length === 0) onSave(job);
+}
+&lt;form onSubmit={handleSubmit} noValidate&gt;
+&lt;label&gt;&lt;span&gt;Job title&lt;/span&gt;&lt;input … /&gt;&lt;/label&gt;</pre></section>
+<section class="amber"><h2>Effects</h2><pre>useEffect(() =&gt; {
+  document.title = `Job Tracker (${jobs.length})`;
+}, [jobs.length]);      // [] = once · none = every render</pre><pre>useEffect(() =&gt; {
+  let ignore = false;
+  fetch("/tips.json").then((r) =&gt; r.json()).then((d) =&gt; { if (!ignore) setTips(d); });
+  return () =&gt; { ignore = true; };   // cleanup
+}, []);</pre><p>Plan for loading, error and done. StrictMode runs effects twice in development.</p></section>
+<section class="amber"><h2>localStorage and custom hooks</h2><pre>localStorage.setItem("k", JSON.stringify(value));
+JSON.parse(localStorage.getItem("k") ?? "null");
+const [jobs, setJobs] = useLocalStorage("job-tracker.jobs", sampleJobs);</pre><p>A custom hook is a function starting with <code>use</code> that uses hooks. Wrap storage in try/catch.</p></section>
+<section><h2>React Router</h2><pre>&lt;BrowserRouter&gt;&lt;App /&gt;&lt;/BrowserRouter&gt;
+&lt;Routes&gt;&lt;Route element={&lt;Layout /&gt;}&gt;
+  &lt;Route index element={&lt;Dashboard /&gt;} /&gt;
+  &lt;Route path="jobs/:id" element={&lt;JobDetail /&gt;} /&gt;
+  &lt;Route path="*" element={&lt;NotFound /&gt;} /&gt;
+&lt;/Route&gt;&lt;/Routes&gt;
+&lt;Outlet /&gt;  &lt;NavLink to="/jobs" end&gt;  &lt;Link to={`/jobs/${id}`}&gt;
+const { id } = useParams();
+const navigate = useNavigate();  navigate("/jobs");
+const [params, setParams] = useSearchParams();
+setParams(next, { replace: true });</pre><p>Path = which thing · search params = a shareable view · state = everything else.</p></section>
+<section><h2>Reducer and context</h2><pre>const [jobs, dispatch] = useReducer(jobsReducer, undefined, loadJobs);
+dispatch({ type: "deleted", id });
+export const JobsContext = createContext&lt;Value | null&gt;(null);
+&lt;JobsContext value={{ jobs, dispatch }}&gt;{children}&lt;/JobsContext&gt;
+const value = useContext(JobsContext);
+const counts = useMemo(() =&gt; countByStatus(jobs), [jobs]);</pre></section>
+<section class="coral"><h2>Testing</h2><pre>npm install -D vitest jsdom @testing-library/react @testing-library/jest-dom @testing-library/user-event
+npm test</pre><pre>it("adds new jobs to the top", () =&gt; {
+  expect(next.map((j) =&gt; j.id)).toEqual(["2", "1"]);
+});
+const user = userEvent.setup();
+render(&lt;MemoryRouter initialEntries={["/jobs"]}&gt;&lt;App /&gt;&lt;/MemoryRouter&gt;);
+await user.type(screen.getByLabelText("Job title"), "Barista");
+await user.click(screen.getByRole("button", { name: "Save job" }));
+expect(screen.getByText("Showing 4 of 4")).toBeInTheDocument();</pre></section>
+<section class="amber"><h2>Deploy</h2><pre>// vercel.json: every address → index.html
+{ "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }] }</pre><p>Push to GitHub → vercel.com → Add New → Project → Deploy. Every push to main updates the site.</p></section>

@@ -1,0 +1,114 @@
+/* One stylesheet for the whole app. Colours are variables, so they're easy to change. */
+:root {
+  --bg: #f4f7fb;
+  --surface: #ffffff;
+  --text: #0f172a;
+  --muted: #55627a;
+  --line: #dbe3ee;
+  --brand: #1d4ed8;
+  --brand-dark: #1e3a8a;
+  --danger: #b91c1c;
+
+  --saved: #e2e8f0;
+  --saved-text: #334155;
+  --applied: #dbeafe;
+  --applied-text: #1e40af;
+  --interview: #fef3c7;
+  --interview-text: #92400e;
+  --offer: #dcfce7;
+  --offer-text: #166534;
+  --rejected: #fee2e2;
+  --rejected-text: #991b1b;
+
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: var(--text);
+  background: var(--bg);
+}
+
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+h1 { margin: 0 0 0.5rem; font-size: 1.8rem; }
+h2 { margin: 0 0 0.75rem; font-size: 1.2rem; }
+h3 { margin: 0; font-size: 1.05rem; }
+a { color: var(--brand); }
+.muted { color: var(--muted); }
+.small { font-size: 0.875rem; color: var(--muted); margin: 0.25rem 0 0; }
+
+/* Header and footer */
+.site-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem;
+  padding: 0.75rem 1rem; background: var(--brand-dark); color: #fff; }
+.site-header a { color: #fff; text-decoration: none; }
+.logo { font-weight: 800; font-size: 1.15rem; }
+.site-header nav { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem; }
+.site-header nav a:not(.button) { padding: 0.35rem 0.7rem; border-radius: 999px; }
+.site-header nav a.active:not(.button):not(.logo) { background: rgba(255, 255, 255, 0.18); }
+.site-footer { text-align: center; color: var(--muted); font-size: 0.85rem; padding: 2rem 1rem; }
+
+/* Buttons */
+.button { display: inline-block; border: 0; border-radius: 999px; padding: 0.55rem 1.1rem; background: #f59e0b;
+  color: #1c1917 !important; font: inherit; font-weight: 700; cursor: pointer; text-decoration: none; }
+.button:hover { background: #fbbf24; }
+.button.danger { background: #fff; color: var(--danger) !important; border: 1px solid #fca5a5; }
+.link-button { border: 0; background: none; color: var(--brand); font: inherit; cursor: pointer; padding: 0.5rem 0; text-decoration: underline; }
+
+/* Status badges */
+.badge { display: inline-block; padding: 0.1rem 0.6rem; border-radius: 999px; font-size: 0.8rem; font-weight: 700; white-space: nowrap; }
+.badge-saved { background: var(--saved); color: var(--saved-text); }
+.badge-applied { background: var(--applied); color: var(--applied-text); }
+.badge-interview { background: var(--interview); color: var(--interview-text); }
+.badge-offer { background: var(--offer); color: var(--offer-text); }
+.badge-rejected { background: var(--rejected); color: var(--rejected-text); }
+
+/* Job cards */
+.cards { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; }
+.card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+.card h3 a { color: var(--text); text-decoration: none; }
+.card h3 a:hover { text-decoration: underline; }
+.card p { margin: 0.25rem 0 0; }
+.card select { margin-top: 0.75rem; }
+
+/* Toolbar, filters and panels */
+.toolbar { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem; }
+.toolbar h1 { margin: 0; }
+.filters { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 1rem 0 0.5rem; }
+.filters input { flex: 1 1 220px; }
+input, select, textarea { font: inherit; padding: 0.5rem 0.65rem; border: 1px solid var(--line); border-radius: 8px; background: #fff; color: var(--text); }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.25rem; margin: 1rem 0; }
+.empty { text-align: center; color: var(--muted); padding: 2rem 1rem; }
+
+/* Forms */
+.form { display: grid; gap: 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.25rem; }
+.form-row { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.field { display: grid; gap: 0.3rem; font-weight: 600; }
+.field input, .field select, .field textarea { font-weight: 400; width: 100%; }
+.has-error input, .has-error select, .has-error textarea { border-color: var(--danger); }
+.error { color: var(--danger); font-size: 0.875rem; font-weight: 400; }
+.alert { margin: 0; padding: 0.75rem 1rem; border-radius: 8px; background: #fee2e2; color: #991b1b; }
+.form .button { justify-self: start; }
+
+/* Dashboard */
+.stats { list-style: none; padding: 0; margin: 1rem 0; display: grid; gap: 0.75rem; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); }
+.stats a { display: grid; justify-items: start; gap: 0.35rem; padding: 1rem; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; text-decoration: none; color: var(--text); }
+.stats a:hover { border-color: var(--brand); }
+.stat-number { font-size: 2rem; font-weight: 800; line-height: 1; }
+.plain-list { list-style: none; padding: 0; margin: 0; }
+.plain-list li { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: baseline; padding: 0.5rem 0; border-bottom: 1px solid var(--line); }
+.plain-list li:last-child { border-bottom: 0; }
+.due { margin-left: auto; font-size: 0.875rem; color: var(--muted); }
+.overdue { color: var(--danger); font-weight: 700; }
+.tip p { margin: 0.35rem 0 0; }
+
+/* Job page */
+.status-buttons { display: flex; flex-wrap: wrap; gap: 0.4rem; margin: 1rem 0; }
+.status-buttons button { font: inherit; padding: 0.4rem 0.9rem; border-radius: 999px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+.status-buttons button[aria-pressed="true"] { background: var(--brand); border-color: var(--brand); color: #fff; font-weight: 700; }
+.details { display: grid; grid-template-columns: max-content 1fr; gap: 0.5rem 1.25rem; background: var(--surface); border: 1px solid var(--line);
+  border-radius: 12px; padding: 1.25rem; margin: 0 0 1rem; }
+.details dt { font-weight: 700; }
+.details dd { margin: 0; }
+.notes { white-space: pre-wrap; }
+.actions { display: flex; gap: 0.5rem; }

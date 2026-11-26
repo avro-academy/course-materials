@@ -1,0 +1,10 @@
+:root {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.5;
+  color: #0f172a;
+  background: #f4f7fb;
+}
+
+body { margin: 0; }
+main { max-width: 860px; margin: 0 auto; padding: 1.5rem 1rem 3rem; }
+.small { font-size: 0.875rem; color: #55627a; }
