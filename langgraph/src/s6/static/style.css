@@ -1,0 +1,35 @@
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto; max-width: 760px; min-height: 100vh; padding: 0 16px;
+  display: flex; flex-direction: column;
+  font-family: system-ui, -apple-system, "Segoe UI", sans-serif; color: #1f2933; background: #faf7f2;
+}
+header { display: flex; align-items: center; justify-content: space-between; padding: 18px 0 10px; border-bottom: 2px solid #e8dfd2; }
+.logo { font-size: 1.5rem; font-weight: 700; color: #6b3e26; text-decoration: none; }
+.logo span { font-size: 0.9rem; color: #fff; background: #2f7d6d; border-radius: 10px; padding: 1px 8px; vertical-align: middle; }
+.intro { margin: 10px 0 0; color: #5f6b76; }
+#chat { flex: 1; overflow-y: auto; padding: 16px 0; display: flex; flex-direction: column; gap: 10px; }
+.msg { max-width: 85%; padding: 10px 14px; border-radius: 16px; line-height: 1.45; white-space: pre-wrap; }
+.msg.user { align-self: flex-end; background: #6b3e26; color: #fff; border-bottom-right-radius: 4px; }
+.msg.bot { align-self: flex-start; background: #fff; border: 1px solid #e8dfd2; border-bottom-left-radius: 4px; }
+.msg.waiting { background: #fff8e6; border-color: #f0d9a0; }
+.msg.error { background: #fdecea; border-color: #f5c2bd; color: #8a1f11; }
+.tools { display: block; margin-top: 6px; font-size: 0.8rem; color: #7b8794; }
+form#ask { display: flex; gap: 8px; padding: 12px 0 4px; }
+input { flex: 1; padding: 11px 14px; font: inherit; border: 1px solid #cbbfae; border-radius: 24px; background: #fff; }
+button { padding: 10px 20px; font: inherit; font-weight: 600; color: #fff; background: #2f7d6d; border: 0; border-radius: 24px; cursor: pointer; }
+button.secondary { background: #8a6d5a; }
+button.link { background: none; color: #6b3e26; padding: 0; text-decoration: underline; font-weight: 500; }
+button:disabled { opacity: 0.5; cursor: wait; }
+.note { margin: 4px 0 16px; font-size: 0.8rem; color: #7b8794; text-align: center; }
+.page { padding: 8px 0 32px; }
+.page h1 { font-size: 1.25rem; color: #6b3e26; margin: 20px 0 10px; }
+.card { background: #fff; border: 1px solid #e8dfd2; border-radius: 12px; padding: 12px 16px; margin-bottom: 10px; }
+.card p { margin: 0 0 8px; }
+.card label { display: flex; gap: 10px; align-items: center; margin-bottom: 10px; }
+.row { display: flex; gap: 8px; flex-wrap: wrap; }
+.empty { color: #7b8794; }
+.error-box { background: #fdecea; color: #8a1f11; padding: 8px 12px; border-radius: 8px; }
+.log { background: #fff; border: 1px solid #e8dfd2; border-radius: 10px; padding: 8px 12px; margin-bottom: 8px; }
+.log.tool { background: #f1f5f4; border-color: #d3e3df; font-size: 0.9rem; }
+.log pre { margin: 4px 0 0; white-space: pre-wrap; font-family: inherit; }

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Chat {{ thread_id }}{% endblock %}
+{% block body %}
+<main class="page">
+  <p><a href="{{ url_for('staff') }}">← Staff page</a></p>
+  <h1>Conversation {{ thread_id }}</h1>
+  {% for who, text in lines %}
+  <div class="log {{ 'tool' if who.startswith(('Tool', 'Result')) else '' }}"><strong>{{ who }}</strong><pre>{{ text }}</pre></div>
+  {% else %}
+  <p class="empty">No messages.</p>
+  {% endfor %}
+</main>
+{% endblock %}

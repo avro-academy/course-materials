@@ -1,0 +1,81 @@
+<style>.cols{column-count:2 !important} body{font-size:7.4pt} pre{font-size:6.7pt;line-height:1.22} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>Chatbot, workflow or agent?</h2><table><tr><td>Chatbot</td><td>Answers from the prompt. One step</td></tr><tr><td>Workflow</td><td>Fixed steps you design; a model may do some. Predictable, cheap</td></tr><tr><td>Agent</td><td>The model picks tools in a loop until the job is done. Flexible, slower</td></tr></table><p>Use the simplest thing that works. The model only <em>asks</em> for tools; your code runs them and decides what's allowed.</p></section>
+<section><h2>A graph</h2><pre>from typing import TypedDict
+from langgraph.graph import StateGraph, START, END
+
+class Order(TypedDict):        # the state
+    items: list[str]
+    total: float
+
+def add_prices(order: Order):  # a node
+    return {"total": 10.3}     # = changes
+
+graph = StateGraph(Order)
+graph.add_node("add_prices", add_prices)
+graph.add_edge(START, "add_prices")
+graph.add_edge("add_prices", END)
+app = graph.compile()
+app.invoke({"items": ["flat white"]})
+print(app.get_graph().draw_mermaid())</pre></section>
+<section class="coral"><h2>Decisions, loops, reducers</h2><pre>def route(state):              # returns a node name
+    return "again" if state["temp"] &lt; 60 else "serve"
+
+graph.add_conditional_edges(
+    "steam", route, ["steam", "serve"])
+
+class Coffee(TypedDict):       # add, don't replace
+    log: Annotated[list[str], operator.add]</pre><p>Runs stop after 25 steps (<code>GraphRecursionError</code>); set <code>{"recursion_limit": 10}</code>.</p></section>
+<section class="coral"><h2>The model</h2><pre>from langchain_ollama import ChatOllama
+llm = ChatOllama(model="qwen3:4b-instruct",
+                 temperature=0)
+reply = llm.invoke([("system", "Be brief."),
+                    ("user", "Hi!")])
+reply.content, reply.usage_metadata
+
+class State(MessagesState):    # messages + more
+    kind: str
+
+classifier = llm.with_structured_output(Kind)</pre><p><code>MessagesState</code> adds new messages with <code>add_messages</code>. <code>Kind</code> is a Pydantic model with a <code>Literal[...]</code> field.</p></section>
+<section><h2>Tools</h2><pre>from langchain_core.tools import tool
+
+@tool
+def booking_times(date: str, people: int,
+                  time: str = "") -> str:
+    """Check free tables. date is YYYY-MM-DD;
+    people is 1 to 8; time is HH:MM or empty."""
+    problem = bookings.problem_with(date, people)
+    if problem:
+        return problem          # a helpful error
+    ...
+llm.bind_tools(TOOLS)           # reply.tool_calls</pre><p>Name, type hints and docstring are all the model knows. Do the work in code; give it the dates; check every argument; few tools, one job each.</p></section>
+<section><h2>The agent loop</h2><pre>from langgraph.prebuilt import ToolNode, tools_condition
+
+graph = StateGraph(MessagesState)
+graph.add_node("agent", agent)    # calls the model
+graph.add_node("tools", ToolNode(TOOLS))
+graph.add_edge(START, "agent")
+graph.add_conditional_edges("agent", tools_condition)
+graph.add_edge("tools", "agent")  # the loop</pre><p><code>trim_messages(..., token_counter=len, max_tokens=20, start_on="human")</code> sends only recent messages.</p></section>
+<section class="coral"><h2>Memory</h2><pre>from langgraph.checkpoint.sqlite import SqliteSaver
+config = {"configurable": {"thread_id": "sam"}}
+with SqliteSaver.from_conn_string("memory.db") as m:
+    graph = build_graph(m)
+    graph.invoke({"messages": [("user", "Hi")]}, config)
+    graph.get_state(config).values["messages"]
+    for snap in graph.get_state_history(config): ...</pre><p><code>InMemorySaver</code> for tests; <code>PostgresSaver</code> for production. One thread per customer.</p></section>
+<section class="coral"><h2>Humans in the loop</h2><pre>from langgraph.types import interrupt, Command
+
+decision = interrupt({"name": name, "time": time})
+# ... invoke returns result["__interrupt__"]
+
+graph.invoke(Command(resume={"approved": True}),
+             config)       # interrupt() returns this</pre><p>The tool runs again from the start on resume: make what's before <code>interrupt()</code> safe to repeat. Approval = a person says yes or no. Handover = a person takes over.</p></section>
+<section><h2>Testing and safety</h2><table>
+<tr><td>Your code</td><td>A fake model with scripted replies and tool calls: fast, the same every time</td></tr>
+<tr><td>The model</td><td>Check the tools it used, not just its words; run often</td></tr>
+<tr><td>Least privilege</td><td>Only the tools it needs</td></tr>
+<tr><td>Check inputs</td><td>In the tools, never trust the model</td></tr>
+<tr><td>Approve</td><td>A person says yes to bookings, money, emails</td></tr>
+<tr><td>Injection</td><td>Tool results can carry instructions too</td></tr>
+<tr><td>Records</td><td>The checkpoint history shows every step</td></tr>
+</table></section>

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block body %}
+<p class="intro">Ask about Corner Café, or book a table. Staff confirm every booking.</p>
+<main id="chat" aria-live="polite">
+  <div class="msg bot">G'day! I'm Café Helper. I can answer questions about Corner Café and help you book a table.</div>
+</main>
+<form id="ask">
+  <input id="message" autocomplete="off" maxlength="1000" placeholder="Type your message…" aria-label="Your message" required>
+  <button>Send</button>
+</form>
+<p class="note">Café Helper is an AI and can make mistakes. To talk to a person, just ask, or phone (02) 5550 0000.</p>
+<script src="{{ url_for('static', filename='chat.js') }}"></script>
+{% endblock %}

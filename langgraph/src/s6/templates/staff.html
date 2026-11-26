@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Staff{% endblock %}
+{% block nav %}
+<form method="post" action="{{ url_for('staff_logout') }}"><input type="hidden" name="csrf" value="{{ csrf_token() }}"><button class="link">Log out</button></form>
+{% endblock %}
+{% block body %}
+<main class="page">
+  <h1>Bookings to confirm</h1>
+  {% for r in requests %}
+  <div class="card">
+    <p><strong>{{ r.name }}</strong>, {{ r.people }} {{ "person" if r.people == 1 else "people" }}, {{ r.day }} at {{ r.time }}
+      · <a href="{{ url_for('staff_chat', thread_id=r.thread_id) }}">chat</a></p>
+    <form method="post" action="{{ url_for('answer_request', request_id=r.id) }}" class="row">
+      <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+      <input name="note" maxlength="300" placeholder="Note for the customer (optional)">
+      <button name="action" value="approve">Confirm</button>
+      <button name="action" value="decline" class="secondary">Decline</button>
+    </form>
+  </div>
+  {% else %}
+  <p class="empty">No bookings waiting.</p>
+  {% endfor %}
+
+  <h1>Handed over to staff</h1>
+  {% for h in handovers %}
+  <div class="card">
+    <p><strong>{{ h.reason }}</strong> · {{ h.created_at }} UTC · <a href="{{ url_for('staff_chat', thread_id=h.thread_id) }}">chat</a></p>
+    <p>{{ h.summary }}</p>
+    <form method="post" action="{{ url_for('finish_handover', handover_id=h.id) }}">
+      <input type="hidden" name="csrf" value="{{ csrf_token() }}">
+      <button class="secondary">Done</button>
+    </form>
+  </div>
+  {% else %}
+  <p class="empty">Nothing handed over.</p>
+  {% endfor %}
+</main>
+{% endblock %}
