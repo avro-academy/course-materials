@@ -1,0 +1,26 @@
+<style>body{font-size:7pt} pre{font-size:6.3pt;line-height:1.25} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>The layers</h2><table><tr><td>4. Application</td><td>What the app says: HTTP, DNS, email</td></tr><tr><td>3. Transport</td><td>Which program, reliably or fast: TCP, UDP, ports</td></tr><tr><td>2. Internet</td><td>The right computer, across networks: IP, routers</td></tr><tr><td>1. Link</td><td>The local hop: Ethernet, Wi-Fi, MAC addresses</td></tr></table></section>
+<section><h2>Addresses</h2><table><tr><td><code>192.168.x.x</code> · <code>10.x.x.x</code> · <code>172.16–31.x.x</code></td><td>Private (inside networks)</td></tr><tr><td><code>127.0.0.1</code></td><td>localhost: this computer</td></tr><tr><td><code>169.254.x.x</code></td><td>Couldn't get an address (no DHCP)</td></tr><tr><td><code>/24</code> = <code>255.255.255.0</code></td><td>First 3 numbers are the network</td></tr><tr><td>Default gateway</td><td>The router, for everything not local</td></tr><tr><td>NAT</td><td>Many private addresses share one public one</td></tr><tr><td>DHCP</td><td>Hands out address, mask, gateway, DNS, lease</td></tr><tr><td>MAC · ARP</td><td>Hardware address · finds the MAC for an IP</td></tr></table></section>
+<section class="coral"><h2>Ports</h2><table><tr><td>22</td><td>SSH</td><td>80</td><td>HTTP</td></tr><tr><td>25, 587</td><td>SMTP email</td><td>443</td><td>HTTPS</td></tr><tr><td>53</td><td>DNS</td><td>993</td><td>IMAP (TLS)</td></tr><tr><td>67, 68</td><td>DHCP</td><td>3389</td><td>Remote Desktop</td></tr></table><p><strong>TCP:</strong> connection, reliable (web, email). <strong>UDP:</strong> just sends, fast (DNS, calls, games).</p></section>
+<section class="coral"><h2>DNS records</h2><table><tr><td>A · AAAA</td><td>IPv4 · IPv6 address</td></tr><tr><td>CNAME</td><td>Another name for…</td></tr><tr><td>MX</td><td>Who receives the email</td></tr><tr><td>TXT</td><td>Notes, proof of ownership, anti-spoofing</td></tr></table></section>
+<section class="coral"><h2>HTTP status codes</h2><table><tr><td>200</td><td>OK</td><td>401 / 403</td><td>Log in / not allowed</td></tr><tr><td>301 / 302</td><td>Moved</td><td>404</td><td>Not found</td></tr><tr><td></td><td></td><td>500 / 503</td><td>Server problem / down</td></tr></table><p>4xx: the request · 5xx: the server. Padlock = encrypted, not trustworthy.</p></section>
+<section><h2>Your own computer</h2><table>
+<tr><td>My address</td><td>Win <code>ipconfig</code> (<code>/all</code> for everything) · Mac <code>ipconfig getifaddr en0</code> · Linux <code>ip -brief addr</code></td></tr>
+<tr><td>Reach it?</td><td><code>ping 192.168.1.1</code> (Mac/Linux add <code>-c 4</code>)</td></tr>
+<tr><td>Which way?</td><td>Win <code>tracert avro.academy</code> · Mac/Linux <code>traceroute</code></td></tr>
+<tr><td>Its address?</td><td><code>nslookup avro.academy</code></td></tr>
+<tr><td>Port open?</td><td>Win <code>Test-NetConnection server -Port 443</code> · Mac/Linux <code>nc -vz server 443</code></td></tr>
+<tr><td>New address</td><td>Win <code>ipconfig /release</code> then <code>ipconfig /renew</code></td></tr>
+<tr><td>Clear DNS</td><td>Win <code>ipconfig /flushdns</code> · Mac <code>sudo dscacheutil -flushcache</code></td></tr>
+<tr><td>Neighbours</td><td>Win <code>arp -a</code> · Linux <code>ip neigh</code></td></tr></table></section>
+<section class="amber"><h2>Troubleshoot from the bottom up</h2><table><tr><td>1. Link</td><td>Lights, cable, Wi-Fi connected?</td></tr><tr><td>2. Address</td><td>Sensible IP? Not 169.254?</td></tr><tr><td>3. Local</td><td>ping the gateway</td></tr><tr><td>4. Beyond</td><td>ping 1.1.1.1 (by number)</td></tr><tr><td>5. Names</td><td>nslookup a website</td></tr><tr><td>6. App</td><td>Another browser or site</td></tr></table><p>Ask first: what, who, since when, what changed? Change one thing at a time. Write a ticket.</p></section>
+<section class="amber"><h2>Clues</h2><table><tr><td>Works by IP, not by name</td><td>DNS</td></tr><tr><td>Local works, nothing beyond</td><td>Gateway / router</td></tr><tr><td>Times out</td><td>Dropped: firewall, routing, device off</td></tr><tr><td>Connection refused (instant)</td><td>Nothing listening: the program</td></tr><tr><td>Fine near router, slow far away</td><td>Wi-Fi signal</td></tr><tr><td>One PC only</td><td>Compare with one that works</td></tr></table></section>
+<section><h2>The lab</h2><pre>docker compose up -d --build
+docker compose exec pc1 sh
+docker compose down
+LAB_FAULT=dns docker compose up -d --force-recreate
+ip -brief addr · ip route · ip neigh
+cat /etc/resolv.conf · ss -tln
+curl -si http://web/
+iptables -L FORWARD -n --line-numbers</pre></section>
+<section><h2>Wi-Fi and small networks</h2><p>2.4 GHz: range · 5 GHz: speed · 6 GHz: fastest, shortest. Router high and central; mesh for big places. <strong>WPA3</strong> (or WPA2-AES), long password, WPS off, guest network for visitors and smart devices, change the router admin password, update firmware, no remote management.</p></section>

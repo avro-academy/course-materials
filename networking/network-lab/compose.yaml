@@ -1,0 +1,44 @@
+# The network lab for Networking Fundamentals (Avro Academy).
+#   docker compose up -d --build     start it
+#   docker compose exec pc1 sh       get onto pc1 (type exit to leave)
+#   docker compose down              stop it
+# Module 6 faults:  LAB_FAULT=gateway docker compose up -d --force-recreate
+#   (gateway, dns, firewall or server; on Windows PowerShell: $env:LAB_FAULT="gateway")
+name: network-lab
+
+x-machine: &machine
+  build: .
+  cap_add: [NET_ADMIN]
+  environment:
+    LAB_FAULT: ${LAB_FAULT:-}
+  networks: [wire]
+  sysctls:
+    net.ipv4.conf.all.accept_redirects: 0
+    net.ipv4.conf.default.accept_redirects: 0
+
+services:
+  router:
+    <<: *machine
+    hostname: router
+    sysctls:
+      net.ipv4.ip_forward: 1
+      net.ipv4.conf.all.send_redirects: 0
+      net.ipv4.conf.default.send_redirects: 0
+  dns:
+    <<: *machine
+    hostname: dns
+  web:
+    <<: *machine
+    hostname: web
+  pc1:
+    <<: *machine
+    hostname: pc1
+  pc2:
+    <<: *machine
+    hostname: pc2
+
+# One "wire" joins every machine, like a network switch. lab.sh swaps Docker's
+# addresses for the lab's and gives no machine a way out, so nothing in the lab
+# can reach your real network or the internet.
+networks:
+  wire: {}
