@@ -1,0 +1,73 @@
+<style>body{font-size:6.9pt} pre{font-size:6.0pt;line-height:1.16} td{padding-top:0;padding-bottom:0} p{margin:2px 0}</style>
+<section><h2>The basics</h2><table><tr><td>Confidentiality</td><td>only the right people can see it</td></tr><tr><td>Integrity</td><td>nobody can secretly change it</td></tr><tr><td>Availability</td><td>it works when it's needed</td></tr></table><p><b>Defence in depth:</b> stack layers (passwords + MFA + firewall + updates + backups). <b>The law:</b> only test systems you own or have written permission to test.</p></section>
+<section class="coral"><h2>Passwords</h2><ul><li>Long beats complicated: <code>Kettle-Harbour-Violin-77</code></li><li>A different password everywhere (stops credential stuffing)</li><li>A password manager: Bitwarden, 1Password, Apple, Google, Microsoft</li><li>Check breaches at haveibeenpwned.com</li><li>Building a system? Slow hashes only: bcrypt, scrypt, Argon2, PBKDF2. Never MD5 or SHA-256</li></ul></section>
+<section><h2>MFA, strongest first</h2><table><tr><td>Passkey / security key</td><td>can't be phished</td></tr><tr><td>Authenticator app</td><td>never approve a login you didn't start</td></tr><tr><td>SMS code</td><td>better than nothing (SIM swaps)</td></tr></table><p>Turn it on for <b>email first</b>, then banking and work.</p></section>
+<section class="amber"><h2>Spotting phishing</h2><ul><li>Urgency, threats, prizes</li><li>Asks for passwords, codes, bank details, gift cards, new payment details</li><li>From, Reply-To and links that don't match</li><li><code>spf=fail</code>, <code>dkim=none</code>, <code>dmarc=fail</code> in the headers</li><li>Hover (or press and hold) to see where a link really goes</li><li>Lookalike letters: real name starts <code>xn--</code></li></ul><pre>grep -iE '^(from|reply-to|return-path):' \
+  mail.eml
+grep -i '^authentication-results' mail.eml
+grep -o 'href="[^"]*"' mail.eml</pre><p>Check through a number or website you already know. Report at scamwatch.gov.au.</p></section>
+<section><h2>Least privilege</h2><pre># who can be root?
+getent group sudo
+sudo -l
+# folders anyone can change
+find /srv /var/www /home -perm -o+w \
+  2>/dev/null
+sudo chown root:cafeteam /srv/cafe-shared
+sudo chmod 770 /srv/cafe-shared
+# programs that run as root (setuid)
+sudo find / -xdev -perm -4000 -type f \
+  2>/dev/null</pre></section>
+<section class="coral"><h2>Patching</h2><pre>sudo apt update && sudo apt upgrade
+apt list --upgradable
+ls /var/run/reboot-required
+apt-config dump | grep Unattended</pre><p>Patch phones, laptops, routers, plugins too. Replace what no longer gets updates.</p></section>
+<section><h2>Scan and firewall</h2><pre># from your computer:
+nmap 192.168.64.5
+# on the server: what's listening?
+sudo ss -tlnp
+sudo ufw allow OpenSSH     # first!
+sudo ufw allow 'Nginx HTTP'
+sudo ufw --force enable
+sudo ufw status</pre><p>A secret that might have been seen must be changed.</p></section>
+<section class="amber"><h2>Logs</h2><pre>journalctl -u ssh --since '1 hour ago' \
+  --no-pager | grep 'Invalid user' \
+  | awk '{print $(NF-2)}' \
+  | sort | uniq -c | sort -rn
+journalctl -p warning -b
+last</pre><p>Also <code>/var/log/auth.log</code> and <code>/var/log/nginx/access.log</code>.</p></section>
+<section><h2>fail2ban</h2><pre># /etc/fail2ban/jail.local
+[sshd]
+enabled  = true
+maxretry = 3
+findtime = 10m
+bantime  = 10m</pre><pre>sudo systemctl restart fail2ban
+sudo fail2ban-client status sshd
+sudo fail2ban-client set sshd \
+  unbanip 1.2.3.4</pre></section>
+<section class="coral"><h2>Changed files and backups</h2><pre>sha256sum /var/www/html/*.html \
+  | sudo tee /root/site.sha256
+sudo sha256sum -c /root/site.sha256
+# back up, and restore
+sudo tar -czf /root/site.tgz -C /var/www html
+sudo tar -xzf /root/site.tgz -C /var/www</pre><p><b>3-2-1:</b> 3 copies, 2 kinds of storage, 1 offline or immutable. Test restores.</p></section>
+<section><h2>SQL injection</h2><pre># bug: typing becomes SQL
+f"... WHERE username = '{username}'"
+# fix: placeholders
+db.execute("... WHERE username = ?",
+           (username,))</pre></section>
+<section class="amber"><h2>Cross-site scripting</h2><pre>import html
+# &lt;script&gt; shows as text:
+html.escape(text)</pre><p>Templates (Flask, React) escape for you. Add a Content Security Policy as a second layer.</p></section>
+<section><h2>Secrets and headers</h2><pre>echo "KEY=$(openssl rand -hex 32)" > .env
+chmod 600 .env
+# and add .env to .gitignore</pre><pre># /etc/nginx/conf.d/security.conf
+server_tokens off;
+add_header X-Content-Type-Options
+  "nosniff" always;
+add_header X-Frame-Options "DENY" always;
+add_header Referrer-Policy
+  "strict-origin-when-cross-origin" always;
+add_header Content-Security-Policy
+  "default-src 'self'" always;</pre><p>HTTPS everywhere: <code>sudo certbot --nginx</code>.</p></section>
+<section class="coral"><h2>Incident response</h2><p>1 Prepare · 2 Detect · 3 Contain · 4 Remove and recover · 5 Learn. Save logs and times first. Tell someone straight away.</p><table><tr><td>cyber.gov.au/report</td><td>ReportCyber</td></tr><tr><td>1300 CYBER1</td><td>24/7 hotline (1300 292 371)</td></tr><tr><td>OAIC</td><td>notifiable data breaches</td></tr><tr><td>IDCARE</td><td>identity theft support</td></tr></table></section>
+<section class="amber"><h2>The Essential Eight</h2><p>Patch applications · Patch operating systems · MFA · Restrict admin privileges · Application control · Restrict Office macros · User application hardening · Regular backups</p></section>

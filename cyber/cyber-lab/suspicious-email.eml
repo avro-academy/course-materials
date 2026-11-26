@@ -1,0 +1,14 @@
+Return-Path: <bounce@corner-cafe-payroll.com>
+Received: from mail.corner-cafe-payroll.com (unknown [203.0.113.66])
+Authentication-Results: mx.example.com.au; spf=fail smtp.mailfrom=corner-cafe-payroll.com; dkim=none; dmarc=fail header.from=cornercafe.example.com.au
+From: "Corner Café Payroll" <payroll@cornercafe.example.com.au>
+Reply-To: payroll-team@quick-mail.example.net
+To: sam@cornercafe.example.com.au
+Subject: URGENT: Your pay is on hold — confirm your bank details today
+Content-Type: text/html; charset=utf-8
+
+<p>Hi team member,</p>
+<p>Due to a system upgrade your next pay is <b>on hold</b>. To avoid missing your pay, confirm your bank details within 24 hours:</p>
+<p><a href="http://cornercafe-payroll.example.net/verify?id=88213">https://payroll.cornercafe.example.com.au/staff</a></p>
+<p>If you don't confirm today your account will be suspended.</p>
+<p>Corner Café Payroll Department</p>
