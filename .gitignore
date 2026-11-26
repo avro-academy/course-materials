@@ -1,3 +1,4 @@
 *.zip
 .DS_Store
 *.full.html
+__pycache__/

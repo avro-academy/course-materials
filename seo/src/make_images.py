@@ -11,7 +11,6 @@ from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
-SITE = Path(sys.argv[1])
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf"
 BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 
@@ -149,6 +148,7 @@ def webp_near(im, path, target):
 
 
 def main():
+    SITE = Path(sys.argv[1])
     b, a = SITE / "broken" / "images", SITE / "fixed" / "images"
     b.mkdir(parents=True, exist_ok=True)
     a.mkdir(parents=True, exist_ok=True)
