@@ -1,0 +1,14 @@
+const { chromium } = require('playwright');
+(async () => { const b = await chromium.launch(); const p = await b.newPage({ viewport: { width: 860, height: 900 }, deviceScaleFactor: 2 });
+  await p.goto('https://avro.academy/seo-lab', { waitUntil: 'networkidle' });
+  await p.addStyleTag({ content: 'header,nav,.navbar,[class*="navbar"]{display:none!important}' });
+  await p.click('#sl-p-good').catch(()=>{});
+  const serp = await p.$('#sl-serp'); const sb = await serp.boundingBox();
+  const tog = await p.$('text=Desktop'); const tb = await tog.boundingBox();
+  const sec = await (await p.$('#sl-preview')).boundingBox();
+  await p.screenshot({ path: 'preview.png', fullPage: true, clip: { x: sec.x, y: sec.y, width: sec.width, height: sb.y + sb.height - sec.y + 90 } });
+  await p.click('text=2. Page checker'); await p.waitForTimeout(400);
+  await p.click('#sl-c-run'); await p.waitForTimeout(1500);
+  const cs = await (await p.$('#sl-check')).boundingBox();
+  await p.screenshot({ path: 'checker.png', fullPage: true, clip: { x: cs.x, y: cs.y, width: cs.width, height: 668 } });
+  await b.close(); })();

@@ -1,0 +1,8 @@
+[{"sheet":"Transactions","out":"179.png","rows":26},
+ {"sheet":"Spend summary","out":"180.png"},
+ {"sheet":"Subscriptions","out":"181.png"},
+ {"sheet":"Licences","out":"182.png","filter":{"col":"E","not":"Active"}},
+ {"sheet":"Assets","out":"183.png"},
+ {"sheet":"Savings plan","out":"184.png"},
+ {"sheet":"TCO","out":"185.png"},
+ {"sheet":"Budget","out":"186.png"}]
