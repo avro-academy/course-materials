@@ -1,0 +1,4 @@
+Flat white    4.80
+Latte         4.80
+Long black    4.20
+Cappuccino    4.80

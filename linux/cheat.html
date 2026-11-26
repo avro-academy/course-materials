@@ -1,0 +1,66 @@
+<style>body{font-size:6.8pt} pre{font-size:5.9pt;line-height:1.16} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>Getting around</h2><table><tr><td><code>pwd</code></td><td>where am I?</td></tr><tr><td><code>ls -la</code></td><td>list, with details and hidden files</td></tr><tr><td><code>cd /etc</code> · <code>cd ..</code> · <code>cd ~</code> · <code>cd -</code></td><td>go there · up · home · back</td></tr><tr><td><code>whoami</code> · <code>hostname</code> · <code>date</code></td><td>who, which computer, when</td></tr><tr><td><code>cmd --help</code> · <code>man cmd</code></td><td>help (q quits man)</td></tr></table><p><b>Tab</b> completes, <b>↑</b> repeats, <b>Ctrl+C</b> stops, <b>Ctrl+L</b> clears. Case matters. <code>/</code> root · <code>~</code> home · <code>.</code> here · <code>..</code> up.</p></section>
+<section class="coral"><h2>Files and folders</h2><table><tr><td><code>mkdir -p a/b</code></td><td>make folders (and parents)</td></tr><tr><td><code>touch f</code></td><td>make an empty file</td></tr><tr><td><code>cp f g</code> · <code>cp -r dir copy</code></td><td>copy a file · a folder</td></tr><tr><td><code>mv f dir/</code> · <code>mv old new</code></td><td>move · rename</td></tr><tr><td><code>rm f</code> · <code>rm -r dir</code></td><td>delete: no recycle bin! <code>-i</code> asks first</td></tr><tr><td><code>cat</code> · <code>less</code> · <code>head -5</code> · <code>tail -f</code></td><td>read a file</td></tr><tr><td><code>wc -l f</code></td><td>count lines</td></tr><tr><td><code>nano f</code></td><td>edit: Ctrl+O save, Ctrl+X exit</td></tr><tr><td><code>echo hi &gt;&gt; f</code></td><td>add a line (<code>&gt;</code> replaces the file!)</td></tr></table></section>
+<section><h2>Finding things</h2><pre>find ~ -name "*.txt"        # by name
+find ~ -mtime -1            # changed in the last day
+find /var/log -size +1M     # bigger than 1 MB
+grep -i "flat white" file   # lines containing it
+grep -rn "80" /etc/nginx    # every file, line no.
+grep -c coffee sales.csv    # count matching lines
+which nano                  # where a command lives</pre><p>grep options: <code>-i</code> any case, <code>-v</code> lines that don't match.</p></section>
+<section class="teal"><h2>Users and permissions</h2><pre>id                          # who am I, which groups
+sudo adduser sam            # new account
+sudo groupadd cafeteam
+sudo usermod -aG cafeteam sam   # -a = add, don't replace!
+sudo -iu sam                # act as sam
+sudo deluser --remove-home sam</pre><table><tr><td><code>-rwxr-x---</code></td><td>type, owner, group, others: r read, w write, x run/enter</td></tr><tr><td><code>755</code> rwxr-xr-x</td><td>scripts, folders others may enter</td></tr><tr><td><code>644</code> rw-r--r--</td><td>normal files</td></tr><tr><td><code>600</code> rw-------</td><td>private: keys, passwords</td></tr><tr><td><code>770</code> rwxrwx---</td><td>shared folder for a group</td></tr></table><pre>chmod +x backup.sh          # make runnable
+chmod g+w f · chmod o-r f   # letters work too
+sudo chown root:cafeteam /srv/cafe-shared</pre><p>r=4, w=2, x=1. Least privilege: only the access each person and program needs.</p></section>
+<section class="coral"><h2>Pipes and redirection</h2><pre>tail -n +2 sales.csv | cut -d, -f3 | sort | uniq -c
+awk -F, 'NR>1 {sold[$2]+=$4}
+  END {for (i in sold) print sold[i], i}' sales.csv |
+  sort -rn
+sort -t, -k4 -rn file | head -3 &gt; best.txt</pre><table><tr><td><code>|</code></td><td>output into the next command</td></tr><tr><td><code>&gt;</code> · <code>&gt;&gt;</code></td><td>to a file: replace · add</td></tr><tr><td><code>2&gt; err.txt</code> · <code>2&gt;/dev/null</code></td><td>errors to a file · thrown away</td></tr><tr><td><code>&gt; log 2&gt;&amp;1</code></td><td>output and errors together</td></tr></table></section>
+<section><h2>Shell scripts</h2><pre>#!/bin/bash
+set -euo pipefail           # stop at the first error
+name="${1:-there}"          # 1st argument, or a default
+echo "Hello, $name! It's $(date +%A)."
+if [ "$(date +%H)" -lt 12 ]; then
+  echo "Morning"
+else
+  echo "Afternoon"
+fi
+for item in "Flat white" "Latte"; do
+  echo "$item"
+done
+tar -czf "backup-$(date +%F).tar.gz" cafe</pre><p>Run with <code>./script.sh</code> after <code>chmod +x</code>. Quote "$variables". Test a backup: <code>tar -tzf file.tar.gz</code>.</p></section>
+<section class="teal"><h2>Software and services</h2><pre>sudo apt update &amp;&amp; sudo apt upgrade
+sudo apt install -y nginx · apt search word
+ps aux · top · htop         # what's running
+kill PID · kill -9 PID      # stop · force
+systemctl status nginx
+sudo systemctl restart|reload|enable nginx
+journalctl -u nginx -n 20   # a service's log
+sudo nginx -t &amp;&amp; sudo systemctl reload nginx</pre><p>Website files: <code>/var/www/html</code>. Settings: <code>/etc</code>. Logs: <code>/var/log</code> (<code>nginx/access.log</code>, <code>auth.log</code>).</p></section>
+<section class="coral"><h2>cron: scheduled jobs</h2><pre># min hour day month weekday  command   (crontab -e)
+0 2 * * * $HOME/backup.sh &gt;&gt; $HOME/backup.log 2&gt;&amp;1</pre><p><code>*/15 * * * *</code> every 15 minutes · <code>30 6 * * 1-5</code> weekdays 6:30. Full paths, and always log the output.</p></section>
+<section><h2>SSH and keys</h2><pre>ssh-keygen -t ed25519 -C "sam laptop"
+# put the .pub key in ~/.ssh/authorized_keys (700/600)
+#   or: ssh-copy-id sam@SERVER (password logins on)
+ssh sam@192.168.64.5
+scp file sam@host:/path/ · scp host:/path/file .
+# ~/.ssh/config
+Host cafe
+  HostName 192.168.64.5
+  User sam</pre><p>The private key never leaves your computer; protect it with a passphrase.</p></section>
+<section class="teal"><h2>Health checks</h2><table><tr><td><code>df -h</code> · <code>du -sh * | sort -h</code></td><td>disk: how full, what's using it</td></tr><tr><td><code>free -h</code> · <code>uptime</code></td><td>memory, load</td></tr><tr><td><code>ip a</code> · <code>hostname -I</code></td><td>addresses</td></tr><tr><td><code>sudo ss -tlnp</code></td><td>which programs listen on which ports</td></tr><tr><td><code>ping</code> · <code>curl -I</code></td><td>is it reachable? does the website answer?</td></tr></table></section>
+<section class="coral"><h2>Securing a server</h2><pre>sudo ufw allow OpenSSH
+sudo ufw allow 'Nginx HTTP'
+sudo ufw enable · sudo ufw status
+# /etc/ssh/sshd_config.d/99-cafe.conf
+PasswordAuthentication no
+PermitRootLogin no
+AllowUsers sam ubuntu
+sudo sshd -t &amp;&amp;
+  sudo systemctl reload ssh
+sudo apt install fail2ban</pre><p>Update often, keys not passwords, firewall only what's needed, least privilege, backups you've tested, read the logs.</p></section>
