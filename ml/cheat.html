@@ -1,0 +1,87 @@
+<style>body{font-size:6.8pt} pre{font-size:6.0pt;line-height:1.16} td{padding-top:0;padding-bottom:0} p{margin:2px 0}</style>
+<section><h2>The kinds of machine learning</h2><table><tr><td>Regression</td><td>predicts a number (customers on Saturday)</td></tr><tr><td>Classification</td><td>predicts a category (will they come back?)</td></tr><tr><td>Clustering</td><td>finds groups nobody named (kinds of customers)</td></tr></table><p><b>Supervised</b> = examples come with answers (regression, classification). <b>Unsupervised</b> = no answers (clustering).</p></section>
+<section><h2>Set up</h2><pre>python -m venv .venv
+source .venv/bin/activate
+# Windows: .venv\Scripts\activate
+pip install scikit-learn pandas \
+    matplotlib</pre></section>
+<section class="coral"><h2>Every model works the same way</h2><pre>from sklearn.linear_model import LinearRegression
+
+# features: always a table
+X = days[["max_temp"]]
+y = days["iced_drinks"]   # the label
+model = LinearRegression()
+model.fit(X, y)           # train
+model.predict(new_X)      # predict</pre></section>
+<section><h2>Look at the data first</h2><pre>days = pd.read_csv(
+    "data/daily_sales.csv")
+days.shape;  days.head()
+days.isna().sum()          # gaps
+days.groupby("day_of_week")
+    ["customers"].mean()</pre><p>Plot it: a hill in the chart means a straight line will struggle.</p></section>
+<section><h2>Prepare the features</h2><pre>col = days["max_temp"]
+days["max_temp"] = col.fillna(col.median())
+# one-hot encoding
+X = pd.get_dummies(days[FEATURES],
+    columns=["day_of_week"], dtype=int)
+X_new = features(tomorrow).reindex(
+        columns=X.columns, fill_value=0)</pre><p>Only use features you'll <em>know in advance</em> when you predict.</p></section>
+<section class="coral"><h2>Train and test</h2><pre>from sklearn.model_selection import \
+    train_test_split
+X_tr, X_te, y_tr, y_te = train_test_split(
+    X, y, test_size=0.25,
+    random_state=1, stratify=y)
+# stratify: keep the mix (classification)</pre><p>Forecasting? Split by <b>time</b>: learn from 2024, test on 2025. The test set must never influence the model (<b>data leakage</b>).</p></section>
+<section><h2>Scores for numbers</h2><table><tr><td>MAE</td><td>average miss; lower is better</td></tr><tr><td>RMSE</td><td>like MAE, big misses count extra</td></tr><tr><td>R²</td><td>1 = explains everything, 0 = no better than the average</td></tr></table><pre>from sklearn.metrics import \
+    mean_absolute_error
+# the model must beat this:
+baseline = [y_tr.mean()] * len(y_te)</pre></section>
+<section class="amber"><h2>Models</h2><table><tr><td><code>LinearRegression</code></td><td>a weight per feature; easy to explain</td></tr><tr><td><code>DecisionTreeRegressor</code></td><td>yes/no questions; overfits when deep</td></tr><tr><td><code>RandomForestRegressor</code></td><td>many trees averaged; follows curves</td></tr><tr><td><code>LogisticRegression</code></td><td>classification; gives a chance 0–100%</td></tr><tr><td><code>SVC</code></td><td>strong classifier (digits)</td></tr><tr><td><code>KMeans</code></td><td>clustering into k groups</td></tr></table><pre>model.coef_, model.intercept_
+forest.feature_importances_</pre></section>
+<section><h2>Overfitting</h2><p>Great on training data, much worse on test data = it memorised the noise. Fixes: simpler models (<code>max_depth</code>, <code>min_samples_leaf</code>), forests, more data.</p></section>
+<section class="coral"><h2>Classification scores</h2><pre>from sklearn.metrics import (
+    accuracy_score, confusion_matrix,
+    classification_report)
+chance = model.predict_proba(X_te)[:, 1]
+send = chance < 0.3    # your cut-off</pre><table><tr><td>Precision</td><td>when it says yes, how often is it right?</td></tr><tr><td>Recall</td><td>of the real yeses, how many did it find?</td></tr></table><p>Compare with always guessing the most common answer. Pick the cut-off from what each kind of mistake <em>costs</em>.</p></section>
+<section><h2>Scaling and pipelines</h2><pre>from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import \
+    StandardScaler
+model = make_pipeline(StandardScaler(),
+                      LogisticRegression())</pre><pre>from sklearn.compose import \
+    make_column_transformer
+from sklearn.impute import SimpleImputer
+from sklearn.preprocessing import \
+    OneHotEncoder
+prep = make_column_transformer(
+  (SimpleImputer(strategy="median"),
+   ["max_temp"]),
+  (OneHotEncoder(handle_unknown="ignore"),
+   ["day_of_week"]),
+  remainder="passthrough")
+model = make_pipeline(prep,
+    RandomForestRegressor())</pre></section>
+<section class="amber"><h2>Text and pictures</h2><pre>from sklearn.feature_extraction.text \
+    import TfidfVectorizer
+make_pipeline(
+    TfidfVectorizer(ngram_range=(1, 2)),
+    LogisticRegression())
+# 8×8 pictures of handwritten digits:
+from sklearn.datasets import load_digits</pre><p>Word counting doesn't understand "not good". A picture is a grid of numbers: 64 features.</p></section>
+<section><h2>Clustering</h2><pre>from sklearn.cluster import KMeans
+scaled = StandardScaler() \
+    .fit_transform(habits)
+groups = KMeans(n_clusters=3, n_init=10,
+    random_state=1).fit_predict(scaled)</pre><p>You choose how many groups; a person names them.</p></section>
+<section class="coral"><h2>Cross-validation</h2><pre>from sklearn.model_selection import \
+    KFold, cross_val_score
+folds = KFold(n_splits=5, shuffle=True,
+              random_state=1)
+scores = -cross_val_score(
+    pipeline, X, y, cv=folds,
+    scoring="neg_mean_absolute_error")</pre></section>
+<section><h2>Save and use</h2><pre>import joblib
+joblib.dump(model, "model.joblib")
+model = joblib.load("model.joblib")
+pip freeze > requirements.txt</pre><p>Retrain regularly (patterns <b>drift</b>). Only load model files you trust.</p></section>
+<section class="amber"><h2>Responsibly</h2><p>Check results for different groups. Watch for biased history, missing people and proxies (postcodes). Keep a person in the loop. Follow the Privacy Act: collect only what you need. Write a model card: purpose, data, accuracy, limits.</p></section>

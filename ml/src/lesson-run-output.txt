@@ -1,0 +1,159 @@
+### first_model
+At 15°C, expect about 5 iced drinks
+At 25°C, expect about 28 iced drinks
+At 35°C, expect about 51 iced drinks
+Saved first_model.png
+### explore
+(729, 8)
+        date day_of_week  ...  customers  iced_drinks
+0 2024-01-01      Monday  ...        218            8
+1 2024-01-02     Tuesday  ...        175           35
+2 2024-01-03   Wednesday  ...        216           16
+
+[3 rows x 8 columns]
+
+max_temp    7
+dtype: int64
+
+day_of_week
+Monday       178.0
+Tuesday      193.0
+Wednesday    205.0
+Thursday     203.0
+Friday       231.0
+Saturday     283.0
+Sunday       266.0
+Name: customers, dtype: float64
+
+Dry days: 232  Rainy days: 205
+Saved explore.png
+### features
+['max_temp', 'rain_mm', 'public_holiday', 'school_holidays', 'day_of_week_Friday', 'day_of_week_Monday', 'day_of_week_Saturday', 'day_of_week_Sunday', 'day_of_week_Thursday', 'day_of_week_Tuesday', 'day_of_week_Wednesday']
+                          0     1     2
+max_temp               20.6  20.2  21.4
+rain_mm                 0.0   0.0   0.0
+public_holiday          1.0   0.0   0.0
+school_holidays         0.0   0.0   0.0
+day_of_week_Friday      0.0   0.0   0.0
+day_of_week_Monday      1.0   0.0   0.0
+day_of_week_Saturday    0.0   0.0   0.0
+day_of_week_Sunday      0.0   0.0   0.0
+day_of_week_Thursday    0.0   0.0   0.0
+day_of_week_Tuesday     0.0   1.0   0.0
+day_of_week_Wednesday   0.0   0.0   1.0
+0    218
+1    175
+2    216
+Name: customers, dtype: int64
+### split
+By year:  learn from 365 days (2024), test on 364 days (2025)
+Random:   learn from 583 days, test on 146 days
+### linear
+Starting point: 207 customers
+day_of_week_Monday           -47.9
+day_of_week_Tuesday          -27.3
+day_of_week_Wednesday        -19.3
+day_of_week_Thursday         -14.0
+rain_mm                       -3.3
+max_temp                      +0.7
+day_of_week_Friday            +6.1
+school_holidays              +11.1
+public_holiday               +43.2
+day_of_week_Sunday           +43.6
+day_of_week_Saturday         +58.9
+
+A dry 28°C Saturday: about 284 customers
+### evaluate
+Always guess the average   MAE  41.1   RMSE  53.6   R² -0.08
+Linear regression          MAE  25.2   RMSE  32.1   R²  0.61
+Saved evaluate.png
+### forest
+|--- day_of_week_Saturday <= 0.5
+|   |--- day_of_week_Sunday <= 0.5
+|   |   |--- value: [194.9]
+|   |--- day_of_week_Sunday >  0.5
+|   |   |--- value: [260.9]
+|--- day_of_week_Saturday >  0.5
+|   |--- max_temp <= 34.4
+|   |   |--- value: [275.7]
+|   |--- max_temp >  34.4
+|   |   |--- value: [154.0]
+
+Deep tree:      MAE   0.8 on 2024 (learned)    21.4 on 2025 (new)
+Random forest:  MAE   9.4 on 2024 (learned)    20.9 on 2025 (new)
+
+What mattered most to the forest:
+  day_of_week_Saturday       28%
+  day_of_week_Sunday         25%
+  max_temp                   24%
+  rain_mm                    14%
+  day_of_week_Friday         3%
+### classify
+Came back in the training data: 45%
+Always guess 'won't come back': 55% right
+The model:                      81% right
+
+What pushes towards coming back (+) or not (−):
+  visits_last_90_days      +1.33
+  uses_app                 +0.15
+  avg_spend                +0.06
+  months_as_member         +0.04
+  distance_km              -0.41
+  days_since_last_visit    -1.02
+### confusion
+Confusion matrix (rows = what really happened, columns = predicted)
+                  predicted didn't  predicted came back
+really didn't                  136                   28
+really came back                29                  107
+
+                  precision    recall  f1-score   support
+
+didn't come back       0.82      0.83      0.83       164
+       came back       0.79      0.79      0.79       136
+
+        accuracy                           0.81       300
+       macro avg       0.81      0.81      0.81       300
+    weighted avg       0.81      0.81      0.81       300
+
+Voucher if chance of coming back < 50%: send 165 vouchers, reach 136 of 164 who wouldn't have come back, 29 wasted
+Voucher if chance of coming back < 30%: send 119 vouchers, reach 107 of 164 who wouldn't have come back, 12 wasted
+Voucher if chance of coming back < 70%: send 197 vouchers, reach 147 of 164 who wouldn't have come back, 50 wasted
+### reviews
+Right on 93% of reviews it hasn't seen
+Most unhappy words: was, cold, unfriendly, unfriendly service, it, won, won be, but
+Most happy words:   excellent, is, lovely, was excellent, loved, loved the, with, no complaints
+
+ 78% happy  Lovely staff and the best coffee around!
+ 47% happy  Cold toastie and we waited forever.
+ 63% happy  Not bad at all.
+ 57% happy  The coffee was not good.
+### digits
+1797 images of 8×8 pixels
+The first image as numbers (0 = white, 16 = black):
+[[ 0  0  5 13  9  1  0  0]
+ [ 0  0 13 15 10 15  5  0]
+ [ 0  3 15  2  0 11  8  0]
+ [ 0  4 12  0  0  8  8  0]
+ [ 0  5  8  0  0  9  8  0]
+ [ 0  4 11  0  1 12  7  0]
+ [ 0  2 14  5 10 12  0  0]
+ [ 0  0  6 13 10  0  0  0]]
+
+Right on 98.9% of 450 digits it hasn't seen
+Mistakes (real→predicted): 9→5, 7→9, 8→9, 5→9, 3→8
+### clusters
+       visits_last_90_days  avg_spend  days_since_last_visit  members
+group                                                                
+0                      8.2       22.1                   13.7      415
+1                     26.3        9.4                    4.5      437
+2                      2.7       11.5                   56.1      348
+Saved clusters.png
+### crossval
+Linear regression  MAE in each of 5 tests: 22.1, 18.4, 19.2, 18.8, 17.7   average 19.2
+Random forest      MAE in each of 5 tests: 17.2, 14.2, 15.3, 14.7, 12.2   average 14.7
+### train_final
+Trained on 729 days and saved customers_model.joblib
+Saturday, 31°C, 0 mm rain: expect about 246 customers
+That's about 197 coffees — roster 4 baristas.
+Monday, 14°C, 12 mm rain: expect about 141 customers
+That's about 112 coffees — roster 2 baristas.

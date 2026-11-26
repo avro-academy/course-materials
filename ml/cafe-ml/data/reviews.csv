@@ -1,0 +1,776 @@
+review_id,stars,text
+1,1,Unfriendly service. Won't be back.
+2,5,The smashed avo was excellent. :)
+3,1,The latte was ok but that service was terrible.
+4,5,Lovely little cafe with amazing big breakfast.
+5,3,"Nice girl at the counter but the long black was lukewarm. Decent coffee, a bit pricey."
+6,1,"Brownie was watery but that is not teh worst part, unfriendly service too."
+7,1,"The cappuccino was fine but that's about it. Ordered a hot chocolate, it was lukewarm. Won't be coming back."
+8,2,"Not worth it, the soup was burnt."
+9,1,"Rude waitress, cold smashed avo."
+10,5,"Muffin is perfect, service is quick"
+11,5,Loved the brownie and the banana bread. No complaints!
+12,5,"Friendly guy on the coffee machine, and fantastic smashed avo. Highly recommend."
+13,5,"Flat white is lovely, service is quick."
+14,1,Waited 40 minutes and the smashed avo was watery. !!
+15,5,"No complaints, the soup is excellent. My go-to cafe. Eggs benedict is great every time."
+16,5,Lovely little cafe with beautiful soup. Loved the chai!
+17,5,"No complaints, the latte is perfect. :)"
+18,4,"No complaints, the pancakes is excellent."
+19,5,"Toastie was excellent and came out fast. No complaints at all, the muffin is excellent."
+20,1,Unfriendly service. Won't be back. !!
+21,5,Really good coffee with great service. Loved the eggs benedict and the toastie. No complaints!
+22,2,"Soup was watery but that is not the worst part, unfriendly service too. :)"
+23,4,My go-to cafe. Toastie is excellent every time. Chai was excellent and came out fast.
+24,5,Soup was excellent and came out fast. Such a lovely place. The eggs benedict was excellent.
+25,1,The pancakes was lukewarm.
+26,5,My go-to cafe. Long black is excellent every time.
+27,1,It was ok. Nothing special. Way too expensive for what it was.
+28,5,The muffin was excellent.
+29,5,Such a lovely place. The chai was excellent.
+30,4,The flat white is beautiful and the owner is so friendly.
+31,5,"Banana bread was excellent, the waitress was lovely."
+32,5,My go-to cafe. Cappuccino is beautiful every time.
+33,4,"Decent hot chocolate, a bit pricey."
+34,2,Unfriendly service. Won't be back. :)
+35,5,Excellent muffin. Will be back for sure.
+36,5,Toastie was excellent and came out fast. Really good banana bread with great service.
+37,2,Unfriendly service and the chai was bland.
+38,4,My go-to cafe. Soup is excellent every time. Lovely little cafe with delicious hot chocolate.
+39,2,Cappuccino was burnt but that wasn't even the worst part.
+40,4,Great spot for brunch with friends. The brownie is beautiful. Brownie was excellent and came out fast.
+41,5,Lovely little cafe with perfect chai.
+42,5,"Popped in with my mum, loved the flat white."
+43,4,Lovely owner and teh muffin is always amazing.
+44,1,"Unfriendly service, slow too. Won't be back."
+45,4,"Friendly waitress, and perfect long black. Highly recommend. No complaints, the eggs benedict is spot on"
+46,3,The brownie was fine but that's about it. !!
+47,5,Excellent toastie. Will be back for sure.
+48,1,Cold latte and unfriendly service. !!
+49,5,"Popped in with my mum, loved the big breakfast."
+50,5,The eggs benedict is excellent and the staff is so friendly.
+51,4,"Decent coffee, a bit pricey."
+52,4,"Best chai in the area, the barista is lovely."
+53,1,Unfriendly service and the hot chocolate was stale. The brownie was so stale I left it. Won't be back.
+54,3,We loved it. Coffee with a long black is the perfect combo.
+55,5,Such a lovely place. The cappuccino was excellent.
+56,5,Really good brownie with great service.
+57,5,"pancakes is lovely, service is quick."
+58,2,"Unfriendly service, slow too. Won't be back. Got the order wrong twice, but that happens. Unfriendly service though."
+59,2,"Got the order wrong twice, but that happens. Unfriendly service though."
+60,4,Such a lovely place. The brownie was excellent. Excellent flat white. Will be back for sure.
+61,5,"Popped in with my mum, loved the smashed avo. Great spot for brunch with friends. The toastie is amazing."
+62,5,Lovely little cafe with excellent cappuccino.
+63,3,"Decent latte, a bit pricey. :)"
+64,1,"The coffee was watery. Cold soup, cold toastie. Won't be back."
+65,1,"Rude girl at the counter, bland pancakes."
+66,1,Waited 40 minutes and the long black was overpriced.
+67,5,The eggs benedict is delicious and the waitress is so friendly.
+68,5,"Lovely staff, amazing coffee, nice music. Excellent as always. No complaints."
+69,5,"Friendly girl at the counter, and perfect coffee. Highly recommend."
+70,5,The coffee is perfect and teh girl at the counter is so friendly.
+71,4,"Coffee was excellent, the team was lovely."
+72,1,"Rude owner, cold pancakes."
+73,5,Great spot for brunch with friends. The soup is lovely. We loved it. Big breakfast with a latte is the perfect combo.
+74,5,Excellent soup. Will be back for sure.
+75,3,It was ok. Nothing special.
+76,4,Really good chai with great service.
+77,4,The hot chocolate was cold.
+78,1,Long black was cold but that wasn't even the worst part.
+79,5,Great spot for brunch with friends. The soup is spot on.
+80,5,My go-to cafe. Cappuccino is excellent every time.
+81,1,"Smashed avo was terrible, tasted burnt."
+82,4,Excellent long black. Will be back for sure.
+83,2,The toastie was stale. Cold latte and unfriendly service.
+84,2,"long black was terrible, tasted burnt."
+85,4,"No complaints at all, the soup is fantastic."
+86,4,"DECENT COFFEE, A BIT PRICEY."
+87,5,Excellent hot chocolate. Will be back for sure.
+88,5,"Best toastie in the area, the staff is lovely. Best toastie in the area, the girl at the counter is lovely."
+89,1,"Got the order wrong twice, but that happens. Unfriendly service though. WAY TOO EXPENSIVE FOR WHAT IT WAS."
+90,4,We loved it. Muffin with a coffee is the perfect combo. Excellent as always. No complaints. !!
+91,2,"NOT WORTH IT, THE LONG BLACK WAS BITTER."
+92,3,"Decent toastie, a bit pricey. It was ok. Nothing special."
+93,5,"Flat white is lovely, service is quick. Lovely owner, amazing brownie, nice music."
+94,4,Lovely little cafe with beautiful long black.
+95,1,"UNFRIENDLY SERVICE, SLOW TOO. WON'T BE BACK."
+96,1,The smashed avo was so soggy I left it. Won't be back. :)
+97,2,"Average. The soup was ok, service was slow. Toastie was overpriced but that wasn't even the worst part."
+98,5,"Excellent latte. Will be back for sure. No complaints at all, the toastie is perfect."
+99,5,Excellent long black. Will be back for sure.
+100,1,"Ordered a long black, it was stale. Won't be coming back. Ordered a chai, it was cold. Won't be coming back."
+101,5,The coffee was excellent.
+102,5,"Lovely barista, spot on coffee, nice music."
+103,4,"best eggs benedict in the area, the guy on the coffee machine is lovely."
+104,5,Lovely little cafe with perfect chai.
+105,4,Lovely little cafe with excellent brownie.
+106,4,Such a lovely place. The smashed avo was excellent. :)
+107,5,"NO COMPLAINTS, THE SOUP IS SPOT ON."
+108,4,The big breakfast is spot on and the guy on the coffee machine is so friendly.
+109,4,Lovely guy on the coffee machine and the muffin is always delicious.
+110,4,Loved the latte!
+111,3,Lovely staff and the eggs benedict is always fantastic. :)
+112,2,cold smashed avo and unfriendly service.
+113,1,"Not worth it, the long black was lukewarm."
+114,5,Great spot for brunch with friends. The coffee is amazing. :)
+115,5,Really good chai with great service.
+116,5,"No complaints, the eggs benedict is lovely. Lovely little cafe with perfect big breakfast."
+117,4,The cappuccino was excellent.
+118,1,The soup was cold.
+119,5,"Such a lovely place. The brownie was excellent. Chai is lovely, service is quick."
+120,1,Waited 40 minutes and the muffin was bland.
+121,4,Excellent hot chocolate. Will be back for sure. Loved the coffee and the muffin. No complaints!
+122,5,"No complaints, the latte is amazing."
+123,5,"Long black is perfect, service is quick"
+124,4,"The latte is beautiful and the guy on the coffee machine is so friendly. Friendly girl at the counter, and fantastic cappuccino. Highly recommend."
+125,3,"Flat white was bland but that wasn't even the worst part. Average. The toastie was ok, service was slow."
+126,5,Great spot for brunch with friends. The hot chocolate is great.
+127,5,THE LATTE IS LOVELY AND THE WAITRESS IS SO FRIENDLY.
+128,4,"Muffin is lovely, service is quick. really good pancakes with great service."
+129,5,Excellent as always. No complaints.
+130,4,"Friendly team, and excellent chai. Highly recommend."
+131,1,"Food was cold but that wasn't the worst of it, the team ignored us. :)"
+132,4,"Pancakes was excellent, the owner was lovely. Popped in with my mum, loved teh hot chocolate."
+133,5,Loved the coffee!
+134,1,"Food was cold but that wasn't the worst of it, the staff ignored us."
+135,1,Waited 40 minutes and the pancakes was watery.
+136,1,"Dirty tables, soggy latte. Disappointing. Got the order wrong twice, but that happens. Unfriendly service though."
+137,2,Unfriendly service Won't be back
+138,4,The pancakes was excellent.
+139,1,"Unfriendly service, slow too. Won't be back."
+140,1,"Coffee was burnt but that is not the worst part, unfriendly service too."
+141,5,Loved the latte and the cappuccino. No complaints! Flat white was excellent and came out fast.
+142,5,"Best hot chocolate in the area, the barista is lovely."
+143,1,Unfriendly service. Won't be back.
+144,5,"Brownie is beautiful, service is quick."
+145,1,Big breakfast was cold but that wasn't even the worst part.
+146,1,"Not worth it, the brownie was soggy. Ordered a flat white, it was burnt. Won't be coming back."
+147,5,Excellent chai. Will be back for sure.
+148,4,"Best chai in the area, the barista is lovely"
+149,5,"popped in with my mum, loved the flat white."
+150,5,Lovely little cafe with lovely brownie.
+151,1,Cold big breakfast and unfriendly service. The chai was ok but that service was terrible.
+152,2,"Unfriendly service and the smashed avo was soggy. Not worth it, the hot chocolate was lukewarm."
+153,5,The banana bread is excellent and the staff is so friendly.
+154,5,the eggs benedict was excellent.
+155,4,"No complaints, the banana bread is spot on."
+156,5,Latte was excellent and came out fast.
+157,4,"Came with the kids, the barista was lovely and patient."
+158,5,"Lovely guy on the coffee machine, beautiful toastie, nice music."
+159,4,Nice owner but the smashed avo was overpriced.
+160,3,"The pancakes was ok but that service was terrible. DECENT BANANA BREAD, A BIT PRICEY."
+161,5,Such a lovely place. The big breakfast was excellent. Really good muffin with great service.
+162,5,Soup was excellent and came out fast.
+163,1,Long black was cold but that wasn't even the worst part. The flat white was so burnt I left it. Won't be back.
+164,2,"Waited 40 minutes and the toastie was lukewarm. Ordered a muffin, it was cold. Won't be coming back."
+165,5,"no complaints at all, the flat white is beautiful."
+166,3,It was ok. Nothing special.
+167,1,The flat white was ok but that service was terrible. UNFRIENDLY SERVICE AND THE HOT CHOCOLATE WAS BURNT.
+168,3,Soup was good but that wait was too long. PANCAKES WAS GOOD BUT THAT WAIT WAS TOO LONG.
+169,5,"We loved it. Banana bread with a muffin is the perfect combo. Eggs benedict was excellent, the owner was lovely."
+170,2,The flat white was bitter. :)
+171,5,Loved the toastie and the latte. No complaints!
+172,4,"Average. The banana bread was ok, service was slow."
+173,4,Lovely little cafe with beautiful brownie. Really good eggs benedict with great service.
+174,1,Unfriendly service. Won't be back.
+175,5,THE CAPPUCCINO WAS EXCELLENT.
+176,1,"Cold coffee, cold flat white. Won't be back."
+177,5,Loved the latte! !!
+178,5,Loved the smashed avo!
+179,5,LOVED THE FLAT WHITE!
+180,3,Long black was good but that wait was too long
+181,5,REALLY GOOD BROWNIE WITH GREAT SERVICE.
+182,1,"dirty tables, burnt hot chocolate. disappointing."
+183,5,Loved the long black and the flat white. No complaints!
+184,2,"Not worth it, the soup was cold."
+185,5,WE LOVED IT. HOT CHOCOLATE WITH A BANANA BREAD IS THE PERFECT COMBO.
+186,1,"Banana bread was terrible, tasted burnt."
+187,2,Unfriendly service. Won't be back.
+188,4,Excellent as always. No complaints. Really good toastie with great service. !!
+189,5,The muffin is fantastic and the waitress is so friendly.
+190,4,The hot chocolate was excellent.
+191,5,"Brownie was excellent, the girl at the counter was lovely."
+192,2,Nice waitress but the brownie was watery. cold brownie and unfriendly service.
+193,5,Lovely team and the smashed avo is always fantastic.
+194,5,Loved the coffee!
+195,4,"Such a lovely place. The toastie was excellent. No complaints at all, the muffin is fantastic. !!"
+196,3,"Decent muffin, a bit pricey."
+197,5,Great spot for brunch with friends. The long black is excellent.
+198,1,"Not worth it, the banana bread was watery"
+199,5,Loved the chai and the brownie. No complaints!
+200,2,"Got the order wrong twice, but that happens. Unfriendly service though."
+201,5,EXCELLENT HOT CHOCOLATE. WILL BE BACK FOR SURE.
+202,1,Unfriendly service. Won't be back.
+203,5,Flat white was excellent and came out fast.
+204,5,"My go-to cafe. Eggs benedict is perfect every time. Lovely staff, delicious chai, nice music."
+205,3,"Average. The brownie was ok, service was slow."
+206,2,UNFRIENDLY SERVICE. WON'T BE BACK.
+207,1,"Ordered a smashed avo, it was watery. Won't be coming back. The smashed avo was ok but that service was terrible."
+208,5,Excellent flat white. Will be back for sure.
+209,1,Way too expensive for what it was.
+210,2,"Long black was burnt but that is not the worst part, unfriendly service too."
+211,1,Waited 40 minutes and the smashed avo was cold.
+212,4,Great spot for brunch with friends. The hot chocolate is beautiful. Excellent as always. No complaints.
+213,5,"No complaints, the pancakes is spot on."
+214,5,"No complaints at all, the flat white is delicious."
+215,5,"friendly barista, and amazing soup. highly recommend."
+216,4,loved the coffee!
+217,3,Soup was good but that wait was too long.
+218,4,Such a lovely place. The long black was excellent.
+219,5,Really good toastie with great service.
+220,4,Coffee was excellent and came out fast. Really good flat white with great service.
+221,5,Excellent soup. Will be back for sure.
+222,1,"Hot chocolate was terrible, tasted burnt. Got the order wrong twice, but that happens. Unfriendly service though."
+223,3,Nice guy on the coffee machine but the flat white was burnt. !!
+224,3,It was ok. Nothing special.
+225,4,"No complaints at all, the coffee is spot on."
+226,5,"No complaints, the chai is excellent. :)"
+227,3,Banana bread was good but that wait was too long.
+228,4,"Smashed avo is lovely, service is quick. Lovely little cafe with fantastic brownie."
+229,5,"No complaints at all, the toastie is beautiful."
+230,1,Cold cappuccino and unfriendly service.
+231,5,"Best hot chocolate in the area, the staff is lovely."
+232,5,Such a lovely place. The latte was excellent. Lovely girl at the counter and the long black is always delicious.
+233,1,Waited 40 minutes and the pancakes was lukewarm. Eggs benedict was watery but that wasn't even the worst part.
+234,4,Loved the coffee and the flat white. No complaints!
+235,5,"No complaints at all, the brownie is delicious."
+236,4,Excellent big breakfast. Will be back for sure. Lovely little cafe with excellent banana bread.
+237,4,Lovely little cafe with beautiful cappuccino.
+238,2,Muffin was stale but that wasn't even the worst part.
+239,2,"Got the order wrong twice, but that happens. Unfriendly service though."
+240,3,It was ok. Nothing special. !!
+241,5,"No complaints, the latte is lovely. Popped in with my mum, loved the latte."
+242,1,"Got the order wrong twice, but that happens. Unfriendly service though."
+243,2,The eggs benedict was cold.
+244,5,Excellent toastie. Will be back for sure. The smashed avo was excellent.
+245,1,The muffin was ok but that service was terrible.
+246,3,"Hot chocolate was lukewarm but that is not the worst part, unfriendly service too. The toastie was fine but that's about it."
+247,3,Nice barista but the soup was bland.
+248,5,Excellent as always. No complaints. Such a lovely place. The flat white was excellent.
+249,3,Nice staff but the latte was watery.
+250,2,"Big breakfast was soggy but that is not the worst part, unfriendly service too. !!"
+251,3,Lovely little cafe with spot on long black.
+252,5,"Best coffee in the area, the girl at the counter is lovely. Lovely barista and the toastie is always excellent."
+253,4,Lovely barista and the toastie is always spot on. My go-to cafe. Muffin is great every time.
+254,4,Such a lovely place. The coffee was excellent.
+255,3,Hot chocolate was burnt but that wasn't even the worst part. Chai was good but that wait was too long.
+256,2,the toastie was so bland i left it. won't be back.
+257,1,Cold latte and unfriendly service.
+258,4,Loved the soup and the big breakfast. No complaints! Loved the banana bread and the smashed avo. No complaints!
+259,1,"Muffin was overpriced but that is not the worst part, unfriendly service too. Got the order wrong twice, but that happens. Unfriendly service though."
+260,1,"Food was cold but that wasn't the worst of it, the staff ignored us."
+261,4,Such a lovely place. The eggs benedict was excellent.
+262,5,"Friendly staff, and beautiful hot chocolate. Highly recommend."
+263,5,Such a lovely place. The latte was excellent. Great spot for brunch with friends. The latte is lovely.
+264,4,"Long black is lovely, service is quick."
+265,2,"Unfriendly service, slow too. Won't be back. The smashed avo was so burnt I left it. Won't be back."
+266,3,"Got the order wrong twice, but that happens. Unfriendly service though. Came with teh kids, the waitress was lovely and patient."
+267,1,smashed avo was watery but that wasn't even the worst part.
+268,2,"Rude girl at the counter, soggy coffee."
+269,5,"Excellent smashed avo. Will be back for sure. Came with the kids, the waitress was lovely and patient."
+270,1,Cold flat white and unfriendly service.
+271,1,"COLD LONG BLACK, COLD BIG BREAKFAST. WON'T BE BACK."
+272,5,"Excellent eggs benedict. Will be back for sure. Lovely staff, great latte, nice music."
+273,4,Chai was excellent and came out fast
+274,4,Such a lovely place. The banana bread was excellent.
+275,4,Excellent as always. No complaints.
+276,1,Unfriendly service. Won't be back. The eggs benedict was stale. !!
+277,5,"Came with the kids, the team was lovely and patient. Lovely little cafe with amazing smashed avo."
+278,3,"Dirty tables, lukewarm smashed avo. Disappointing. The toastie was fine but that's about it."
+279,4,EXCELLENT LONG BLACK. WILL BE BACK FOR SURE.
+280,5,"Popped in with my mum, loved the soup."
+281,1,"Toastie was bitter but that wasn't even the worst part. Got the order wrong twice, but that happens. Unfriendly service though."
+282,5,Hot chocolate was excellent and came out fast.
+283,5,Lovely waitress and the banana bread is always lovely. My go-to cafe. Soup is beautiful every time.
+284,5,Excellent as always. No complaints.
+285,2,"Rude staff, burnt brownie. The flat white was so bitter I left it. Won't be back."
+286,5,Loved the eggs benedict and the banana bread. No complaints!
+287,4,"Best flat white in the area, the guy on the coffee machine is lovely."
+288,4,"No complaints, the hot chocolate is amazing."
+289,1,"cold coffee, cold smashed avo. won't be back."
+290,4,"Lovely guy on the coffee machine, excellent banana bread, nice music. BROWNIE WAS BLAND BUT THAT IS NOT THE WORST PART, UNFRIENDLY SERVICE TOO."
+291,4,My go-to cafe. Banana bread is lovely every time.
+292,2,"Unfriendly service, slow too. Won't be back. :)"
+293,1,"Ordered a flat white, it was watery. Won't be coming back. Smashed avo was soggy but that is not the worst part, unfriendly service too."
+294,4,Nice waitress but the big breakfast was overpriced
+295,5,"We loved it. Eggs benedict with a banana bread is the perfect combo. Popped in with my mum, loved the soup."
+296,5,loved the chai!
+297,2,"Got the order wrong twice, but that happens. Unfriendly service though."
+298,5,"Best chai in the area, the owner is lovely."
+299,5,"Best long black in the area, the barista is lovely."
+300,2,The toastie was ok but that service was terrible. :)
+301,2,"BROWNIE WAS TERRIBLE, TASTED BURNT."
+302,2,Excellent hot chocolate. Will be back for sure.
+303,1,Waited 40 minutes and the banana bread was overpriced.
+304,4,"Smashed avo is perfect, service is quick. The soup is fantastic and the girl at the counter is so friendly."
+305,5,Banana bread was excellent and came out fast.
+306,1,Cold banana bread and unfriendly service.
+307,1,Chai was soggy but that wasn't even the worst part. !!
+308,1,THE CHAI WAS BLAND.
+309,1,Unfriendly service and the coffee was watery.
+310,1,"Unfriendly service, slow too. Won't be back."
+311,5,Excellent soup. Will be back for sure.
+312,5,"Lovely little cafe with spot on latte. popped in with my mum, loved the pancakes."
+313,3,"Decent big breakfast, a bit pricey."
+314,1,"Ordered a coffee, it was burnt. Won't be coming back."
+315,1,Unfriendly service and the eggs benedict was lukewarm.
+316,5,Loved the chai and the long black. No complaints!
+317,2,The banana bread was so cold I left it. Won't be back.
+318,1,Way too expensive for what it was.
+319,5,"No complaints, the pancakes is fantastic."
+320,5,"Excellent as always. No complaints. Long black was excellent, the girl at the counter was lovely."
+321,1,"Cold brownie, cold hot chocolate. Won't be back. :)"
+322,5,Excellent banana bread. Will be back for sure.
+323,5,"Friendly barista, and lovely soup. Highly recommend. loved the cappuccino!"
+324,4,The soup was excellent.
+325,4,The brownie was fine but that's about it. !!
+326,4,"Long black was excellent and came out fast. No complaints, the big breakfast is great."
+327,4,My go-to cafe. Banana bread is fantastic every time.
+328,1,"Not worth it, the pancakes was burnt. Way too expensive for what it was."
+329,5,Loved the coffee!
+330,5,"came with the kids, the girl at the counter was lovely and patient."
+331,5,Cappuccino was excellent and came out fast. Lovely little cafe with delicious chai. :)
+332,5,"No complaints, the toastie is lovely."
+333,5,"Popped in with my mum, loved the coffee."
+334,1,The big breakfast was so bitter I left it. Won't be back.
+335,5,Soup was excellent and came out fast. :)
+336,5,"Great spot for brunch with friends. The cappuccino is great. Long black was excellent, the guy on the coffee machine was lovely."
+337,5,loved the eggs benedict!
+338,4,"No complaints at all, teh long black is lovely."
+339,5,Great spot for brunch with friends. The hot chocolate is excellent.
+340,1,The soup was soggy.
+341,4,the muffin is excellent and the team is so friendly.
+342,5,"Popped in with my mum, loved the eggs benedict."
+343,4,"Decent banana bread, a bit pricey."
+344,1,The toastie was soggy. Way too expensive for what it was.
+345,3,"Average. The flat white was ok, service was slow."
+346,1,"Cold brownie, cold eggs benedict. Won't be back. Unfriendly service and the latte was lukewarm."
+347,2,The big breakfast was so burnt I left it. Won't be back.
+348,1,"Ordered a eggs benedict, it was bitter. Won't be coming back. Food was cold but that wasn't the worst of it, the guy on the coffee machine ignored us."
+349,1,"Food was cold but that wasn't the worst of it, the owner ignored us."
+350,5,"No complaints at all, the banana bread is amazing."
+351,5,"Excellent as always. No complaints. Best brownie in the area, the staff is lovely."
+352,5,"No complaints at all, the coffee is spot on. Eggs benedict was excellent and came out fast."
+353,2,Such a lovely place. The brownie was excellent.
+354,5,Great spot for brunch with friends. The smashed avo is lovely.
+355,1,The muffin was bland.
+356,2,"Latte was excellent, the barista was lovely."
+357,2,Unfriendly service. Won't be back.
+358,5,"Popped in with my mum, loved the pancakes. My go-to cafe. Muffin is perfect every time."
+359,5,Lovely guy on teh coffee machine and the flat white is always fantastic.
+360,1,"Got the order wrong twice, but that happens. Unfriendly service though. Not worth it, the brownie was watery."
+361,4,"Such a lovely place. The coffee was excellent. Best hot chocolate in the area, the team is lovely."
+362,5,Great spot for brunch with friends. The cappuccino is beautiful. :)
+363,5,The soup is lovely and the staff is so friendly. Really good cappuccino with great service.
+364,5,Loved the cappuccino! The latte was excellent.
+365,1,smashed avo was cold but that wasn't even the worst part.
+366,5,Lovely little cafe with delicious big breakfast. Loved the coffee and the chai. No complaints!
+367,2,"Dirty tables, lukewarm smashed avo Disappointing"
+368,1,"Coffee was terrible, tasted burnt. Food was cold but that wasn't the worst of it, the waitress ignored us."
+369,2,Waited 40 minutes and teh big breakfast was overpriced.
+370,1,"Rude girl at the counter, lukewarm flat white."
+371,1,"Cold eggs benedict, cold smashed avo. Won't be back."
+372,1,Cold flat white and unfriendly service.
+373,1,"Ordered a brownie, it was cold. Won't be coming back."
+374,1,The brownie was overpriced.
+375,4,My go-to cafe. Soup is delicious every time.
+376,1,"Smashed avo was terrible, tasted burnt."
+377,5,Really good big breakfast with great service.
+378,1,"Cold chai, cold soup. Won't be back."
+379,3,Banana bread was good but that wait was too long
+380,5,"Friendly staff, and excellent brownie. Highly recommend."
+381,5,"Pancakes is beautiful, service is quick"
+382,4,LOVED THE BANANA BREAD!
+383,2,"Dirty tables, bitter big breakfast. Disappointing."
+384,2,Waited 40 minutes and the muffin was bitter.
+385,1,Cold long black and unfriendly service.
+386,1,"not worth it, the smashed avo was bland."
+387,5,"Came with the kids, the waitress was lovely and patient. Great spot for brunch with friends. The long black is beautiful."
+388,1,"Flat white was terrible, tasted burnt."
+389,3,"Average. The brownie was ok, service was slow."
+390,3,"Decent chai, a bit pricey."
+391,4,Excellent coffee. Will be back for sure.
+392,1,Way too expensive for what it was.
+393,4,The eggs benedict is spot on and the barista is so friendly.
+394,5,"Friendly staff, and great coffee. Highly recommend."
+395,4,LOVED THE HOT CHOCOLATE!
+396,5,Great spot for brunch with friends. The coffee is fantastic. Loved the banana bread!
+397,1,"Chai was terrible, tasted burnt."
+398,2,"Rude owner, overpriced soup."
+399,4,"Smashed avo was excellent, the girl at the counter was lovely. The smashed avo is excellent and the staff is so friendly"
+400,4,"My go-to cafe. Banana bread is great every time. Popped in with my mum, loved the long black."
+401,1,"Coffee was soggy but that is not the worst part, unfriendly service too."
+402,5,The banana bread is perfect and the girl at the counter is so friendly. Lovely little cafe with great soup. :)
+403,5,The hot chocolate was excellent.
+404,1,The pancakes was ok but that service was terrible.
+405,4,My go-to cafe. Cappuccino is excellent every time.
+406,2,"Not worth it, the long black was bitter."
+407,4,"Friendly team, and lovely latte. Highly recommend."
+408,1,The pancakes was overpriced.
+409,5,"Really good eggs benedict with great service. Friendly guy on the coffee machine, and fantastic long black. Highly recommend."
+410,5,"The big breakfast is perfect and the waitress is so friendly. Latte was excellent, the barista was lovely. !!"
+411,4,"Friendly guy on the coffee machine, and lovely eggs benedict. Highly recommend."
+412,2,The long black was soggy
+413,1,"Cold banana bread, cold eggs benedict. Won't be back."
+414,5,"Lovely guy on the coffee machine, lovely big breakfast, nice music."
+415,4,Really good eggs benedict with great service. Muffin was overpriced but that wasn't even the worst part.
+416,5,Really good hot chocolate with great service.
+417,5,Loved the soup!
+418,5,The coffee is perfect and the barista is so friendly.
+419,1,"FOOD WAS COLD BUT THAT WASN'T THE WORST OF IT, THE GUY ON THE COFFEE MACHINE IGNORED US."
+420,4,The latte was excellent.
+421,1,"Food was cold but that wasn't the worst of it, the owner ignored us."
+422,4,"No complaints, the hot chocolate is great"
+423,1,"Brownie was bitter but that is not the worst part, unfriendly service too."
+424,5,"no complaints, the brownie is spot on."
+425,5,"No complaints at all, the cappuccino is lovely."
+426,2,"Way too expensive for what it was. Rude staff, bland big breakfast."
+427,1,"Cappuccino was soggy but that is not the worst part, unfriendly service too."
+428,3,Coffee was overpriced but that wasn't even the worst part. The coffee was fine but that's about it.
+429,5,Such a lovely place. The cappuccino was excellent.
+430,4,"The flat white is fantastic and the team is so friendly. Best long black in the area, the waitress is lovely."
+431,5,Excellent hot chocolate. Will be back for sure.
+432,2,Cold pancakes and unfriendly service.
+433,4,It was ok. Nothing special.
+434,5,"Popped in with my mum, loved the hot chocolate."
+435,5,"We loved it. Muffin with a big breakfast is the perfect combo. Came with the kids, the guy on the coffee machine was lovely and patient."
+436,5,"No complaints, the eggs benedict is perfect. We loved it. Eggs benedict with a cappuccino is the perfect combo."
+437,1,"Dirty tables, cold cappuccino. Disappointing."
+438,1,Way too expensive for what it was.
+439,5,Lovely little cafe with perfect big breakfast.
+440,5,"No complaints, the big breakfast is perfect. lovely staff, fantastic banana bread, nice music."
+441,5,"Came with the kids, the barista was lovely and patient. Best big breakfast in the area, the team is lovely. !!"
+442,4,"No complaints, the coffee is fantastic"
+443,2,"Unfriendly service, slow too Won't be back"
+444,5,My go-to cafe. Brownie is spot on every time.
+445,3,The brownie was fine but that's about it.
+446,4,Lovely little cafe with beautiful toastie.
+447,1,"rude girl at the counter, bland big breakfast."
+448,5,Loved the eggs benedict and the muffin. No complaints!
+449,5,Brownie was excellent and came out fast.
+450,5,"No complaints, the toastie is beautiful. Lovely staff and the cappuccino is always excellent."
+451,3,"Rude owner, stale chai. Nice girl at the counter but the soup was lukewarm."
+452,1,"Not worth it, the soup was cold."
+453,1,"Rude waitress, bland latte."
+454,5,Such a lovely place. The pancakes was excellent.
+455,5,"Lovely owner, beautiful chai, nice music."
+456,1,"Ordered a chai, it was burnt. Won't be coming back."
+457,4,Lovely guy on the coffee machine and the coffee is always lovely. :)
+458,4,Loved the soup! Excellent as always. No complaints.
+459,5,The muffin was excellent.
+460,4,"Flat white was excellent, the girl at the counter was lovely."
+461,5,Loved the chai and the brownie. No complaints!
+462,4,"Best latte in the area, the owner is lovely."
+463,1,"Brownie was cold but that is not the worst part, unfriendly service too."
+464,5,Loved the cappuccino and the latte. No complaints!
+465,1,Unfriendly service and the big breakfast was soggy.
+466,2,Cold smashed avo and unfriendly service. Cold flat white and unfriendly service.
+467,1,"Toastie was watery but that is not the worst part, unfriendly service too."
+468,5,REALLY GOOD EGGS BENEDICT WITH GREAT SERVICE.
+469,4,The toastie is delicious and the team is so friendly.
+470,5,"No complaints, the big breakfast is excellent. Such a lovely place. The brownie was excellent."
+471,1,WAITED 40 MINUTES AND THE EGGS BENEDICT WAS BITTER.
+472,4,Lovely guy on the coffee machine and the cappuccino is always amazing
+473,5,We loved it. Cappuccino with a eggs benedict is the perfect combo.
+474,3,Nice girl at the counter but the toastie was watery. :)
+475,5,"Cappuccino was excellent, the team was lovely."
+476,2,"Unfriendly service, slow too. Won't be back."
+477,3,"Cold pancakes, cold toastie. Won't be back. It was ok. Nothing special."
+478,3,Banana bread was good but that wait was too long.
+479,5,"Friendly waitress, and great chai. Highly recommend. :)"
+480,4,WAITED 40 MINUTES AND THE COFFEE WAS OVERPRICED.
+481,1,"Cold pancakes, cold chai. Won't be back."
+482,5,Such a lovely place. The flat white was excellent.
+483,4,Such a lovely place. The hot chocolate was excellent. Such a lovely place. The big breakfast was excellent.
+484,4,Really good big breakfast with great service.
+485,4,"Unfriendly service, slow too. Won't be back. !!"
+486,5,"Popped in with my mum, loved the smashed avo."
+487,4,"Long black is perfect, service is quick."
+488,1,The big breakfast was ok but that service was terrible.
+489,3,"Average. The soup was ok, service was slow. Decent eggs benedict, a bit pricey"
+490,1,Unfriendly service. Won't be back.
+491,1,"Coffee was terrible, tasted burnt."
+492,4,"Best brownie in the area, the owner is lovely."
+493,4,Loved the latte!
+494,1,Unfriendly service. Won't be back.
+495,5,Such a lovely place. The latte was excellent.
+496,4,"Banana bread is delicious, service is quick."
+497,4,"Friendly barista, and fantastic flat white. Highly recommend. My go-to cafe. Pancakes is beautiful every time. :)"
+498,2,"Eggs benedict was bland but that wasn't even the worst part. Cold brownie, cold muffin. Won't be back."
+499,5,"Popped in with my mum, loved the chai. My go-to cafe. Smashed avo is excellent every time. :)"
+500,5,"Excellent as always. No complaints. Came with the kids, the team was lovely and patient."
+501,5,"No complaints at all, the flat white is amazing. Cappuccino was excellent, the barista was lovely."
+502,5,"No complaints, the brownie is perfect."
+503,5,Loved teh brownie and the latte. No complaints!
+504,3,The soup was ok but that service was terrible. It was ok. Nothing special.
+505,2,"Not worth it, the eggs benedict was lukewarm."
+506,2,"Dirty tables, watery coffee. Disappointing."
+507,3,smashed avo was good but that wait was too long.
+508,3,"Popped in with my mum, loved the pancakes."
+509,4,My go-to cafe. Big breakfast is perfect every time.
+510,3,EGGS BENEDICT WAS GOOD BUT THAT WAIT WAS TOO LONG.
+511,4,"Flat white is fantastic, service is quick. Average. The soup was ok, service was slow."
+512,5,Such a lovely place. The banana bread was excellent.
+513,2,Waited 40 minutes and the pancakes was overpriced.
+514,4,The soup is great and the staff is so friendly. The big breakfast was excellent. !!
+515,5,"Hot chocolate is amazing, service is quick."
+516,5,"Lovely guy on the coffee machine, fantastic big breakfast, nice music."
+517,4,Loved the chai!
+518,4,My go-to cafe. Brownie is lovely every time.
+519,4,"Decent soup, a bit pricey."
+520,4,Great spot for brunch with friends The pancakes is perfect
+521,5,"Came with the kids, the barista was lovely and patient."
+522,5,"No complaints, the banana bread is perfect. Really good coffee with great service."
+523,5,The chai was excellent. we loved it. chai with a muffin is the perfect combo.
+524,4,The big breakfast was fine but that's about it.
+525,1,"Average. The long black was ok, service was slow. THE SMASHED AVO WAS SOGGY."
+526,4,The brownie was excellent. Excellent as always. No complaints.
+527,1,The hot chocolate was ok but that service was terrible.
+528,5,"Latte is great, service is quick."
+529,4,"Coffee is amazing, service is quick. Really good brownie with great service."
+530,2,The flat white was ok but that service was terrible.
+531,5,Loved the pancakes!
+532,3,"Unfriendly service, slow too. Won't be back. Decent eggs benedict, a bit pricey. !!"
+533,3,"Average. The latte was ok, service was slow."
+534,4,"No complaints at all, the long black is lovely. !!"
+535,4,We loved it. Flat white with a big breakfast is the perfect combo.
+536,5,My go-to cafe. Toastie is amazing every time.
+537,5,"Friendly barista, and lovely big breakfast. Highly recommend. !!"
+538,3,The cappuccino was fine but that's about it.
+539,5,My go-to cafe. Eggs benedict is amazing every time.
+540,5,"Brownie is delicious, service is quick. Such a lovely place. The coffee was excellent."
+541,5,"LOVELY WAITRESS, DELICIOUS LONG BLACK, NICE MUSIC."
+542,5,Chai was excellent and came out fast.
+543,1,Unfriendly service. Won't be back.
+544,5,"Brownie is amazing, service is quick."
+545,5,"Friendly owner, and perfect brownie. Highly recommend."
+546,1,"Unfriendly service, slow too. Won't be back."
+547,1,"Food was cold but that wasn't the worst of it, the waitress ignored us. Way too expensive for what it was."
+548,2,"Not worth it, the long black was watery."
+549,4,Such a lovely place. The hot chocolate was excellent.
+550,4,Such a lovely place. The toastie was excellent.
+551,1,The soup was ok but that service was terrible.
+552,1,"Ordered a cappuccino, it was lukewarm. Won't be coming back. Dirty tables, cold soup. Disappointing."
+553,1,"Big breakfast was terrible, tasted burnt. Got the order wrong twice, but that happens. Unfriendly service though."
+554,1,the long black was ok but that service was terrible.
+555,4,"Came with the kids, the barista was lovely and patient. Popped in with my mum, loved the toastie."
+556,4,Really good chai with great service.
+557,4,Great spot for brunch with friends. The brownie is excellent.
+558,5,Loved the smashed avo and the pancakes. No complaints! :)
+559,5,We loved it. Brownie with a coffee is the perfect combo. Toastie was excellent and came out fast.
+560,4,My go-to cafe. Chai is excellent every time.
+561,4,"No complaints, the long black is beautiful. Really good big breakfast with great service."
+562,4,Nice staff but the big breakfast was soggy.
+563,5,Loved the muffin!
+564,1,"Chai was lukewarm but that is not the worst part, unfriendly service too."
+565,4,"No complaints at all, the coffee is excellent."
+566,2,The flat white was so overpriced I left it Won't be back
+567,5,"Lovely team, beautiful smashed avo, nice music."
+568,4,Loved the cappuccino!
+569,5,Lovely little cafe with amazing muffin.
+570,3,Chai was good but that wait was too long.
+571,2,"Food was cold but that wasn't the worst of it, the barista ignored us."
+572,1,"Rude girl at the counter, cold long black."
+573,4,"Friendly owner, and beautiful banana bread. Highly recommend. :)"
+574,5,Loved the muffin!
+575,1,unfriendly service. won't be back.
+576,1,"Got the order wrong twice, but that happens. Unfriendly service though. !!"
+577,4,Loved the cappuccino and the flat white. No complaints! Loved the big breakfast and the flat white. No complaints!
+578,4,"Cold latte, cold banana bread Won't be back"
+579,4,Loved the hot chocolate and the flat white. No complaints!
+580,2,The eggs benedict was overpriced
+581,5,"Friendly staff, and perfect long black. Highly recommend."
+582,5,"POPPED IN WITH MY MUM, LOVED THE BIG BREAKFAST."
+583,2,Waited 40 minutes and the smashed avo was lukewarm.
+584,5,"Brownie is amazing, service is quick."
+585,1,The chai was so bland I left it. Won't be back.
+586,5,"Popped in with my mum, loved the brownie."
+587,5,Excellent coffee. Will be back for sure.
+588,4,It was ok. Nothing special.
+589,1,"Food was cold but that wasn't the worst of it, the girl at the counter ignored us."
+590,2,"Cold long black, cold coffee. Won't be back. Unfriendly service and the eggs benedict was bitter."
+591,1,"Muffin was terrible, tasted burnt."
+592,1,THE PANCAKES WAS SO BITTER I LEFT IT. WON'T BE BACK.
+593,5,Lovely girl at the counter and the soup is always great.
+594,4,"No complaints, the toastie is great."
+595,3,"Decent latte, a bit pricey."
+596,5,"Came with the kids, the guy on the coffee machine was lovely and patient."
+597,1,"Ordered a toastie, it was bland. Won't be coming back."
+598,1,"Not worth it, the cappuccino was bland."
+599,5,Loved the muffin and the chai. No complaints!
+600,5,Loved the cappuccino and the banana bread. No complaints!
+601,5,"Friendly guy on the coffee machine, and excellent toastie. Highly recommend. Friendly owner, and great pancakes. Highly recommend."
+602,4,Loved the brownie!
+603,1,"Unfriendly service, slow too. Won't be back."
+604,1,Unfriendly service. Won't be back. Unfriendly service. Won't be back.
+605,5,Really good muffin with great service.
+606,4,"average. the eggs benedict was ok, service was slow."
+607,4,Loved the soup and the long black. No complaints!
+608,1,"Cold brownie, cold banana bread. Won't be back."
+609,5,Lovely owner and the smashed avo is always beautiful.
+610,5,"Cappuccino was excellent, the guy on the coffee machine was lovely."
+611,4,Loved the toastie!
+612,1,Unfriendly service and the smashed avo was stale.
+613,5,Lovely barista and the smashed avo is always amazing.
+614,4,Really good brownie with great service.
+615,1,Unfriendly service and the smashed avo was lukewarm.
+616,5,"Popped in with my mum, loved the eggs benedict. Really good muffin with great service."
+617,5,The banana bread is excellent and the guy on the coffee machine is so friendly.
+618,4,Excellent smashed avo. Will be back for sure.
+619,2,"Ordered a banana bread, it was bitter. Won't be coming back."
+620,4,"Best brownie in the area, the owner is lovely."
+621,2,Cold eggs benedict and unfriendly service.
+622,1,The pancakes was so bitter I left it. Won't be back.
+623,1,The hot chocolate was watery.
+624,5,"Best long black in the area, the team is lovely. GREAT SPOT FOR BRUNCH WITH FRIENDS. THE PANCAKES IS AMAZING."
+625,2,"Dirty tables, cold flat white. Disappointing."
+626,5,Excellent as always. No complaints. Loved the soup!
+627,5,Lovely little cafe with delicious chai.
+628,2,Unfriendly service. Won't be back.
+629,5,Lovely owner and the soup is always spot on. !!
+630,5,Such a lovely place. The coffee was excellent.
+631,5,Great spot for brunch with friends. The smashed avo is spot on.
+632,2,"UNFRIENDLY SERVICE, SLOW TOO. WON'T BE BACK."
+633,5,"Popped in with my mum, loved the soup."
+634,3,The smashed avo was fine but that's about it. !!
+635,5,The brownie was excellent.
+636,5,Great spot for brunch with friends. The toastie is spot on.
+637,3,It was ok. Nothing special.
+638,5,Lovely little cafe with perfect flat white.
+639,4,Lovely little cafe with perfect muffin. The smashed avo is great and the team is so friendly.
+640,3,The smashed avo was fine but that's about it.
+641,5,"Lovely team, delicious chai, nice music."
+642,1,UNFRIENDLY SERVICE. WON'T BE BACK.
+643,1,Muffin was bland but that wasn't even the worst part.
+644,4,Loved the chai and the pancakes No complaints!
+645,2,"Ordered a brownie, it was stale. Won't be coming back."
+646,5,Great spot for brunch with friends. The muffin is great. Excellent as always. No complaints.
+647,5,Lovely little cafe with great flat white.
+648,5,"Long black was excellent and came out fast. Best banana bread in the area, the guy on the coffee machine is lovely."
+649,3,"Decent latte, a bit pricey."
+650,2,The soup was ok but that service was terrible.
+651,1,Waited 40 minutes and the latte was stale.
+652,1,"Hot chocolate was lukewarm but that is not the worst part, unfriendly service too."
+653,4,Excellent as always. No complaints.
+654,2,"Long black was bitter but that is not the worst part, unfriendly service too. Ordered a eggs benedict, it was lukewarm. Won't be coming back."
+655,4,Loved the latte! Loved the brownie!
+656,4,"Popped in with my mum, loved the hot chocolate."
+657,1,The chai was cold.
+658,3,IT WAS OK. NOTHING SPECIAL.
+659,5,Loved the brownie!
+660,5,Loved the latte!
+661,5,we loved it. brownie with a muffin is the perfect combo.
+662,5,"Friendly girl at the counter, and perfect pancakes. Highly recommend."
+663,5,"Smashed avo is fantastic, service is quick."
+664,3,Pancakes was good but that wait was too long.
+665,5,Excellent as always. No complaints. :)
+666,4,Excellent as always. No complaints. The cappuccino is spot on and the barista is so friendly.
+667,5,"LOVELY STAFF, SPOT ON SMASHED AVO, NICE MUSIC."
+668,4,The cappuccino was excellent.
+669,5,Great spot for brunch with friends. The hot chocolate is beautiful. The big breakfast is lovely and the staff is so friendly. !!
+670,4,My go-to cafe Latte is beautiful every time
+671,5,"Friendly guy on the coffee machine, and excellent long black. Highly recommend."
+672,4,"Chai is excellent, service is quick."
+673,5,Such a lovely place. The eggs benedict was excellent.
+674,3,"Decent smashed avo, a bit pricey."
+675,1,"Coffee was terrible, tasted burnt."
+676,4,"No complaints at all, the soup is lovely."
+677,1,The eggs benedict was so lukewarm I left it. Won't be back.
+678,4,Really good banana bread with great service. Lovely staff and the smashed avo is always amazing.
+679,4,Smashed avo was lukewarm but that wasn't even the worst part.
+680,2,Way too expensive for what it was.
+681,4,"Soup was excellent, teh waitress was lovely."
+682,5,"Lovely guy on the coffee machine, amazing latte, nice music."
+683,4,"Best muffin in the area, the staff is lovely."
+684,3,The pancakes was fine but that's about it.
+685,5,"BEST LATTE IN THE AREA, THE BARISTA IS LOVELY."
+686,4,"Not worth it, the eggs benedict was overpriced."
+687,4,"Coffee was excellent, the guy on the coffee machine was lovely. BEST EGGS BENEDICT IN THE AREA, THE GUY ON THE COFFEE MACHINE IS LOVELY."
+688,5,"no complaints at all, the flat white is lovely."
+689,5,Loved the pancakes!
+690,5,"Such a lovely place. The pancakes was excellent. Lovely team, perfect chai, nice music. :)"
+691,5,The toastie is perfect and the barista is so friendly
+692,1,Way too expensive for what it was.
+693,4,Excellent as always. No complaints.
+694,4,"Best cappuccino in the area, the girl at the counter is lovely."
+695,4,Loved the coffee and the latte. No complaints! :)
+696,1,The coffee was so cold I left it. Won't be back. The chai was so soggy I left it. Won't be back.
+697,5,"Flat white was excellent, the guy on the coffee machine was lovely. Excellent coffee. Will be back for sure."
+698,1,Unfriendly service. Won't be back.
+699,5,Soup was excellent and came out fast. Great spot for brunch with friends. The banana bread is fantastic.
+700,4,The smashed avo is fantastic and the team is so friendly. lovely staff and the flat white is always great.
+701,5,"Best soup in the area, the girl at the counter is lovely."
+702,4,"Best chai in teh area, the girl at the counter is lovely."
+703,4,"No complaints at all, the latte is beautiful."
+704,4,Excellent as always. No complaints. The smashed avo was excellent.
+705,5,Lovely little cafe with spot on flat white.
+706,5,"Lovely owner, fantastic chai, nice music. Popped in with my mum, loved the big breakfast."
+707,4,Great spot for brunch with friends. The soup is amazing.
+708,5,Loved the chai!
+709,5,"Best banana bread in the area, the staff is lovely. Lovely little cafe with excellent pancakes."
+710,4,"No complaints at all, the soup is beautiful."
+711,5,Excellent brownie. Will be back for sure.
+712,1,"Got the order wrong twice, but that happens. Unfriendly service though."
+713,5,Excellent eggs benedict. Will be back for sure.
+714,5,"Came with the kids, the waitress was lovely and patient."
+715,2,"Average. The eggs benedict was ok, service was slow. the muffin was overpriced."
+716,3,It was ok. Nothing special.
+717,5,The brownie is perfect and the barista is so friendly. :)
+718,4,"Smashed avo is perfect, service is quick. :)"
+719,4,"Best latte in the area, the team is lovely"
+720,3,"Decent hot chocolate, a bit pricey. !!"
+721,5,"Best muffin in the area, the owner is lovely."
+722,5,"No complaints at all, the soup is fantastic."
+723,3,"Pancakes was terrible, tasted burnt. Nice barista but the cappuccino was burnt"
+724,4,Excellent muffin. Will be back for sure.
+725,5,My go-to cafe Big breakfast is lovely every time
+726,5,Really good chai with great service. Excellent brownie. Will be back for sure.
+727,4,Such a lovely place. The cappuccino was excellent.
+728,1,"Ordered a hot chocolate, it was burnt. Won't be coming back."
+729,5,The big breakfast was excellent
+730,4,The latte was ok but that service was terrible.
+731,5,Flat white was excellent and came out fast.
+732,4,"No complaints at all, the eggs benedict is great. Loved the cappuccino and the long black. No complaints!"
+733,3,Toastie was good but that wait was too long.
+734,5,"No complaints at all, the muffin is amazing. Lovely team and the toastie is always spot on"
+735,4,Big breakfast was excellent and came out fast. Such a lovely place. The chai was excellent.
+736,2,Unfriendly service. Won't be back.
+737,2,Waited 40 minutes and the pancakes was burnt. THE HOT CHOCOLATE WAS BITTER.
+738,4,"No complaints at all, the soup is fantastic."
+739,5,"Excellent chai. Will be back for sure. No complaints at all, the big breakfast is spot on."
+740,1,"Rude barista, soggy hot chocolate."
+741,4,It was ok Nothing special
+742,5,"Eggs benedict is amazing, service is quick. Excellent toastie. Will be back for sure."
+743,1,Brownie was cold but that wasn't even the worst part.
+744,4,Lovely barista and the banana bread is always delicious.
+745,2,"Not worth it, teh big breakfast was overpriced."
+746,2,Such a lovely place. The banana bread was excellent.
+747,4,long black was excellent and came out fast.
+748,5,"Friendly girl at the counter, and beautiful banana bread. Highly recommend. Long black is fantastic, service is quick."
+749,5,We loved it. Flat white with a banana bread is the perfect combo.
+750,1,Hot chocolate was lukewarm but that wasn't even the worst part.
+751,1,"Not worth it, the muffin was watery."
+752,1,Waited 40 minutes and the flat white was burnt.
+753,5,Great spot for brunch with friends. The chai is amazing.
+754,5,"Lovely barista and the hot chocolate is always beautiful. Friendly team, and amazing muffin. Highly recommend."
+755,5,We loved it. Latte with a toastie is the perfect combo. We loved it. Toastie with a muffin is the perfect combo.
+756,5,"SOUP IS BEAUTIFUL, SERVICE IS QUICK."
+757,5,My go-to cafe. Smashed avo is spot on every time. Such a lovely place. The long black was excellent.
+758,2,Way too expensive for what it was. Loved the latte and the smashed avo. No complaints! !!
+759,1,The toastie was ok but that service was terrible. :)
+760,4,"Chai was excellent, the team was lovely. LOVED THE EGGS BENEDICT!"
+761,4,Long black was good but that wait was too long.
+762,3,"Decent smashed avo, a bit pricey. Nice waitress but the soup was stale."
+763,5,"The banana bread was excellent. Big breakfast is excellent, service is quick."
+764,4,Excellent as always. No complaints. !!
+765,3,"Average. The brownie was ok, service was slow."
+766,5,Excellent chai. Will be back for sure. WE LOVED IT. MUFFIN WITH A TOASTIE IS THE PERFECT COMBO.
+767,4,"Popped in with my mum, loved the chai."
+768,5,We loved it. Banana bread with a cappuccino is the perfect combo.
+769,5,"Popped in with my mum, loved the hot chocolate."
+770,3,"Unfriendly service, slow too. Won't be back. Average. The brownie was ok, service was slow."
+771,4,"No complaints, the smashed avo is lovely."
+772,5,"Muffin is lovely, service is quick."
+773,5,"Lovely little cafe with delicious big breakfast. Banana bread was excellent, the owner was lovely."
+774,5,"Big breakfast is beautiful, service is quick."
+775,3,the muffin was fine but that's about it.
