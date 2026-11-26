@@ -1,0 +1,290 @@
+{
+ "courses": [
+  {
+   "id": 1,
+   "title": "Confident English Speaking",
+   "category": "Work-ready essentials",
+   "level": "all",
+   "mark": "Hi!"
+  },
+  {
+   "id": 2,
+   "title": "Job Ready: Resume to First Shift",
+   "category": "Work-ready essentials",
+   "level": "beginner",
+   "mark": "CV"
+  },
+  {
+   "id": 3,
+   "title": "Customer Service Essentials",
+   "category": "Customer service & hospitality",
+   "level": "beginner",
+   "mark": "5/5"
+  },
+  {
+   "id": 4,
+   "title": "Digital Skills for Work",
+   "category": "Digital & IT",
+   "level": "beginner",
+   "mark": "@"
+  },
+  {
+   "id": 5,
+   "title": "Google Docs: Beginner to Confident",
+   "category": "Digital & IT",
+   "level": "beginner",
+   "mark": "Aa"
+  },
+  {
+   "id": 6,
+   "title": "Speak Clearly: Articulation Training",
+   "category": "Work-ready essentials",
+   "level": "all",
+   "mark": "ah"
+  },
+  {
+   "id": 7,
+   "title": "JavaScript for Beginners: Code Your First Web Apps",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "JS"
+  },
+  {
+   "id": 8,
+   "title": "Python Foundations: Your First Programs",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "Py"
+  },
+  {
+   "id": 9,
+   "title": "Python for Data: Clean, Analyse and Visualise",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "df"
+  },
+  {
+   "id": 10,
+   "title": "Full-Stack Python: Build a Web App with Flask",
+   "category": "Coding & software",
+   "level": "intermediate",
+   "mark": "</>"
+  },
+  {
+   "id": 11,
+   "title": "Git & GitHub for Beginners: Save, Share and Collaborate",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "git"
+  },
+  {
+   "id": 12,
+   "title": "Advanced Git & GitHub: Work Like a Pro Team",
+   "category": "Coding & software",
+   "level": "advanced",
+   "mark": "PR"
+  },
+  {
+   "id": 13,
+   "title": "Next.js Foundations: Build a Café Website",
+   "category": "Coding & software",
+   "level": "intermediate",
+   "mark": "app/"
+  },
+  {
+   "id": 14,
+   "title": "Prompt Right: Get Great Results from Free AI Tools",
+   "category": "Digital & IT",
+   "level": "beginner",
+   "mark": "AI"
+  },
+  {
+   "id": 15,
+   "title": "React Foundations: Build a Job Application Tracker",
+   "category": "Coding & software",
+   "level": "intermediate",
+   "mark": "{ }"
+  },
+  {
+   "id": 16,
+   "title": "PostgreSQL Foundations: Run the Corner Café Database",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "pg"
+  },
+  {
+   "id": 17,
+   "title": "SQLite in Practice: Track Your Spending",
+   "category": "Coding & software",
+   "level": "intermediate",
+   "mark": "db"
+  },
+  {
+   "id": 18,
+   "title": "Software Testing Foundations: Find the Bugs",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "✓"
+  },
+  {
+   "id": 19,
+   "title": "Networking Fundamentals: How the Internet Works",
+   "category": "Digital & IT",
+   "level": "beginner",
+   "mark": "IP"
+  },
+  {
+   "id": 20,
+   "title": "Docker Basics: Containers for Your Apps",
+   "category": "Coding & software",
+   "level": "intermediate",
+   "mark": "run"
+  },
+  {
+   "id": 21,
+   "title": "Build Your Own AI Chatbot: Understanding and Using LLMs",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "LLM"
+  },
+  {
+   "id": 22,
+   "title": "AI Agents with LangGraph: Café Helper 2.0",
+   "category": "Coding & software",
+   "level": "intermediate",
+   "mark": "A→B"
+  },
+  {
+   "id": 23,
+   "title": "Search Your Documents with AI: RAG in Depth",
+   "category": "Coding & software",
+   "level": "intermediate",
+   "mark": "RAG"
+  },
+  {
+   "id": 24,
+   "title": "Connect AI to Anything with MCP",
+   "category": "Coding & software",
+   "level": "intermediate",
+   "mark": "MCP"
+  },
+  {
+   "id": 33,
+   "title": "Linux Command Line: Run Your Own Server",
+   "category": "Digital & IT",
+   "level": "beginner",
+   "mark": "$_"
+  },
+  {
+   "id": 34,
+   "title": "Machine Learning Basics with Python",
+   "category": "Coding & software",
+   "level": "intermediate",
+   "mark": "ML"
+  },
+  {
+   "id": 35,
+   "title": "Cyber Security Foundations: Protect the Café",
+   "category": "Digital & IT",
+   "level": "beginner",
+   "mark": "2FA"
+  },
+  {
+   "id": 36,
+   "title": "IT on a Budget: Managing Tech Costs for Small Business",
+   "category": "Digital & IT",
+   "level": "beginner",
+   "mark": "$"
+  },
+  {
+   "id": 37,
+   "title": "SQL for Data Analysts: Answer Business Questions with Data",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "SQL"
+  },
+  {
+   "id": 38,
+   "title": "AI App Bootcamp (Pilot)",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "AI"
+  },
+  {
+   "id": 39,
+   "title": "SEO Basics: Get a Website Found on Google",
+   "category": "Digital & IT",
+   "level": "beginner",
+   "mark": "SEO"
+  },
+  {
+   "id": 40,
+   "title": "Social Media Marketing for Small Business",
+   "category": "Digital & IT",
+   "level": "beginner",
+   "mark": "#"
+  }
+ ],
+ "pathways": [
+  {
+   "id": 1,
+   "title": "Work-Ready Starter",
+   "courses": 4
+  },
+  {
+   "id": 2,
+   "title": "Customer Service & Hospitality",
+   "courses": 4
+  },
+  {
+   "id": 3,
+   "title": "Digital Workplace Skills",
+   "courses": 5
+  },
+  {
+   "id": 4,
+   "title": "IT Support Starter",
+   "courses": 6
+  },
+  {
+   "id": 5,
+   "title": "Python Developer",
+   "courses": 7
+  },
+  {
+   "id": 6,
+   "title": "Web Developer (JavaScript)",
+   "courses": 6
+  },
+  {
+   "id": 7,
+   "title": "Data Skills",
+   "courses": 6
+  },
+  {
+   "id": 8,
+   "title": "AI Builder",
+   "courses": 5
+  },
+  {
+   "id": 9,
+   "title": "Software Tester (QA)",
+   "courses": 4
+  },
+  {
+   "id": 10,
+   "title": "AI Engineer",
+   "courses": 7
+  },
+  {
+   "id": 12,
+   "title": "Cyber Security Starter",
+   "courses": 5
+  }
+ ],
+ "share": {
+  "title": "Avro Academy",
+  "line": "Practical courses for work, tech and AI",
+  "logo": "mark.png"
+ }
+}
