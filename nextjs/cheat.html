@@ -1,0 +1,73 @@
+<style>body{font-size:6.6pt} pre{font-size:5.9pt;line-height:1.25} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-all} td:first-child{width:52%}</style>
+<section><h2>Start and run</h2><pre>npx create-next-app@latest corner-cafe --yes
+cd corner-cafe
+npm run dev      # http://localhost:3000
+npm run lint
+npm run build    # production version
+npm start</pre><p>Next.js 16 needs Node.js 20.9+. Restart <code>npm run dev</code> after changing next.config.ts or .env.local.</p></section>
+<section><h2>Files make routes</h2><table><tr><td><code>app/page.tsx</code></td><td>/</td></tr><tr><td><code>app/menu/page.tsx</code></td><td>/menu</td></tr><tr><td><code>app/menu/[slug]/page.tsx</code></td><td>/menu/latte …</td></tr><tr><td><code>app/layout.tsx</code></td><td>Frame round every page</td></tr><tr><td><code>app/not-found.tsx</code></td><td>Friendly 404</td></tr><tr><td><code>app/error.tsx</code></td><td>Crash page (client)</td></tr><tr><td><code>app/api/menu/route.ts</code></td><td>API: GET /api/menu</td></tr><tr><td><code>app/sitemap.ts</code>, <code>robots.ts</code></td><td>/sitemap.xml, /robots.txt</td></tr><tr><td><code>app/icon.png</code>, <code>opengraph-image.png</code></td><td>Tab icon, share image</td></tr><tr><td><code>public/</code></td><td>Files served as they are</td></tr></table></section>
+<section><h2>JSX rules</h2><ul><li>Components start with a capital: <code>&lt;MenuCard /&gt;</code></li><li>One outer element, or a fragment <code>&lt;&gt;…&lt;/&gt;</code></li><li><code>className</code>, not <code>class</code></li><li>Close every tag: <code>&lt;img /&gt;</code></li><li><code>{ }</code> puts JavaScript in: <code>{item.name}</code></li></ul><pre>{items.map((item) =&gt; (
+  &lt;MenuCard key={item.slug} item={item} /&gt;
+))}
+{open &amp;&amp; &lt;p&gt;Open now&lt;/p&gt;}
+{open ? &lt;p&gt;Open&lt;/p&gt; : &lt;p&gt;Closed&lt;/p&gt;}</pre></section>
+<section class="coral"><h2>Props and TypeScript</h2><pre>type Props = { item: MenuItem; eager?: boolean };
+
+export default function MenuCard({ item, eager = false }: Props) {
+  return &lt;h3&gt;{item.name}&lt;/h3&gt;;
+}
+
+type Category = "Coffee" | "Tea";
+const MENU: MenuItem[] = [ … ];
+function getItem(slug: string): MenuItem | undefined</pre></section>
+<section class="coral"><h2>Dynamic pages</h2><pre>export function generateStaticParams() {
+  return MENU.map((i) =&gt; ({ slug: i.slug }));
+}
+export default function Page({ params }: PageProps&lt;"/menu/[slug]"&gt;) {
+  return &lt;Suspense fallback={&lt;p&gt;Loading…&lt;/p&gt;}&gt;
+    &lt;Item params={params} /&gt;&lt;/Suspense&gt;;
+}
+async function Item({ params }) {
+  const { slug } = await params;   // params is a Promise
+  const item = getItem(slug);
+  if (!item) notFound();
+  …
+}</pre></section>
+<section class="coral"><h2>Links, images, fonts</h2><pre>import Link from "next/link";
+&lt;Link href={`/menu/${item.slug}`}&gt;…&lt;/Link&gt;
+
+import Image from "next/image";
+&lt;Image src="/menu/latte.jpg" alt="Latte"
+  width={800} height={600} loading="eager" /&gt;
+
+import { Nunito } from "next/font/google";
+const nunito = Nunito({ variable: "--font-nunito", subsets: ["latin"] });</pre></section>
+<section class="amber"><h2>Tailwind CSS</h2><table><tr><td><code>p-4 mt-2 px-3</code></td><td>Padding, margin (1 = 0.25rem)</td></tr><tr><td><code>rounded-2xl shadow-sm</code></td><td>Corners, shadow</td></tr><tr><td><code>bg-white text-stone-600</code></td><td>Colours 50–950</td></tr><tr><td><code>font-semibold text-sm</code></td><td>Text</td></tr><tr><td><code>flex grid gap-6</code></td><td>Layout</td></tr><tr><td><code>hover:shadow-md</code></td><td>On hover</td></tr><tr><td><code>sm:grid-cols-2 lg:grid-cols-3</code></td><td>Mobile-first breakpoints</td></tr></table><p><strong>CSS Modules</strong> (<code>X.module.css</code>, <code>styles.badge</code>): skip them in the turbopack <code>*.css</code> rule with <code>condition: { not: { path: /\.module\.css$/ } }</code>.</p></section>
+<section class="amber"><h2>Server or client?</h2><table><tr><td><strong>Server</strong> (default)</td><td>Reads data and secrets, sends HTML only</td></tr><tr><td><strong>Client</strong> <code>"use client"</code></td><td>State, clicks, typing, <code>usePathname()</code></td></tr></table><pre>const [search, setSearch] = useState("");
+&lt;input value={search}
+  onChange={(e) =&gt; setSearch(e.target.value)} /&gt;</pre><p>Keep client components small; pass data in as props.</p></section>
+<section class="amber"><h2>Time and streaming</h2><pre>import { connection } from "next/server";
+export default async function OpenNow() {
+  await connection();   // run per visit, not at build
+  const open = isOpen(new Date());
+}
+&lt;Suspense fallback={&lt;p&gt;Checking…&lt;/p&gt;}&gt;&lt;OpenNow /&gt;&lt;/Suspense&gt;</pre><p>Use <code>Intl.DateTimeFormat</code> with <code>timeZone: "Australia/Sydney"</code>: servers run on UTC.</p></section>
+<section><h2>Server Actions</h2><pre>"use server";
+export async function bookTable(prev: State, formData: FormData) {
+  const name = String(formData.get("name") ?? "").trim();
+  // check EVERYTHING here
+  return { status: "error", errors, values };
+}</pre><pre>"use client";
+const [state, formAction, pending] = useActionState(bookTable, initial);
+&lt;form action={formAction}&gt;
+&lt;select key={state.values.time} defaultValue={state.values.time}&gt;</pre></section>
+<section><h2>Route Handlers</h2><pre>export async function GET(request: Request) {
+  const c = new URL(request.url).searchParams.get("category");
+  return Response.json(data, { status: 200 });
+}</pre></section>
+<section><h2>Metadata and settings</h2><pre>export const metadata: Metadata = {
+  metadataBase: new URL(process.env.SITE_URL ?? "http://localhost:3000"),
+  title: { template: "%s | Corner Café", default: "Corner Café" },
+};
+export async function generateMetadata({ params }) { … }</pre><p><code>.env.local</code> (never committed) · <code>process.env.NAME</code> on the server · <code>NEXT_PUBLIC_</code> = visible to everyone, never secrets.</p></section>
+<section class="coral"><h2>Build output and deploy</h2><table><tr><td>○ Static</td><td>Built once</td></tr><tr><td>◐ Partial Prerender</td><td>Static frame + streamed parts</td></tr><tr><td>ƒ Dynamic</td><td>Fresh every request</td></tr></table><p><strong>Vercel:</strong> push to GitHub → Add New… → Project → add env vars → Deploy. Every push updates; PRs get preview links.</p></section>

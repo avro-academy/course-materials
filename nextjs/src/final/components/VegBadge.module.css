@@ -1,0 +1,10 @@
+/* A CSS Module: these class names only apply where VegBadge is used. */
+.badge {
+  display: inline-block;
+  border-radius: 999px;
+  background: #dcfce7;
+  color: #166534;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.125rem 0.5rem;
+}
