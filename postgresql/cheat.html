@@ -1,0 +1,62 @@
+<style>body{font-size:6.9pt} pre{font-size:6.2pt;line-height:1.25} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>psql</h2><table><tr><td><code>psql -U postgres -d cafe</code></td><td>Connect from a terminal</td></tr><tr><td><code>\l</code> · <code>\c cafe</code></td><td>List databases · connect</td></tr><tr><td><code>\dt</code> · <code>\d name</code> · <code>\dv</code> · <code>\du</code></td><td>Tables · describe · views · roles</td></tr><tr><td><code>\i cafe.sql</code></td><td>Run a file</td></tr><tr><td><code>\x</code></td><td>Expanded display on/off</td></tr><tr><td><code>\?</code> · <code>\q</code></td><td>Help · quit</td></tr></table><p>End SQL with <code>;</code> · prompt <code>cafe-#</code> = waiting for more · <code>q</code> leaves the pager.</p></section>
+<section><h2>SELECT</h2><pre>SELECT   name, price * 1.10 AS plus_10
+FROM     menu_items
+WHERE    vegetarian = true AND price &lt; 6
+ORDER BY price DESC, name
+LIMIT    5;
+SELECT DISTINCT role FROM staff;</pre><p>Text in <code>'single quotes'</code> · comments start with <code>--</code></p></section>
+<section><h2>WHERE</h2><table><tr><td><code>=  &lt;&gt;  &lt;  &gt;=</code></td><td>Compare</td></tr><tr><td><code>AND OR NOT ( )</code></td><td>Combine (use brackets)</td></tr><tr><td><code>IN ('A', 'B')</code></td><td>One of a list</td></tr><tr><td><code>BETWEEN 5 AND 6</code></td><td>Includes both ends</td></tr><tr><td><code>LIKE 'A%'</code> / <code>ILIKE</code></td><td>Pattern / ignoring case</td></tr><tr><td><code>IS NULL</code> / <code>IS NOT NULL</code></td><td>Empty (never <code>= NULL</code>)</td></tr></table></section>
+<section class="coral"><h2>Summaries</h2><pre>SELECT staff_id, count(*) AS orders
+FROM orders
+WHERE payment = 'Card'      -- rows, before grouping
+GROUP BY staff_id
+HAVING count(*) &gt; 200       -- groups, after
+ORDER BY orders DESC;</pre><p><code>count(*)</code> · <code>count(col)</code> skips NULLs · <code>sum avg min max</code> · <code>round(x, 2)</code>. Every SELECT column is in GROUP BY or inside an aggregate.</p></section>
+<section class="coral"><h2>Dates and text</h2><table><tr><td><code>ordered_at::date</code></td><td>Just the date</td></tr><tr><td><code>extract(hour FROM t)</code></td><td>One part (year, month, isodow…)</td></tr><tr><td><code>to_char(t, 'Day')</code></td><td>Format it</td></tr><tr><td><code>date_trunc('week', t)</code></td><td>Start of the week</td></tr><tr><td><code>current_date</code> · <code>now()</code></td><td>Today · right now</td></tr><tr><td><code>now() - interval '2 hours'</code></td><td>Date maths</td></tr><tr><td><code>age(a, b)</code></td><td>Time between</td></tr><tr><td><code>upper()</code> · <code>length()</code> · <code>||</code></td><td>Text, join text</td></tr><tr><td><code>coalesce(email, 'none')</code></td><td>Fill in NULLs</td></tr></table></section>
+<section class="coral"><h2>Joins</h2><pre>SELECT m.name, c.name AS category
+FROM menu_items m
+JOIN categories c ON c.id = m.category_id;
+
+SELECT s.first_name, count(o.id)
+FROM staff s
+LEFT JOIN orders o ON o.staff_id = s.id
+GROUP BY s.first_name;
+-- missing: LEFT JOIN … WHERE o.id IS NULL</pre><p><strong>JOIN</strong> matches in both · <strong>LEFT JOIN</strong> every row on the left.</p></section>
+<section class="amber"><h2>Change data</h2><pre>INSERT INTO categories (name)
+VALUES ('Cakes'), ('Smoothies') RETURNING id;
+UPDATE menu_items SET price = 6.00
+WHERE name = 'Matcha latte';
+DELETE FROM categories WHERE name = 'Smoothies';</pre><p>⚠️ No WHERE = every row. SELECT with the same WHERE first, then check <code>UPDATE 1</code>.</p></section>
+<section class="amber"><h2>Transactions</h2><pre>BEGIN;
+UPDATE menu_items SET price = price + 0.50 WHERE category_id = 1;
+SELECT name, price FROM menu_items WHERE category_id = 1;
+ROLLBACK;     -- or COMMIT;</pre><p>"current transaction is aborted" → <code>ROLLBACK;</code> and start again.</p></section>
+<section><h2>Design tables</h2><pre>CREATE TABLE shifts (
+  id        integer GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+  staff_id  integer NOT NULL REFERENCES staff (id),
+  starts_at timestamp NOT NULL,
+  ends_at   timestamp NOT NULL,
+  notes     text,
+  CONSTRAINT ends_after_start CHECK (ends_at &gt; starts_at)
+);
+ALTER TABLE menu_items ADD COLUMN contains_nuts boolean NOT NULL DEFAULT false;
+ALTER TABLE staff RENAME COLUMN a TO b;   DROP TABLE suppliers;</pre><p>Types: <code>integer</code> · <code>numeric(5,2)</code> for money · <code>text</code> · <code>boolean</code> · <code>date</code> · <code>timestamp</code>. Rules: <code>NOT NULL UNIQUE CHECK DEFAULT REFERENCES … ON DELETE CASCADE</code></p></section>
+<section><h2>Subqueries, WITH, CASE, views</h2><pre>WHERE price &gt; (SELECT avg(price) FROM menu_items)
+WITH daily AS (SELECT ordered_at::date AS day, count(*) AS n
+               FROM orders GROUP BY day)
+SELECT round(avg(n), 1) FROM daily;
+CASE WHEN price &lt; 5 THEN 'Budget' ELSE 'Premium' END
+CREATE VIEW daily_sales AS SELECT …;</pre></section>
+<section><h2>Indexes</h2><pre>CREATE INDEX orders_customer_id_idx ON orders (customer_id);
+EXPLAIN SELECT * FROM orders WHERE customer_id = 5;</pre><p>Seq Scan = reads every row. Index columns you search, join or sort by.</p></section>
+<section class="coral"><h2>Users and permissions</h2><pre>CREATE ROLE reporter LOGIN PASSWORD '…';
+GRANT CONNECT ON DATABASE cafe TO reporter;
+GRANT USAGE ON SCHEMA public TO reporter;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO reporter;
+REVOKE SELECT ON customers FROM reporter;
+SET ROLE reporter; … RESET ROLE;</pre></section>
+<section class="amber"><h2>Backup and export</h2><pre>pg_dump -U postgres -d cafe -Fc -f cafe.backup
+createdb -U postgres cafe_restored
+pg_restore -U postgres -d cafe_restored cafe.backup
+\copy (SELECT …) TO 'sales.csv' WITH (FORMAT csv, HEADER)</pre><p>Test your restores. Apps: use parameters (<code>%s</code>, <code>$1</code>), never glue in what users type.</p></section>
