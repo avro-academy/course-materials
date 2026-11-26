@@ -1,0 +1,47 @@
+<style>body{font-size:7.1pt} pre{font-size:6.1pt;line-height:1.18} td{padding-top:0;padding-bottom:0} p{margin:2px 0} li{margin:0}</style>
+<section><h2>The five categories</h2><table><tr><td>Software &amp; cloud</td><td>subscriptions, hosting, domains</td></tr><tr><td>Hardware</td><td>laptops, monitors, leases, router</td></tr><tr><td>Internet &amp; phones</td><td>NBN, mobile plans</td></tr><tr><td>IT support &amp; services</td><td>IT company, repairs, setup</td></tr><tr><td>Security &amp; backup</td><td>backups, endpoint protection</td></tr></table><p>Easy to miss: tools on staff cards, yearly renewals, the "free" printer lease.</p></section>
+<section class="coral"><h2>Totals by category</h2><pre>=SUMIFS(Transactions!C$2:C$263,
+        Transactions!D$2:D$263,A2)
+# more conditions, in pairs:
+=SUMIFS(C2:C263,D2:D263,"Hardware",
+        C2:C263,">100")
+=COUNTIF(E2:E128,"Left the company")</pre><p>Same category names everywhere (use a drop-down). <code>$</code> keeps a range fixed when you copy down.</p></section>
+<section><h2>Three numbers that tell the story</h2><pre>=SUMIFS(…,Transactions!E$2:E$263,
+        "One-off")
+# current staff:
+=COUNTIFS(Staff!A2:A1000,"&lt;&gt;",
+          Staff!E2:E1000,"")
+=IF(B11=0,"",B7/B11)    per person
+=ROUND(B7/11,2)         GST inside</pre><p>GST in a GST-inclusive price is <b>÷ 11</b>, not × 10%. Compare per person with <em>last year</em>, not an "industry average".</p></section>
+<section class="amber"><h2>Asset register</h2><pre>Warranty ends: =EDATE(D2,12*F2)
+Age: =ROUND((today-D2)/365.25,1)
+Warranty:
+ =IF(G2&lt;today,"Expired","Covered")
+Replace by:
+ =IF(OR(D2="",B2&lt;&gt;"Laptop"),"",
+     EDATE(D2,48))
+Due? Overdue / This year / Later</pre><p>Tag every device. Change "Assigned to" when it moves. Never delete: record how it was disposed of and wiped.</p></section>
+<section><h2>Subscription register</h2><table><tr><td>Tool, plan, billing</td><td>from the admin or billing page</td></tr><tr><td>Price per seat per month</td><td>annual bill ÷ 12 ÷ seats</td></tr><tr><td>Seats paid for</td><td>the billing page, not a guess</td></tr><tr><td>Owner</td><td>approves changes; every tool has one</td></tr><tr><td>Renews</td><td>in the calendar, reminder 60 days before</td></tr></table><pre>Cost per year:    =E2*F2*12
+Seats in use:
+  =COUNTIFS(Licences!A:A,A2,
+            Licences!E:E,"Active")
+Seats not in use: =MAX(0,F2-G2)
+Wasted per year:  =I2*E2*12</pre></section>
+<section class="coral"><h2>Finding every subscription</h2><ul><li>Bank statement: anything that repeats</li><li>Every company card (where shadow IT hides)</li><li>Email: "invoice", "receipt", "renewal"</li><li>Single sign-on apps in the admin centre</li><li>Ask: "what do you use every week?"</li></ul><p><b>Shadow IT:</b> ask, don't accuse. Keep it (business plan, owner, register), replace it, or cancel it.</p></section>
+<section><h2>Licences: who holds each seat</h2><pre>=IF(COUNTIFS(Staff!A:A,B2,
+             Staff!E:E,"&lt;&gt;")&gt;0,
+  "Left the company",
+  IF(D2&gt;90,"Not used in 90+ days",
+     "Active"))</pre><p>Keep a leaver's files and mail first. "Not used" isn't always waste: ask. Annual plans shrink only at renewal.</p></section>
+<section class="amber"><h2>Cut the waste</h2><ul><li>Unused seats and leavers' seats</li><li>Overlap: check what your big plan already includes (Teams, OneDrive)</li><li>Right-size: single-app plans, free viewer seats, lower tiers</li><li><b>Clean up first, then commit</b> to annual billing</li><li>Never count a saving twice</li><li>Don't cut backups and security: false savings</li></ul></section>
+<section><h2>Cancelling safely</h2><p>Export everything (shared and deleted files too) · tell people · update links · overlap a week or two · cancel and record it · check the next statement. Check notice periods; never cancel the only copy.</p></section>
+<section class="coral"><h2>Total cost of ownership</h2><pre>TCO = price + extra warranty + setup
+    + repairs per year × years
+    + monthly fee × 12 × years
+    − resale
+Cost per year = TCO ÷ years in use</pre><p>Also count lost time, downtime and staff happiness.</p></section>
+<section><h2>Buy, lease or subscribe</h2><table><tr><td>Buy</td><td>lowest cost if kept long; a depreciating asset</td></tr><tr><td>Lease</td><td>smooth cash flow, repairs included; read the exit and damage terms</td></tr><tr><td>Subscribe</td><td>choose the plan and seat count carefully</td></tr></table></section>
+<section class="amber"><h2>Quotes and negotiating</h2><ul><li>Write the spec first; same spec to everyone</li><li>3 written quotes above your limit</li><li>Compare the <em>real</em> total: warranty, setup, delivery, GST</li><li>Ask at renewal; mention real alternatives; try resellers</li><li>Check the IT support contract every year</li></ul></section>
+<section><h2>The budget</h2><ul><li>One line per cost, a reason in the notes</li><li>Contingency 5–10%</li><li>Plan for price rises; spread by month</li><li>Replace devices on a schedule, not all at once</li><li>Budget vs actual every month</li></ul><p><b>To the boss:</b> answers first, round numbers, a clear ask, honest trade-offs, the workbook attached. A sorted bar chart, never 3D.</p></section>
+<section class="coral"><h2>Tax basics (check the ATO)</h2><ul><li>GST credits need a tax invoice over $82.50; a bank statement isn't enough</li><li>Subscriptions and repairs: expenses. Laptops: assets, depreciated</li><li>Instant asset write-off: check the current limit and dates</li><li>Ask a registered tax or BAS agent</li></ul></section>
+<section class="amber"><h2>Every month (15 minutes)</h2><p>Categorise last month · anything new or dearer? · budget vs actual · renewals in the next 60 days · starters and leavers.</p><h2>When someone leaves</h2><p>Get the date · block sign-in · collect devices · keep their files and mail · remove every seat (filter Licences by name) · wipe the laptop · check the next bill.</p></section>
