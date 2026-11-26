@@ -1,0 +1,51 @@
+<style>body{font-size:7pt} pre{font-size:6.3pt;line-height:1.25} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>Start</h2><pre>sqlite3 --version
+sqlite3 budget.db        # opens or creates the file
+sqlite3 budget.db "SELECT count(*) FROM transactions;"</pre><p>SQL ends with <code>;</code> · prompt <code>;-&gt;</code> = waiting for more · dot commands need no semicolon.</p></section>
+<section><h2>Dot commands</h2><table><tr><td><code>.tables</code> · <code>.schema name</code></td><td>List tables · how one was made</td></tr><tr><td><code>.mode box</code> / <code>csv</code> / <code>markdown</code></td><td>How results look</td></tr><tr><td><code>.headers on</code></td><td>Column names in CSV output</td></tr><tr><td><code>.once file.csv</code></td><td>Next result goes to a file</td></tr><tr><td><code>.excel</code></td><td>Next result opens in your spreadsheet</td></tr><tr><td><code>.import --csv f.csv t</code></td><td>Load a CSV into a table</td></tr><tr><td><code>.read file.sql</code></td><td>Run a file of SQL</td></tr><tr><td><code>.backup copy.db</code></td><td>Safe copy, even in use</td></tr><tr><td><code>.help</code> · <code>.quit</code></td><td>Help · leave</td></tr></table></section>
+<section class="coral"><h2>Import and clean</h2><pre>.import --csv everyday-2026-01-to-02.csv raw_jan_feb
+-- every column is TEXT: fix it on the way in
+INSERT OR IGNORE INTO transactions (day, description, amount, balance)
+SELECT substr(Date, 7, 4) || '-' || substr(Date, 4, 2) || '-' || substr(Date, 1, 2),
+       Description,
+       CAST(replace(Amount, ',', '') AS REAL),
+       CAST(replace(Balance, ',', '') AS REAL)
+FROM raw_jan_feb
+ORDER BY rowid DESC;      -- oldest first
+SELECT changes();         -- rows the last statement changed</pre><p><strong>Duplicates:</strong> <code>UNIQUE (day, description, amount, balance)</code> + <code>INSERT OR IGNORE</code>. Date, shop and amount alone can match two real purchases.</p></section>
+<section class="coral"><h2>Types</h2><table><tr><td><code>INTEGER REAL TEXT BLOB NULL</code></td><td>The five kinds of value</td></tr><tr><td><code>typeof(x)</code></td><td>What's really stored</td></tr><tr><td><code>CREATE TABLE … ( … ) STRICT;</code></td><td>Check types (3.37+)</td></tr><tr><td><code>INTEGER PRIMARY KEY</code></td><td>Same as the hidden rowid: 1, 2, 3…</td></tr><tr><td><code>round(sum(amount), 2)</code></td><td>REAL money is close, not exact</td></tr><tr><td>cents as INTEGER</td><td>Exact: 5.20 → 520</td></tr><tr><td><code>1</code> / <code>0</code></td><td>true / false</td></tr></table></section>
+<section class="amber"><h2>Dates are text: 'YYYY-MM-DD'</h2><table><tr><td><code>date('now')</code> · <code>datetime('now', 'localtime')</code></td><td>Today · now</td></tr><tr><td><code>date(d, '+30 days')</code></td><td>Add days</td></tr><tr><td><code>date(d, 'start of month')</code></td><td>First of the month</td></tr><tr><td><code>date(d, 'weekday 4')</code></td><td>Next Thursday (on or after)</td></tr><tr><td><code>strftime('%Y-%m', d)</code></td><td>Year-month (%d day, %w weekday, 0 = Sunday)</td></tr><tr><td><code>julianday(a) - julianday(b)</code></td><td>Days between</td></tr></table></section>
+<section class="amber"><h2>⚠️ Foreign keys: off by default</h2><pre>PRAGMA foreign_keys = ON;   -- every connection
+PRAGMA foreign_keys;        -- 1 = on, 0 = off
+category TEXT NOT NULL REFERENCES budgets (category)</pre><p>ALTER TABLE can add, rename and drop columns, but not add rules: make a new table, copy, drop, rename.</p></section>
+<section><h2>Categorise with rules</h2><pre>UPDATE transactions
+SET category = (
+  SELECT r.category FROM rules r
+  WHERE transactions.description LIKE r.pattern
+  ORDER BY r.priority LIMIT 1
+)
+WHERE category IS NULL;</pre><p>A join can use any condition: <code>JOIN rules r ON t.description LIKE r.pattern</code></p></section>
+<section><h2>Reports</h2><pre>SELECT strftime('%Y-%m', day) AS month,
+       round(sum(CASE WHEN amount &gt; 0 THEN amount ELSE 0 END), 2) AS money_in,
+       round(sum(CASE WHEN amount &lt; 0 THEN -amount ELSE 0 END), 2) AS money_out
+FROM transactions GROUP BY month;
+
+-- budget: date condition in the ON keeps empty categories
+FROM budgets b LEFT JOIN transactions t
+  ON t.category = b.category AND t.day BETWEEN '2026-03-01' AND '2026-03-31'
+
+-- window functions
+sum(amount) OVER (ORDER BY id)      -- running total
+lag(day) OVER (ORDER BY day)        -- the previous row
+CREATE VIEW monthly_spending AS SELECT …;</pre></section>
+<section class="coral"><h2>Python</h2><pre>import sqlite3
+with sqlite3.connect("budget.db") as con:   # commits at the end
+    con.execute("PRAGMA foreign_keys = ON")
+    con.row_factory = sqlite3.Row             # row["month"]
+    con.execute("INSERT INTO transactions (day, description, amount) VALUES (?, ?, ?)",
+                (day, description, amount))   # ? = parameter
+    rows = con.execute("SELECT …").fetchall()</pre><p>❌ Never glue text into SQL with f-strings: SQL injection. "database is locked" = another program is writing.</p></section>
+<section class="amber"><h2>Back up and share</h2><pre>.backup budget-backup.db
+VACUUM INTO 'budget-copy.db';
+sqlite3 budget.db .dump &gt; budget.sql</pre><p>No password on a SQLite file: keep it as safe as your bank statements.</p></section>
+<section><h2>SQLite or PostgreSQL?</h2><p><strong>SQLite:</strong> one app or person, one device, zero setup, a file you can send. <strong>PostgreSQL:</strong> many users writing at once, logins and permissions, exact decimals.</p></section>
