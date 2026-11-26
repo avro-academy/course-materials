@@ -1,0 +1,4 @@
+# These people are asked to review changes to matching files.
+# Replace the usernames with your own and your teammates'.
+*              @sam-lee
+/tests/        @sam-lee @teammate-username
