@@ -1,0 +1,34 @@
+<style>body{font-size:8.0pt} pre{font-size:6.7pt;line-height:1.2} td{padding-top:0;padding-bottom:0} p{margin:2px 0}</style>
+<section><h2>How Google works</h2><table><tr><td>Crawl</td><td>Googlebot follows links and sitemaps</td></tr><tr><td>Index</td><td>stores and understands the page</td></tr><tr><td>Rank</td><td>orders results for each search</td></tr></table><p>Google rewards <b>helpful, people-first</b> pages and trust (E-E-A-T: experience, expertise, authoritativeness, trust).</p></section>
+<section class="coral"><h2>Search intent</h2><table><tr><td>Informational</td><td>learn: guide, blog post</td></tr><tr><td>Commercial</td><td>compare: services, reviews</td></tr><tr><td>Transactional</td><td>act now: booking page</td></tr><tr><td>Navigational</td><td>find one business: home, contact</td></tr></table><p>Search the keyword: what ranks shows the intent.</p></section>
+<section class="amber"><h2>Keywords</h2><ul><li>Small businesses win with long-tail and local: "dog grooming Geelong West"</li><li>Free tools: autocomplete, People also ask, related searches, Google Trends, Keyword Planner, your Search Console</li><li><b>Keyword map:</b> one main keyword per page, one page per main keyword</li></ul></section>
+<section><h2>Title and description</h2><pre>&lt;title&gt;Dog Grooming Geelong |
+  Bayside Paws Dog Grooming&lt;/title&gt;
+&lt;meta name="description"
+  content="Gentle, hands-on dog
+  grooming in Geelong West..."&gt;</pre><table><tr><td>Title</td><td>unique, keyword first, brand last, 50–60 chars</td></tr><tr><td>Description</td><td>unique, benefit + detail + call to action, 120–160 chars</td></tr></table></section>
+<section class="coral"><h2>On the page</h2><ul><li>One H1; H2s for sections; real heading tags</li><li>Answer first, then detail; be specific</li><li>URLs: <code>/blog/how-often-should-i-groom-my-dog.html</code></li><li>Link text says where it goes, not "click here"</li><li>Prices and hours as text, not images</li></ul></section>
+<section class="amber"><h2>Images</h2><pre>&lt;img src="dog-full-groom-clip.webp"
+  alt="A brown dog next to grooming
+       scissors, ready for a clip"
+  width="600" height="400"
+  loading="lazy"&gt;</pre><p>Resize to the size shown, WebP, big ones under ~200 KB. No lazy loading on the top image.</p></section>
+<section><h2>Technical</h2><pre>&lt;meta name="viewport"
+  content="width=device-width,
+  initial-scale=1"&gt;
+&lt;link rel="canonical"
+  href="https://site/prices.html"&gt;</pre><ul><li><b>Search Console:</b> verify, URL inspection, request indexing, Pages report, Sitemaps</li><li><b>sitemap.xml</b> lists pages; submit it</li><li><b>robots.txt</b> is a request, not a lock; to keep a page out use <code>noindex</code></li><li>HTTPS everywhere</li></ul></section>
+<section class="coral"><h2>robots.txt</h2><pre>User-agent: *
+Disallow: /drafts/
+
+Sitemap: https://www.example.com.au/sitemap.xml</pre><p>Never <code>Disallow: /</code> by accident: it blocks the whole site.</p></section>
+<section class="amber"><h2>Core Web Vitals (good)</h2><table><tr><td>LCP</td><td>main content shows ≤ 2.5 s</td></tr><tr><td>INP</td><td>responds to taps ≤ 200 ms</td></tr><tr><td>CLS</td><td>layout jumps ≤ 0.1</td></tr></table><p>Test in PageSpeed Insights (mobile).</p></section>
+<section><h2>Structured data</h2><pre>{"@context": "https://schema.org",
+ "@type": "LocalBusiness",
+ "name": "Bayside Paws Dog Grooming",
+ "telephone": "+61355500142",
+ "openingHours": "Tu-Sa 08:00-17:00"}</pre><p>In <code>&lt;script type="application/ld+json"&gt;</code>. Check with the Schema Markup Validator.</p></section>
+<section class="coral"><h2>Local SEO</h2><ul><li><b>Google Business Profile:</b> real name, most specific category, hours, services, photos, posts</li><li>Map pack = relevance + distance + prominence</li><li><b>NAP</b> identical everywhere: site footer, profile, directories</li><li>Directories: Yellow Pages, True Local, Yelp, Bing Places, Apple Business Connect; India: Justdial, Sulekha</li></ul></section>
+<section class="amber"><h2>Reviews and links</h2><ul><li>Ask every customer, at the happy moment, with your review link</li><li>Reply to every review; calm and offline for bad ones</li><li>No fake reviews, incentives or review gating</li><li>Earn links: local news, partners, sponsorships, useful guides</li><li>Never buy links; mark paid ones <code>rel="sponsored"</code></li></ul></section>
+<section><h2>Content and AI</h2><ul><li>Ideas: keyword gaps, questions customers ask, Search Console page 2, seasons</li><li>No doorway pages (copy-paste suburb pages)</li><li>AI can outline and suggest; you add experience and check every fact</li></ul></section>
+<section class="coral"><h2>Measure and report</h2><table><tr><td>Impressions</td><td>times shown</td></tr><tr><td>Clicks / CTR</td><td>clicks ÷ impressions</td></tr><tr><td>Position</td><td>8–20 = close to page 1</td></tr></table><p>GA4: Organic Search, key events (calls, bookings). Report customers first, in plain words. Never promise rankings.</p></section>

@@ -1,0 +1,62 @@
+/* css/style.css: change --brand to your app's colour (and APP.colour in js/config.js) */
+:root {
+  --brand: #ff5a5f;
+  --ink: #1d2b4f;
+  --muted: #5a6685;
+  --bg: #fffdf9;
+  --card: #ffffff;
+  --line: #eee4d4;
+  --bot: #f2f5fa;
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto; max-width: 760px; padding: 16px;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: var(--ink); background: var(--bg); line-height: 1.5;
+}
+.top { display: flex; gap: 14px; align-items: center; margin: 8px 0 16px; }
+.logo { width: 52px; height: 52px; border-radius: 14px; }
+.top h1 { margin: 0; font-size: 1.5rem; }
+.top p { margin: 0; color: var(--muted); }
+.card { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 16px; margin-bottom: 14px; }
+.small { font-size: .9rem; color: var(--muted); margin: 6px 0; }
+.btn {
+  background: var(--brand); color: #fff; border: 0; border-radius: 999px;
+  padding: 10px 20px; font: inherit; font-weight: 700; cursor: pointer;
+}
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn.ghost { background: #fff; color: var(--ink); border: 2px solid var(--ink); }
+.bar { height: 10px; background: #f2ebe0; border-radius: 99px; overflow: hidden; margin-top: 12px; }
+.bar i { display: block; height: 100%; width: 0; background: var(--brand); transition: width .3s; }
+.tabs { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+.tabs button {
+  border: 1px solid var(--line); background: #fff; border-radius: 999px;
+  padding: 7px 14px; font: inherit; cursor: pointer; color: var(--ink);
+}
+.tabs button.is-on { background: var(--ink); color: #fff; border-color: var(--ink); }
+.panel { display: none; }
+.panel.is-on { display: block; }
+.messages { display: flex; flex-direction: column; gap: 8px; min-height: 240px; margin-bottom: 10px; }
+.msg { max-width: 85%; padding: 10px 14px; border-radius: 16px; white-space: pre-wrap; }
+.msg.user { align-self: flex-end; background: var(--brand); color: #fff; border-bottom-right-radius: 4px; }
+.msg.bot { align-self: flex-start; background: var(--bot); border-bottom-left-radius: 4px; }
+.msg.note { align-self: center; background: none; color: var(--muted); font-size: .85rem; }
+.ask { display: flex; gap: 8px; }
+.ask input, textarea {
+  flex: 1; width: 100%; font: inherit; padding: 10px 14px;
+  border: 1.5px solid var(--line); border-radius: 14px; background: #fff;
+}
+textarea { margin-bottom: 10px; resize: vertical; }
+.reply { white-space: pre-wrap; margin-top: 12px; }
+.cards { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin-top: 10px; }
+.item { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 12px; }
+.item b { display: block; }
+.item .price { color: var(--brand); font-weight: 700; }
+.tag { display: inline-block; font-size: .75rem; background: var(--bot); border-radius: 99px; padding: 1px 8px; margin: 4px 4px 0 0; }
+.row { display: flex; gap: 10px; align-items: center; font-weight: 600; margin-top: 8px; }
+.row input[type=range] { flex: 1; }
+.prompt {
+  background: #0f1b33; color: #d7e2f5; padding: 14px; border-radius: 14px;
+  white-space: pre-wrap; font-size: .8rem; margin-top: 16px; overflow-x: auto;
+}
+.foot { text-align: center; color: var(--muted); font-size: .8rem; margin: 24px 0 8px; }

@@ -1,0 +1,12 @@
+[
+  { "q": "What time do you open?", "a": "We're open 7am to 3pm Monday to Friday, and 8am to 2pm on weekends and public holidays." },
+  { "q": "Where are you?", "a": "12 Wharf Street, right next to the ferry stop. Street parking is free for 2 hours." },
+  { "q": "Do you have dairy-free milk?", "a": "Yes: oat, almond and soy milk, at no extra cost." },
+  { "q": "Do you have gluten-free food?", "a": "Our banana bread and the smoothie bowl are gluten-free. Toast can be made on gluten-free bread." },
+  { "q": "Can I book a table?", "a": "We don't take bookings for small groups. For 8 or more people, call us on (02) 5550 1234." },
+  { "q": "Are dogs allowed?", "a": "Dogs are welcome at the outside tables. We bring water bowls." },
+  { "q": "Do you have Wi-Fi?", "a": "Yes. Ask at the counter for today's password." },
+  { "q": "Can I order ahead?", "a": "Yes, call (02) 5550 1234 and we'll have it ready when you arrive." },
+  { "q": "Do you do catering?", "a": "We cater morning teas for up to 40 people. Give us 3 days' notice." },
+  { "q": "Can I pay by card?", "a": "We take cards and phone payments. We don't take cash." }
+]

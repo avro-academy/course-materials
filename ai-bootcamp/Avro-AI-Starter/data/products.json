@@ -1,0 +1,14 @@
+[
+  { "id": "flat-white", "name": "Flat white", "price": 5.0, "tags": ["coffee", "hot"], "about": "Double shot with silky milk." },
+  { "id": "oat-flat-white", "name": "Oat flat white", "price": 5.0, "tags": ["coffee", "hot", "dairy-free", "vegan"], "about": "Our flat white made with oat milk." },
+  { "id": "long-black", "name": "Long black", "price": 4.5, "tags": ["coffee", "hot", "dairy-free", "vegan"], "about": "Double shot over hot water. No milk." },
+  { "id": "chai-latte", "name": "Chai latte", "price": 5.5, "tags": ["tea", "hot", "sweet"], "about": "Spiced chai with steamed milk." },
+  { "id": "iced-latte", "name": "Iced latte", "price": 6.0, "tags": ["coffee", "cold"], "about": "Espresso, cold milk and ice." },
+  { "id": "berry-smoothie-bowl", "name": "Berry smoothie bowl", "price": 14.0, "tags": ["breakfast", "cold", "dairy-free", "vegan", "gluten-free", "healthy"], "about": "Blended berries and banana with granola and coconut." },
+  { "id": "avo-toast", "name": "Avocado toast", "price": 16.0, "tags": ["breakfast", "vegetarian", "savoury"], "about": "Smashed avocado, feta and lemon on sourdough." },
+  { "id": "big-breakfast", "name": "Harbour big breakfast", "price": 22.0, "tags": ["breakfast", "savoury", "filling"], "about": "Eggs, bacon, mushrooms, tomato and toast." },
+  { "id": "banana-bread", "name": "Banana bread", "price": 6.5, "tags": ["sweet", "snack", "gluten-free"], "about": "Toasted, with butter. Made gluten-free." },
+  { "id": "chicken-wrap", "name": "Chicken salad wrap", "price": 13.0, "tags": ["lunch", "savoury", "takeaway"], "about": "Grilled chicken, lettuce and aioli in a wrap." },
+  { "id": "veggie-soup", "name": "Soup of the day", "price": 11.0, "tags": ["lunch", "hot", "vegetarian"], "about": "Ask what today's is. Comes with bread." },
+  { "id": "kids-toastie", "name": "Kids' cheese toastie", "price": 7.0, "tags": ["kids", "lunch", "vegetarian"], "about": "Cheese toastie for little ones." }
+]

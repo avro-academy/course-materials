@@ -1,0 +1,23 @@
+/* Bayside Paws practice site */
+* { box-sizing: border-box; }
+body { margin: 0; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; color: #2b2622; background: #fffaf3; line-height: 1.6; }
+header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 24px; background: #ffffff; border-bottom: 3px solid #e0a43a; }
+.logo { font-weight: 800; font-size: 1.3rem; color: #b5542c; text-decoration: none; }
+nav { display: flex; flex-wrap: wrap; gap: 6px 16px; }
+nav a { color: #2b2622; text-decoration: none; font-weight: 600; }
+nav a:hover { color: #b5542c; }
+main { max-width: 860px; margin: 0 auto; padding: 24px; }
+h1 { color: #7a3b1e; line-height: 1.2; }
+h2 { color: #7a3b1e; margin-top: 1.8em; }
+a { color: #b5542c; }
+img { max-width: 100%; height: auto; border-radius: 12px; }
+.cta { display: inline-block; background: #e0a43a; color: #2b2622; font-weight: 700; text-decoration: none; padding: 12px 24px; border-radius: 999px; }
+.cta:hover { background: #f0b850; }
+table { border-collapse: collapse; width: 100%; margin: 12px 0; background: #ffffff; }
+th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid #ecdcc6; }
+th { background: #fbeedd; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 16px; }
+.card { background: #ffffff; border: 1px solid #ecdcc6; border-radius: 14px; padding: 16px; }
+.card h2 { margin-top: 0.4em; font-size: 1.2rem; }
+footer { background: #2b2622; color: #f3e7d6; padding: 24px; margin-top: 40px; font-size: 0.9rem; }
+footer a { color: #ffcf4a; }
