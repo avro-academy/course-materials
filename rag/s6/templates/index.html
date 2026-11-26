@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Staff Handbook Assistant · Corner Café</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>Staff Handbook Assistant</h1>
+    <p>Ask about pay, rosters, food safety, the coffee machine and more. Answers come from Corner Café's documents.</p>
+  </header>
+  <main>
+    <form id="ask">
+      <input id="question" name="question" maxlength="500" autocomplete="off" required
+             placeholder="For example: How long is my lunch break?" aria-label="Your question">
+      <button type="submit">Ask</button>
+    </form>
+    <div class="examples">
+      Try:
+      <button type="button" class="example">When is pay day?</button>
+      <button type="button" class="example">A customer has a nut allergy. What do I do?</button>
+      <button type="button" class="example">How do I swap a shift?</button>
+    </div>
+    <section id="result" hidden>
+      <p id="answer"></p>
+      <div id="sources"></div>
+    </section>
+    <p class="note">Answers can be wrong. Check the source, or ask the café manager.</p>
+  </main>
+  <script src="{{ url_for('static', filename='app.js') }}"></script>
+</body>
+</html>

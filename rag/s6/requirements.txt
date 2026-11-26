@@ -1,0 +1,7 @@
+pypdf
+python-docx
+chromadb
+ollama
+rank-bm25
+flask
+pytest
