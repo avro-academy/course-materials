@@ -1,0 +1,17 @@
+name,day,start,finish,hours
+Mel,Monday,07:00,12:30,5.5
+Priya,Monday,11:00,16:00,5.0
+Priya,Tuesday,07:00,12:00,5.0
+Sam,Tuesday,10:00,16:00,6.0
+Mel,Wednesday,07:00,12:00,5.0
+Ali,Wednesday,10:30,16:00,5.5
+Sam,Thursday,07:00,13:00,6.0
+Priya,Thursday,11:00,16:00,5.0
+Ali,Friday,07:00,13:00,6.0
+Mel,Friday,11:00,16:00,5.0
+Mel,Saturday,07:00,12:00,5.0
+Jordan,Saturday,09:00,14:00,5.0
+Ali,Saturday,10:30,15:00,4.5
+Mel,Sunday,07:00,13:30,6.5
+Priya,Sunday,09:00,16:00,7.0
+Sam,Sunday,10:30,15:00,4.5

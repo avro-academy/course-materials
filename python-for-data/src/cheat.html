@@ -1,0 +1,70 @@
+<style>body{font-size:7.4pt} pre{font-size:5.9pt} td{padding:1px 3px;word-break:break-word} td:first-child{white-space:normal;width:52%} section{padding:5px 7px 6px;margin-bottom:6px}</style>
+<section><h2>Start</h2><pre>import pandas as pd
+import matplotlib.pyplot as plt
+df = pd.read_csv("data/cafe_sales_2025.csv")
+pd.read_excel("sales.xlsx", sheet_name="2025")
+pd.read_csv("data.csv", sep=";")
+pd.read_json("data.json")</pre><p>Colab: 📁 Files → upload. Own computer: <code>pip install pandas matplotlib openpyxl</code></p></section>
+<section><h2>Look before you analyse</h2><table><tr><td><code>df.shape</code></td><td>(rows, columns)</td></tr><tr><td><code>df.head()</code> <code>df.tail()</code></td><td>first / last 5 rows</td></tr><tr><td><code>df.columns.tolist()</code></td><td>column names</td></tr><tr><td><code>df.info()</code></td><td>types and non-null counts</td></tr><tr><td><code>df.isna().sum()</code></td><td>missing values per column</td></tr><tr><td><code>df["col"].value_counts(dropna=False)</code></td><td>what's in a column</td></tr><tr><td><code>df["col"].unique()</code> <code>.nunique()</code></td><td>distinct values</td></tr><tr><td><code>df["col"].describe()</code></td><td>count, mean, min, max…</td></tr><tr><td><code>df.duplicated().sum()</code></td><td>exact duplicate rows</td></tr></table></section>
+<section><h2>Select and filter</h2><pre>df["item"]                      <span class="c"># a Series</span>
+df[["date", "item"]]            <span class="c"># a DataFrame</span>
+df[df["quantity"] &gt;= 4]
+df[(df["staff"] == "Sam") &amp; (df["payment"] == "Cash")]
+df[(a) | (b)]                   <span class="c"># or</span>
+df[df["category"].isin(["Coffee", "Tea"])]
+df[df["item"].str.contains("latte", case=False)]
+df.loc[df["quantity"] &gt; 10, ["order_id", "item"]]</pre><p>Wrap each condition in brackets. <code>&amp;</code> = and, <code>|</code> = or, <code>~</code> = not.</p></section>
+<section class="coral"><h2>Sort and new columns</h2><pre>df.sort_values("revenue", ascending=False)
+df.sort_values(["category", "item"])
+df["revenue"] = df["quantity"] * df["unit_price"]
+df["gst"] = (df["revenue"] / 11).round(2)
+df["big"] = df["quantity"] &gt;= 4
+df = df.rename(columns={"qty": "quantity"})
+df = df.drop(columns=["notes"])</pre><p>Maths on a column happens to every row at once (vectorised).</p></section>
+<section class="coral"><h2>Clean: text and types</h2><pre>s = df["unit_price"].str.replace("$", "", regex=False)
+df["unit_price"] = s.astype(float)
+df["item"] = df["item"].str.strip().str.capitalize()
+df["payment"] = df["payment"].str.title()
+df["date"] = pd.to_datetime(df["date"], format="%d/%m/%Y")
+df["quantity"] = df["quantity"].astype(int)</pre><table><tr><td><code>%d %m %Y</code></td><td>day, month, 4-digit year</td></tr><tr><td><code>%H:%M</code></td><td>24-hour time</td></tr></table></section>
+<section class="coral"><h2>Clean: gaps, duplicates, save</h2><pre>df = df.drop_duplicates()
+df = df.dropna(subset=["quantity"])
+df["payment"] = df["payment"].fillna("Unknown")
+df = df[df["quantity"] != 120]   <span class="c"># typo, checked</span>
+df.to_csv("clean.csv", index=False)</pre><p><strong>Rules:</strong> never change the original file · comment every decision · check after each step · ask when unsure.</p></section>
+<section class="amber"><h2>groupby</h2><pre>df.groupby("category")["revenue"].sum()
+df.groupby("item")["quantity"].sum().sort_values(ascending=False).head(5)
+df.groupby("staff").agg(
+    lines=("order_id", "count"),
+    revenue=("revenue", "sum"),
+    average=("revenue", "mean"),
+).round(2)
+by.reset_index()   <span class="c"># labels back to a column</span></pre><p>sum · mean · count · min · max · median · nunique</p></section>
+<section class="amber"><h2>Dates</h2><pre>df["date"].dt.month       df["date"].dt.year
+df["date"].dt.day_name()  df["date"].dt.quarter
+df["date"].dt.month_name()
+order = ["Monday", …, "Sunday"]
+by_day.reindex(order)
+df["hour"] = df["time"].str.slice(0, 2).astype(int)
+counts.idxmax()           <span class="c"># label of the biggest</span></pre><p>Read dates already parsed: <code>pd.read_csv(f, parse_dates=["date"])</code></p></section>
+<section class="amber"><h2>merge, pivot, crosstab</h2><pre>m = df.merge(products, on="item", how="left")
+m["cost_price"].isna().sum()    <span class="c"># check matches</span>
+df.pivot_table(index="category", columns="quarter",
+               values="revenue", aggfunc="sum")
+pd.crosstab(df["category"], df["payment"])</pre><table><tr><td><code>how="left"</code></td><td>all rows of the first table</td></tr><tr><td><code>"inner"</code></td><td>only rows in both</td></tr><tr><td><code>"outer"</code></td><td>everything</td></tr></table></section>
+<section><h2>Charts</h2><pre>ax = s.plot(kind="barh", color="#14b8a6")
+ax.set_title("Revenue by category, 2025")
+ax.set_xlabel("Revenue ($)")
+plt.tight_layout()
+plt.savefig("chart.png", dpi=150)</pre><table><tr><td>Compare groups</td><td><code>kind="bar"</code> / <code>"barh"</code></td></tr><tr><td>Change over time</td><td><code>kind="line", marker="o"</code></td></tr><tr><td>Spread of values</td><td><code>kind="hist", bins=…</code></td></tr><tr><td>Two numbers</td><td><code>kind="scatter", x=, y=</code></td></tr></table></section>
+<section><h2>Honest charts</h2><ul><li>Bars start at zero</li><li>Title says what and when</li><li>Label axes, with units</li><li>Say what was removed in cleaning</li><li>No cherry-picked periods</li><li>Compared to what? (shifts worked, days open)</li></ul></section>
+<section class="coral"><h2>Many files and Excel</h2><pre>from pathlib import Path
+files = sorted(Path("data/rosters").glob("roster_week_*.csv"))
+roster = pd.concat([pd.read_csv(f) for f in files],
+                   ignore_index=True)
+with pd.ExcelWriter("report.xlsx") as w:
+    a.to_excel(w, sheet_name="By category", index=False)
+    b.to_excel(w, sheet_name="By month", index=False)
+pd.read_excel("report.xlsx", sheet_name=None)
+df["day"].map({"Saturday": 1.25}).fillna(1)</pre></section>
+<section class="amber"><h2>Errors you'll meet</h2><table><tr><td><code>KeyError: 'Item'</code></td><td>column name spelt differently (check <code>df.columns</code>)</td></tr><tr><td><code>TypeError</code> on maths</td><td>column is text: clean it, then <code>astype(float)</code></td></tr><tr><td><code>FileNotFoundError</code></td><td>file not uploaded, or wrong folder</td></tr><tr><td><code>SettingWithCopyWarning</code></td><td>add <code>.copy()</code> after filtering</td></tr><tr><td>Dates wrong way round</td><td>give <code>format="%d/%m/%Y"</code></td></tr></table></section>
