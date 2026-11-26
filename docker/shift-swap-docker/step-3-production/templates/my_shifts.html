@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}My shifts · Shift Swap{% endblock %}
+{% block content %}
+<h1>My shifts</h1>
+<h2>Shifts I'm covering</h2>
+{% if covering %}
+<ul class="shifts">
+  {% for shift in covering %}
+  <li class="shift"><div><strong>{{ shift['day'] | nice_date }}</strong> · {{ shift['start'] }}–{{ shift['finish'] }} <span class="tag">{{ shift['role'] }}</span><div class="muted">For {{ shift['owner_name'] }}</div></div></li>
+  {% endfor %}
+</ul>
+{% else %}<p class="empty">You're not covering any shifts yet.</p>{% endif %}
+<h2>Shifts I posted</h2>
+{% if posted %}
+<ul class="shifts">
+  {% for shift in posted %}
+  <li class="shift">
+    <div><strong>{{ shift['day'] | nice_date }}</strong> · {{ shift['start'] }}–{{ shift['finish'] }} <span class="tag">{{ shift['role'] }}</span>
+      <div class="muted">{% if shift['taker_name'] %}Taken by {{ shift['taker_name'] }} ✅{% else %}Still open{% endif %}</div></div>
+    <form method="post" action="{{ url_for('delete_shift', shift_id=shift['id']) }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <button class="danger">Remove</button>
+    </form>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}<p class="empty">You haven't posted any shifts. <a href="{{ url_for('new_shift') }}">Post one</a></p>{% endif %}
+{% endblock %}

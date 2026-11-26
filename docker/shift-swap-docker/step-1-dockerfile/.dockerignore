@@ -1,0 +1,8 @@
+# Files Docker doesn't need to copy into the image
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.db
+.env
+.git/

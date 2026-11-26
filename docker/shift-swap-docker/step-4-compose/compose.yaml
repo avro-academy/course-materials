@@ -1,0 +1,34 @@
+# Shift Swap with a PostgreSQL database.
+#   docker compose up -d --build        start both
+#   docker compose run --rm web flask --app app init-db    create the tables (once)
+#   docker compose down                 stop (the data stays in the db-data volume)
+services:
+  web:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      DATABASE_URL: postgresql://shiftswap:${POSTGRES_PASSWORD}@db:5432/shiftswap
+      SECRET_KEY: ${SECRET_KEY}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  db:
+    image: postgres:18
+    environment:
+      POSTGRES_USER: shiftswap
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: shiftswap
+    volumes:
+      - db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U shiftswap -d shiftswap"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+volumes:
+  db-data:

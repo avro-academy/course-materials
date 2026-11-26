@@ -1,0 +1,79 @@
+<style>body{font-size:6.9pt} pre{font-size:6.2pt;line-height:1.25} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>The words</h2><table><tr><td>Image</td><td>A packaged app with everything it needs: the recipe's result</td></tr><tr><td>Container</td><td>A running copy of an image, walled off from the rest</td></tr><tr><td>Dockerfile</td><td>The recipe for building an image</td></tr><tr><td>Layer</td><td>One step's snapshot; layers are cached and shared</td></tr><tr><td>Registry</td><td>Where images are shared: Docker Hub, ghcr.io</td></tr><tr><td>Volume</td><td>Storage Docker keeps, separate from any container</td></tr><tr><td>Bind mount</td><td>A folder on your computer, shared into a container</td></tr><tr><td>Tag</td><td><code>name:version</code>, e.g. <code>shift-swap:1.0</code></td></tr></table></section>
+<section><h2>Containers</h2><table>
+<tr><td><code>docker run -d --name web -p 8080:80 nginx:1.29</code></td><td>Start in the background, your port 8080 → container 80</td></tr>
+<tr><td><code>docker run -it --rm python:3.13-slim</code></td><td>Interactive; removed when it stops</td></tr>
+<tr><td><code>docker ps</code> · <code>docker ps -a</code></td><td>Running · all, stopped too</td></tr>
+<tr><td><code>docker logs -f web</code></td><td>Follow its output (Ctrl+C to stop)</td></tr>
+<tr><td><code>docker exec -it web sh</code></td><td>Run a command inside (here, a shell)</td></tr>
+<tr><td><code>docker stop web</code> · <code>docker start web</code></td><td>Stop · start again</td></tr>
+<tr><td><code>docker rm -f web</code></td><td>Remove (even if running)</td></tr>
+<tr><td><code>docker inspect web</code></td><td>Every detail, as JSON</td></tr>
+<tr><td><code>--restart unless-stopped</code></td><td>Start it again if it stops</td></tr>
+</table></section>
+<section class="coral"><h2>A Dockerfile</h2><pre>FROM python:3.13-slim
+ENV PYTHONUNBUFFERED=1
+WORKDIR /app
+# rarely changes: near the top
+COPY requirements.txt .
+RUN pip install --no-cache-dir \
+    -r requirements.txt
+# often changes: near the bottom
+COPY . .
+RUN useradd --create-home appuser
+USER appuser
+EXPOSE 5000
+HEALTHCHECK CMD python -c "..."
+CMD ["gunicorn", "--bind",
+     "0.0.0.0:5000", "app:app"]</pre><p><code>FROM</code> base · <code>WORKDIR</code> cd · <code>COPY</code> files in · <code>RUN</code> at build · <code>CMD</code> at start. Once a step changes, every step after it runs again. Keep junk and secrets out with <code>.dockerignore</code>.</p></section>
+<section class="coral"><h2>Images</h2><table>
+<tr><td><code>docker build -t shift-swap:1.0 .</code></td><td>Build from the Dockerfile here (don't forget the <code>.</code>)</td></tr>
+<tr><td><code>docker images</code></td><td>List images and sizes</td></tr>
+<tr><td><code>docker history shift-swap</code></td><td>Its layers</td></tr>
+<tr><td><code>docker tag shift-swap:1.0 ghcr.io/you/shift-swap:1.0</code></td><td>Another name, for a registry</td></tr>
+<tr><td><code>docker login ghcr.io</code> · <code>docker push …</code> · <code>docker pull …</code></td><td>Share and fetch</td></tr>
+</table><p>Use <code>-slim</code> images and pin a version (<code>postgres:18</code>, not <code>latest</code>).</p></section>
+<section><h2>Data and settings</h2><table>
+<tr><td><code>-v shiftdata:/data</code></td><td>Attach a volume (made if missing)</td></tr>
+<tr><td><code>-v "$(pwd):/backup"</code></td><td>Bind mount this folder (PowerShell: <code>${PWD}</code>)</td></tr>
+<tr><td><code>-e SECRET_KEY=abc</code> · <code>--env-file .env</code></td><td>Settings, one or from a file</td></tr>
+<tr><td><code>docker volume ls</code> · <code>docker volume inspect shiftdata</code></td><td>List · details</td></tr>
+<tr><td><code>docker run --rm -v shiftdata:/data --user root shift-swap:1.0 chown -R appuser /data</code></td><td>Fix an old volume after switching to a non-root user</td></tr>
+</table><p>Containers are disposable: anything that must survive lives in a volume.</p></section>
+<section><h2>Compose</h2><pre>services:
+  web:
+    build: .
+    ports: ["5000:5000"]
+    environment:
+      DATABASE_URL: postgresql://
+        shiftswap:${POSTGRES_PASSWORD}
+        @db:5432/shiftswap
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: postgres:18
+    volumes:
+      - db-data:/var/lib/postgresql
+volumes:
+  db-data:</pre><p>(<code>DATABASE_URL</code> is one line in the real file.)</p><table>
+<tr><td><code>docker compose up -d --build</code></td><td>Build and start everything</td></tr>
+<tr><td><code>docker compose ps</code> · <code>logs -f web</code></td><td>Status · follow one service</td></tr>
+<tr><td><code>docker compose exec db psql -U shiftswap</code></td><td>Run a command in a service</td></tr>
+<tr><td><code>docker compose run --rm web flask --app app init-db</code></td><td>A one-off command</td></tr>
+<tr><td><code>docker compose down</code> · <code>down -v</code></td><td>Stop · and delete the volumes (data!)</td></tr>
+</table><p>Services find each other by name (<code>db</code>). <code>${…}</code> comes from <code>.env</code>.</p></section>
+<section class="coral"><h2>Cleaning up</h2><table>
+<tr><td><code>docker system df</code></td><td>What's using the space</td></tr>
+<tr><td><code>docker container prune</code> · <code>image prune</code></td><td>Stopped containers · dangling images</td></tr>
+<tr><td><code>docker builder prune</code></td><td>The build cache</td></tr>
+<tr><td><code>docker volume prune</code></td><td>Unused volumes: data! Check first</td></tr>
+</table></section>
+<section class="coral"><h2>When it goes wrong</h2><table>
+<tr><td>port is already allocated</td><td>Something uses that port: <code>-p 5050:5000</code></td></tr>
+<tr><td>Exited straight away</td><td><code>docker logs name</code> says why</td></tr>
+<tr><td>no such table</td><td>Run <code>init-db</code> first</td></tr>
+<tr><td>readonly database</td><td>The volume belongs to root: <code>chown</code> it (above)</td></tr>
+<tr><td>Can't connect from the browser</td><td>Listen on <code>0.0.0.0</code>, publish with <code>-p</code></td></tr>
+<tr><td>Changes don't show</td><td>Rebuild, then replace the container</td></tr>
+</table></section>

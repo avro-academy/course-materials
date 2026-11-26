@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}Shift Swap Board{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="{{ url_for('index') }}">🔁 Shift Swap</a>
+    <nav>
+      <a href="{{ url_for('about') }}">About</a>
+      {% if g.user %}
+        <a href="{{ url_for('new_shift') }}">Post a shift</a>
+        <a href="{{ url_for('my_shifts') }}">My shifts</a>
+        <form method="post" action="{{ url_for('logout') }}">
+          <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+          <button>Log out {{ g.user['username'] }}</button>
+        </form>
+      {% else %}
+        <a href="{{ url_for('login') }}">Log in</a>
+        <a href="{{ url_for('register') }}">Sign up</a>
+      {% endif %}
+    </nav>
+  </header>
+  <main>
+    {% for message in get_flashed_messages() %}
+      <p class="flash">{{ message }}</p>
+    {% endfor %}
+    {% block content %}{% endblock %}
+  </main>
+  {% block scripts %}{% endblock %}
+</body>
+</html>
