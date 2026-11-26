@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "corner-cafe": {
+      "command": "/Users/sam/cafe-mcp/.venv/bin/python",
+      "args": ["/Users/sam/cafe-mcp/server.py"]
+    }
+  }
+}

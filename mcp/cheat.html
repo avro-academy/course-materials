@@ -1,0 +1,95 @@
+<style>.cols{column-count:2 !important} body{font-size:6.8pt} pre{font-size:6.1pt;line-height:1.16} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>What MCP is</h2><table><tr><td>Host</td><td>The AI app a person uses (Claude Desktop, VS Code, your agent)</td></tr><tr><td>Client</td><td>The part of the host that talks to one server</td></tr><tr><td>Server</td><td>A program that offers capabilities to AI apps</td></tr></table><table><tr><td>Tools</td><td>Functions the <b>model</b> chooses to call</td></tr><tr><td>Resources</td><td>Information the <b>app</b> reads, by URI</td></tr><tr><td>Prompts</td><td>Templates the <b>person</b> picks</td></tr></table><p>JSON-RPC messages: <code>initialize</code>, <code>tools/list</code>, <code>tools/call</code>, <code>resources/read</code>, <code>prompts/get</code>. Transports: <b>stdio</b> (the app starts the server) or <b>Streamable HTTP</b> (a URL).</p></section>
+<section><h2>A server</h2><pre>pip install "mcp[cli]&lt;2"
+
+from mcp.server.fastmcp import FastMCP
+from mcp.types import ToolAnnotations
+mcp = FastMCP("Corner Café")
+
+@mcp.tool(annotations=ToolAnnotations(
+    title="Check free tables", readOnlyHint=True))
+def booking_times(date: str, people: int,
+                  time: str = "") -&gt; str:
+    """Check free tables. date is YYYY-MM-DD;
+    people is 1 to 8; time is HH:MM or empty."""
+    problem = bookings.problem_with(date, people)
+    if problem:
+        return problem          # a plain message
+    ...
+
+if __name__ == "__main__":
+    mcp.run()                   # stdio</pre><p>Name, type hints and docstring become the tool's description and JSON Schema. Check every argument: the model may pass anything.</p></section>
+<section class="coral"><h2>Annotations (hints, not guarantees)</h2><table><tr><td><code>readOnlyHint</code></td><td>Only reads; changes nothing</td></tr><tr><td><code>destructiveHint</code></td><td>Might delete or overwrite</td></tr><tr><td><code>idempotentHint</code></td><td>Twice = once</td></tr><tr><td><code>openWorldHint</code></td><td>Reaches the outside world</td></tr></table><p>For anything that matters, make <b>request</b> tools a person approves, not actions.</p></section>
+<section class="teal"><h2>Resources and prompts</h2><pre>@mcp.resource("cafe://menu",
+              mime_type="text/markdown")
+def menu() -&gt; str:
+    """Corner Café's menu and prices."""
+    return read("menu.md")
+
+@mcp.resource("cafe://bookings/{date}")  # a template
+def day_bookings(date: str) -&gt; str: ...
+
+@mcp.prompt(title="Reply to a customer")
+def reply_to_customer(message: str) -&gt; str:
+    return "Write a warm reply... " + message</pre></section>
+<section><h2>A client</h2><pre>from mcp import ClientSession, StdioServerParameters
+from mcp.client.stdio import stdio_client
+
+server = StdioServerParameters(
+    command=sys.executable, args=["server.py"])
+async with stdio_client(server) as (read, write):
+    async with ClientSession(read, write) as s:
+        await s.initialize()
+        tools = (await s.list_tools()).tools
+        r = await s.call_tool("booking_times",
+            {"date": "2026-10-31", "people": 4})
+        print(r.content[0].text)
+        await s.read_resource("cafe://menu")
+        await s.get_prompt("reply_to_customer",
+                           {"message": "Hi!"})</pre><p>Clients are async: <code>asyncio.run(main())</code>.</p></section>
+<section class="coral"><h2>Test it</h2><pre>npx @modelcontextprotocol/inspector python server.py
+
+from mcp.shared.memory import (
+    create_connected_server_and_client_session)
+
+@pytest.mark.anyio
+async def test_tools():
+    async with create_connected_server_and_client_session(
+            server.mcp._mcp_server) as s:
+        names = {t.name for t in (await s.list_tools()).tools}
+        assert "booking_times" in names</pre></section>
+<section class="teal"><h2>LangGraph agent with MCP tools</h2><pre>from langchain_mcp_adapters.client import (
+    MultiServerMCPClient)
+SERVERS = {
+  "cafe": {"command": sys.executable,
+           "args": ["server.py"], "transport": "stdio"},
+  "files": {"command": "npx", "args": ["-y",
+     "@modelcontextprotocol/server-filesystem",
+     "./shared"], "transport": "stdio"},
+}
+client = MultiServerMCPClient(SERVERS)
+tools = [t for t in await client.get_tools()
+         if t.name in ALLOWED]
+llm = ChatOllama(model="qwen3:4b-instruct",
+                 temperature=0).bind_tools(tools)
+# agent -&gt; ToolNode(tools) -&gt; agent; app.ainvoke(...)</pre><p>Fewer tools = better choices, especially for small models.</p></section>
+<section><h2>Desktop apps</h2><pre>// claude_desktop_config.json
+{"mcpServers": {"corner-cafe": {
+  "command": "/full/path/.venv/bin/python",
+  "args": ["/full/path/server.py"]}}}</pre><p>VS Code: <code>.vscode/mcp.json</code> with <code>"servers"</code>. Same command-and-args idea in Cursor, Windsurf and others. Cloud apps send tool results to that company.</p></section>
+<section class="coral"><h2>Over HTTP, with a token</h2><pre>class StaffToken(TokenVerifier):
+    async def verify_token(self, token):
+        if TOKEN and secrets.compare_digest(token, TOKEN):
+            return AccessToken(token=token,
+                client_id="cafe-staff", scopes=["cafe"])
+
+FastMCP("Corner Café", token_verifier=StaffToken(),
+        auth=AuthSettings(issuer_url=...,
+            resource_server_url=".../mcp",
+            required_scopes=["cafe"]))
+mcp.run(transport="streamable-http")  # :8000/mcp
+
+streamablehttp_client(url, headers={
+    "Authorization": f"Bearer {token}"})</pre><p>Token from an environment variable. Always HTTPS. One token per person or app. Public servers: OAuth.</p></section>
+<section class="teal"><h2>Security</h2><table><tr><td>Tool poisoning</td><td>Hidden instructions in tool descriptions</td></tr><tr><td>Rug pulls</td><td>Tools change after approval: pin versions</td></tr><tr><td>Prompt injection</td><td>Untrusted content + tools that act = danger</td></tr><tr><td>Least access</td><td>Fewest tools, folders and permissions</td></tr></table><p>Validate arguments, check permissions in each tool, return no secrets, log tool calls.</p></section>
+<section><h2>Share it</h2><p>Python package (<code>uvx</code>, <code>pipx run</code>), npm package (<code>npx</code>), Docker image (<code>docker run -i --rm</code>), or a hosted HTTP server. Write a README: tools, what changes things, needs, settings, app setup. Tool names and schemas are a contract: add, don't change. SDK v2 renames <code>FastMCP</code> to <code>MCPServer</code>.</p></section>

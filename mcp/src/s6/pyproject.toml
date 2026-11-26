@@ -1,0 +1,18 @@
+# Makes the server installable, so people can run it with: uvx --from . corner-cafe-mcp  (or pipx run --spec . corner-cafe-mcp)
+[project]
+name = "corner-cafe-mcp"
+version = "1.0.0"
+description = "Corner Café's MCP server: table bookings, the staff handbook, the menu and opening hours."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = ["mcp[cli]<2", "pypdf", "python-docx", "chromadb", "ollama", "rank-bm25"]
+
+[project.scripts]
+corner-cafe-mcp = "server:main"
+
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+py-modules = ["server", "bookings"]

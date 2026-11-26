@@ -1,0 +1,10 @@
+mcp[cli]<2
+pypdf
+python-docx
+chromadb
+ollama
+rank-bm25
+langchain-mcp-adapters
+langgraph
+langchain-ollama
+pytest
