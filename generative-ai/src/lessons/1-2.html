@@ -1,0 +1,36 @@
+<h2>A very good guesser</h2>
+<p>A large language model does one thing: given some text, it predicts <strong>what comes next</strong>. Then it adds that piece to the text and predicts again, over and over, until the answer is finished.</p>
+<p>Type <em>"The capital of Australia is"</em> and the model has learned from millions of documents that <em>"Canberra"</em> is by far the most likely next word. It doesn't look it up anywhere; the pattern is stored in the model itself.</p>
+<h2>Tokens: the pieces it works with</h2>
+<p>Models don't read words the way you do. Text is cut into <strong>tokens</strong>: whole short words, or parts of longer ones. "Tutoring" might be one token; "Brightside" might be two ("Bright" + "side"). As a rough guide, 100 tokens is about 75 English words.</p>
+<p>Tokens matter because:</p>
+<ul>
+<li>Every model has a <strong>context window</strong> — a limit on how many tokens it can read and write in one go, including your whole conversation so far</li>
+<li>Cloud AI services charge by the number of tokens in and out</li>
+<li>Longer answers take longer, one token at a time</li>
+</ul>
+<h2>Learned from examples</h2>
+<p>To build an LLM, a computer reads a huge amount of text — books, websites, code — and keeps adjusting billions of numbers inside the model, called <strong>parameters</strong>, so that its guesses about the next token get better. This is called <strong>training</strong>, and for the biggest models it takes months and costs millions of dollars.</p>
+<p>After that, most models get extra training on examples of helpful conversations, and on people's ratings of which answers were better. That's what turns a text-predictor into a polite assistant that answers questions instead of just continuing your sentence.</p>
+<h2>Why the same question gets different answers</h2>
+<p>At each step the model has a list of possible next tokens, each with a probability. It doesn't always pick the top one: a setting called <strong>temperature</strong> controls how adventurous it is.</p>
+<table>
+<thead><tr><th>Temperature</th><th>Behaviour</th><th>Good for</th></tr></thead>
+<tbody>
+<tr><td>Low (0 to 0.3)</td><td>Picks the most likely token nearly every time; very similar answers</td><td>Facts, sorting, pulling details out of text</td></tr>
+<tr><td>Medium (0.5 to 0.8)</td><td>Some variety</td><td>Most writing</td></tr>
+<tr><td>High (1 and above)</td><td>Surprising choices, sometimes nonsense</td><td>Brainstorming names and ideas</td></tr>
+</tbody>
+</table>
+<p>You'll change temperature yourself in Module 4.</p>
+<h2>What this means in practice</h2>
+<ul>
+<li>An LLM produces <strong>likely-sounding</strong> text, not checked facts</li>
+<li>It knows nothing that happened after its training finished, unless you give it the information</li>
+<li>It can't see your files, the web or your calendar unless an app gives it a way to (Modules 5 and 6)</li>
+</ul>
+<h3>Try it</h3>
+<ol>
+<li>In any AI chat tool, ask the same question twice in two new chats: <em>"Suggest a name for a tutoring business."</em> Are the answers the same?</li>
+<li>Ask: <em>"What happened in the news yesterday?"</em> Notice how it answers — does it admit what it can't know, or does it make something up?</li>
+</ol>

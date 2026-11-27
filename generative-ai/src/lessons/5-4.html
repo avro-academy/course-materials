@@ -1,0 +1,113 @@
+<h2>Let the model ask your code</h2>
+<p>A model can't check Brightside's bookings: it only knows what's in its training and its prompt. <strong>Tool use</strong> (also called <strong>function calling</strong>) fixes this. You describe some Python functions to the model; when it needs one, it replies with a request — "please run <code>check_free_places</code> with subject maths and day wednesday" — instead of an answer. Your code runs the function and sends back the result, and the model uses it to answer.</p>
+<p>The model never runs anything itself. Your code decides what actually happens, which keeps you in control.</p>
+<p>Tool use needs a model trained for it (the Ollama library marks them <strong>tools</strong>). This lesson uses <strong>qwen3:4b-instruct</strong>, which you pulled in Module 2.3.</p>
+<h2>The tools</h2>
+<p><strong>module-5/tools.py</strong> (the first part)</p><pre><code>"""Tool use: the model asks our code to look things up, then answers with the result."""
+import datetime
+import sys
+
+import ollama
+
+MODEL = sys.argv[1] if len(sys.argv) &gt; 1 else "qwen3:4b-instruct"  # or: python tools.py llama3.2
+
+# Pretend booking system: free small-group places per subject and day
+FREE_PLACES = {
+    ("maths", "monday"): 0, ("maths", "wednesday"): 2, ("maths", "saturday"): 1,
+    ("english", "tuesday"): 3, ("english", "thursday"): 0,
+    ("science", "wednesday"): 1, ("science", "saturday"): 4,
+}
+
+
+def check_free_places(subject: str, day: str) -&gt; str:
+    """Check how many free small-group places there are for a subject on a day of the week.
+
+    Args:
+        subject: maths, english or science
+        day: a day of the week, like wednesday
+
+    Returns:
+        How many places are free
+    """
+    if not isinstance(subject, str) or not isinstance(day, str):
+        return "Error: give one subject and one day per call."
+    places = FREE_PLACES.get((subject.lower(), day.lower()))
+    if places is None:
+        return f"There is no {subject} group on {day}."
+    return f"{places} free place{'' if places == 1 else 's'} in {subject} on {day}."
+
+
+def todays_date() -&gt; str:
+    """Get today's date and day of the week.
+
+    Returns:
+        Today's date, like Monday 1 February 2027
+    """
+    today = datetime.date.today()
+    return f"{today:%A} {today.day} {today:%B %Y}"</code></pre>
+<p>The Ollama library reads each function's <strong>name, type hints and docstring</strong> and turns them into a description the model sees. That's why the docstrings explain each argument: they're part of the prompt. <code>FREE_PLACES</code> stands in for a real booking system.</p>
+<h2>The loop</h2>
+<p><strong>module-5/tools.py</strong> (the rest)</p><pre><code>TOOLS = {"check_free_places": check_free_places, "todays_date": todays_date}
+
+question = input("Ask about bookings: ")
+messages = [
+    {"role": "system", "content": "You answer booking questions for Brightside Tutoring. "
+                                  "Use the tools to check places; never guess numbers."},
+    {"role": "user", "content": question},
+]
+
+response = ollama.chat(model=MODEL, messages=messages, tools=list(TOOLS.values()),
+                       options={"temperature": 0})
+
+while response["message"].get("tool_calls"):
+    messages.append(response["message"])
+    for call in response["message"]["tool_calls"]:
+        name = call["function"]["name"]
+        args = call["function"]["arguments"]
+        try:
+            result = TOOLS[name](**args)
+        except Exception as error:  # a wrong tool name or arguments: tell the model, so it can try again
+            result = f"Error: {error!r}. Check the tool name and arguments and try again."
+        print(f"[tool] {name}({args}) -&gt; {result}")
+        messages.append({"role": "tool", "content": result, "tool_name": name})
+    response = ollama.chat(model=MODEL, messages=messages, tools=list(TOOLS.values()),
+                           options={"temperature": 0})
+
+print()
+print(response["message"]["content"])</code></pre>
+<ol>
+<li><code>tools=</code> passes the functions to the model</li>
+<li>If the reply has <code>tool_calls</code>, run each one with its <code>arguments</code>, and add the result to the conversation as a <code>tool</code> message</li>
+<li>Ask the model again, with the results. Repeat until it replies with text</li>
+<li>If a call fails, send the error back instead of crashing, so the model can fix its request</li>
+</ol>
+<pre><code>python tools.py</code></pre><p><strong>Result:</strong></p><pre><code>Ask about bookings: Are there any free maths places on Wednesday or Saturday?
+[tool] check_free_places({'subject': 'maths', 'day': 'wednesday'}) -&gt; 2 free places in maths on wednesday.
+[tool] check_free_places({'subject': 'maths', 'day': 'saturday'}) -&gt; 1 free place in maths on saturday.
+
+There are 2 free places in maths on Wednesday and 1 free place in maths on Saturday.</code></pre>
+<p>The model called the tool twice, once per day, and its answer uses the real numbers. Another question:</p>
+<pre><code>python tools.py</code></pre><p><strong>Result:</strong></p><pre><code>Ask about bookings: What's today's date, and is there a science group on Thursday?
+[tool] todays_date({}) -&gt; Friday 27 November 2026
+[tool] check_free_places({'subject': 'science', 'day': 'thursday'}) -&gt; There is no science group on thursday.
+
+Today's date is Friday, 27 November 2026. There is no science group on Thursday.</code></pre>
+<h2>Not every model is good at this</h2>
+<p>Here's the first question again with llama3.2 (<code>python tools.py llama3.2</code>):</p>
+<pre><code>Ask about bookings: Are there any free maths places on Wednesday or Saturday?
+[tool] check_free_places({'day': ['wednesday', 'saturday'], 'subject': 'maths'}) -&gt; Error: give one subject and one day per call.
+
+I can try again with a specific day and subject.
+
+For Wednesday, here are some free maths places:
+
+* Local library: They often have free maths classes or study groups for adults.
+* Community centre: Many community centres offer free maths classes or workshops for adults.
+...</code></pre>
+<p>It sent both days as a list, which the function doesn't accept. Thanks to the check, it got a clear error instead of the program crashing. But instead of trying again, it invented a list of libraries and community centres. This is why you test tool use with the model you'll actually use, and why the tool's code — not the model — checks its inputs.</p>
+<h3>Try it</h3>
+<ol>
+<li>Run <code>tools.py</code> with three booking questions of your own, including one about a subject Brightside doesn't teach.</li>
+<li>Add a tool <code>tutors_for(subject: str) -&gt; str</code> that returns the tutors' names from <code>subjects.md</code>, with a good docstring, and add it to <code>TOOLS</code>. Ask "Who teaches English?"</li>
+<li>Try your questions with llama3.2 too, and note the differences in your model test sheet.</li>
+</ol>

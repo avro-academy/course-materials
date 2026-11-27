@@ -1,0 +1,32 @@
+<h2>A prototype isn't a product</h2>
+<p>Getting an AI app to work on your laptop is the start. Running it for real people means looking after it, because the model, the data and how people use it all change. People call this <strong>LLMOps</strong>: operations for apps built on large language models.</p>
+<h2>The lifecycle</h2>
+<ol>
+<li><strong>Idea and exploration</strong> — define the problem, try prompts and models quickly by hand</li>
+<li><strong>Build and improve</strong> — write the app, add your data (RAG) and tools, and build an evaluation set: questions with known good answers (Module 6.4)</li>
+<li><strong>Evaluate</strong> — run the tests every time you change a prompt, model or document. Check quality, safety, speed and cost</li>
+<li><strong>Deploy</strong> — put it on a server, starting with a small group of users</li>
+<li><strong>Monitor</strong> — watch for errors, slow replies, costs, thumbs-down feedback and strange questions</li>
+<li><strong>Improve</strong> — turn what you learn into new tests and better prompts, then go round again</li>
+</ol>
+<h2>What to measure</h2>
+<table>
+<thead><tr><th>Measure</th><th>Question</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Quality</strong></td><td>Are answers correct and grounded in the notes?</td><td>8 of 8 test questions pass</td></tr>
+<tr><td><strong>Safety</strong></td><td>Does it resist your red-team prompts?</td><td>0 of 5 attacks succeed</td></tr>
+<tr><td><strong>Speed</strong></td><td>How long until the first words appear?</td><td>Under 2 seconds</td></tr>
+<tr><td><strong>Cost</strong></td><td>Tokens per question × price, or server cost</td><td>Under 1 cent per question</td></tr>
+<tr><td><strong>User satisfaction</strong></td><td>Thumbs up vs down; do people come back?</td><td>90% thumbs up</td></tr>
+</tbody>
+</table>
+<h2>Things that change under you</h2>
+<ul>
+<li><strong>Models</strong> are updated or retired. Note the exact model version you tested, and re-test before switching</li>
+<li><strong>Your data</strong> changes: new prices, new terms. Rebuild the search index when notes change</li>
+<li><strong>Users</strong> ask things you never expected. Read (anonymised) logs and add them to your tests</li>
+</ul>
+<h2>Keep a person in charge</h2>
+<p>Someone should own the app: they approve prompt changes, look at feedback each week and decide when to switch it off if something goes wrong. That's the accountability principle from Module 3.1.</p>
+<h3>Try it</h3>
+<p>Write a one-page launch plan for Study Buddy: who tries it first, what you'll measure each week, what "good enough" means for each measure, and who can switch it off.</p>

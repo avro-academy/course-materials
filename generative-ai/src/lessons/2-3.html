@@ -1,0 +1,64 @@
+<p>Already done our <a href="/learn/build-an-ai-chatbot">Build Your Own AI Chatbot</a> course? You have Ollama and llama3.2 already: pull <code>nomic-embed-text</code> and <code>qwen3:4b-instruct</code>, then skip to <strong>Download the other models</strong>.</p>
+<h2>Install Ollama</h2>
+<p><strong>Ollama</strong> is a free, open-source app that downloads open-weight models and runs them on your computer. It runs in the background and gives you a terminal command (<code>ollama</code>) and a local API that your Python code talks to. No account, no API key, and nothing you type leaves your computer.</p>
+<h3>Windows</h3>
+<ol>
+<li>Go to <strong>ollama.com/download</strong> and download the Windows installer</li>
+<li>Run it. Ollama starts in the background; its llama icon appears in the system tray near the clock</li>
+<li>Open a new <strong>PowerShell</strong> or <strong>Terminal</strong> window</li>
+</ol>
+<h3>Mac</h3>
+<ol>
+<li>Download Ollama for macOS from <strong>ollama.com/download</strong>, open it and drag Ollama to Applications</li>
+<li>Open it from Applications and follow the prompt to install the <code>ollama</code> command</li>
+<li>Open <strong>Terminal</strong></li>
+</ol>
+<h3>Linux</h3>
+<p>Follow the Linux instructions at <strong>ollama.com/download</strong>; they set Ollama up as a service.</p>
+<h3>Check it works</h3>
+<pre><code>ollama --version</code></pre><p><strong>Result:</strong></p><pre><code>ollama version is 0.40.18</code></pre>
+<p>Yours will probably be newer.</p>
+<h2>Download the models</h2>
+<p>You'll use four free models in this course:</p>
+<table>
+<thead><tr><th>Model</th><th>Size</th><th>Used for</th></tr></thead>
+<tbody>
+<tr><td><code>llama3.2</code> (Meta, 3B)</td><td>2.0 GB</td><td>Most lessons</td></tr>
+<tr><td><code>nomic-embed-text</code></td><td>274 MB</td><td>Embeddings and search (Module 6)</td></tr>
+<tr><td><code>qwen3:4b-instruct</code> (Alibaba, 4B)</td><td>2.5 GB</td><td>Comparing models (2.4), tool use (5.4) and the agent (8.1)</td></tr>
+<tr><td><code>gemma3:4b</code> (Google, 4B)</td><td>3.4 GB</td><td>Comparing models (Module 2.4)</td></tr>
+</tbody>
+</table>
+<pre><code>ollama pull llama3.2
+ollama pull nomic-embed-text
+ollama pull qwen3:4b-instruct</code></pre>
+<h3>Download the other models</h3>
+<p>gemma3:4b is only for the next lesson. If you're short on disk space, delete it afterwards with <code>ollama rm gemma3:4b</code>.</p>
+<pre><code>ollama pull gemma3:4b</code></pre>
+<pre><code>ollama list</code></pre><p><strong>Result:</strong></p><pre><code>NAME                       ID              SIZE      MODIFIED
+gemma3:4b                  68ceab7e468a    3.4 GB    26 seconds ago
+qwen3:4b-instruct          0edcdef34593    2.5 GB    44 seconds ago
+nomic-embed-text:latest    0a109f422b47    274 MB    57 seconds ago
+llama3.2:latest            a80c4f17acd5    2.0 GB    About a minute ago</code></pre>
+<h2>Try a model in the terminal</h2>
+<pre><code>ollama run llama3.2 "Explain homework in one sentence for a Year 3 student."</code></pre><p><strong>Result:</strong></p><pre><code>Homework is work that you do at home, usually on the same subject you learned in school, to help you understand and remember what you've been taught, and it's usually given to you by your teacher to take home and do at the end of the day.</code></pre>
+<p>That's one long sentence, and not really Year 3 words. Small models need clear prompts — you'll fix this kind of thing in Module 4. Run <code>ollama run llama3.2</code> without a question to chat; type <code>/bye</code> to stop.</p>
+<p><em>An AI's answer is a little different every time, so yours won't match this word for word.</em></p>
+<h2>Set up Python</h2>
+<p>Open the unzipped starter files folder in VS Code (or any editor) and open a terminal there. You need Python 3.10 or newer: check with <code>python --version</code> (on a Mac, <code>python3 --version</code>).</p>
+<p>Make a <strong>virtual environment</strong> (a private set of packages for this project), turn it on, and install Ollama's Python library:</p>
+<pre><code>python -m venv .venv</code></pre>
+<pre><code># Mac / Linux
+source .venv/bin/activate
+
+# Windows PowerShell
+.venv\Scripts\activate</code></pre>
+<pre><code>pip install -r requirements.txt</code></pre><p><strong>The end of what you'll see:</strong></p><pre><code>Successfully installed ... ollama-0.6.3 ...</code></pre>
+<p>Your prompt now starts with <code>(.venv)</code>. Turn it on every time you open a new terminal for the course. On a Mac, make it with <code>python3 -m venv .venv</code>; once it's on, <code>python</code> works.</p>
+<p>If a program says <strong>Failed to connect to Ollama</strong>, Ollama isn't running: start the app. If it says <strong>model not found</strong>, run <code>ollama pull</code> with that model's name.</p>
+<h3>Try it</h3>
+<ol>
+<li>Install Ollama and pull the four models.</li>
+<li>Ask llama3.2 the Year 3 homework question again, but add: <em>"Use short, simple words, under 15 words."</em> Is it better?</li>
+<li>Set up the virtual environment and install the requirements.</li>
+</ol>

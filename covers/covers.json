@@ -223,6 +223,13 @@
    "category": "Digital & IT",
    "level": "beginner",
    "mark": "#"
+  },
+  {
+   "id": 41,
+   "title": "Generative AI for Beginners: Understand It, Use It, Build With It",
+   "category": "Coding & software",
+   "level": "beginner",
+   "mark": "Gen"
   }
  ],
  "pathways": [

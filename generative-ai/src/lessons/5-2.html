@@ -1,0 +1,79 @@
+<h2>A tool for tutors</h2>
+<p>Brightside's tutors spend hours writing lesson plans. A template app lets a tutor type four details and get a plan in Brightside's standard layout every time. The tutor then edits it: the app writes the first draft, the person decides.</p>
+<p><strong>module-5/lesson_plan.py</strong></p><pre><code>"""A lesson-plan generator: a prompt template filled in from what the tutor types."""
+import ollama
+
+MODEL = "llama3.2"
+
+TEMPLATE = """You are helping a tutor at Brightside Tutoring plan a lesson.
+
+Write a lesson plan for a {minutes}-minute small-group lesson.
+Subject: {subject}
+Year level: {year}
+Topic: {topic}
+
+Use exactly these headings: Goal, Warm-up, Teach, Practice, Exit question, Homework.
+Give times in minutes for Warm-up, Teach and Practice, adding up to {minutes} minutes or less.
+Keep the whole plan under 200 words. Use Australian spelling."""
+
+subject = input("Subject: ")
+year = input("Year level: ")
+topic = input("Topic: ")
+minutes = input("Lesson length in minutes [60]: ") or "60"
+
+prompt = TEMPLATE.format(subject=subject, year=year, topic=topic, minutes=minutes)
+
+stream = ollama.chat(model=MODEL, messages=[{"role": "user", "content": prompt}],
+                     options={"temperature": 0.4}, stream=True)
+print()
+for chunk in stream:
+    print(chunk["message"]["content"], end="", flush=True)
+print()</code></pre>
+<p>What's new:</p>
+<ul>
+<li><strong>The template</strong> holds everything that stays the same: the job, the exact headings, a time rule, a length limit and the spelling. <code>TEMPLATE.format(...)</code> fills in the blanks</li>
+<li><code>or "60"</code> gives a default if the tutor just presses Enter</li>
+<li><strong>Temperature 0.4</strong>: some variety in the writing, but not wild</li>
+<li><strong><code>stream=True</code></strong> returns the reply in small pieces as the model writes them. Printing each piece with <code>end=""</code> and <code>flush=True</code> makes the words appear one after another, so the tutor isn't staring at a blank screen</li>
+</ul>
+<pre><code>python lesson_plan.py</code></pre><p><strong>Result:</strong></p><pre><code>Subject: Maths
+Year level: 8
+Topic: Solving two-step equations
+Lesson length in minutes [60]: 60
+
+Lesson Plan: Solving Two-Step Equations
+
+**Goal**: Students will be able to solve two-step equations using addition and subtraction.
+
+**Warm-up (5 minutes)**: Quick review of one-step equations, asking students to solve simple equations on the board.
+
+**Teach (20 minutes)**: Introduce the concept of two-step equations, using visual aids to illustrate the process. Provide examples of equations with addition and subtraction, such as 2x + 5 = 11. Emphasise the importance of following the order of operations.
+
+**Practice (25 minutes)**: Distribute worksheets with two-step equations. Have students work in pairs to solve the equations, circulating around the room to provide guidance and feedback.
+
+**Exit question (5 minutes)**: Ask students to solve a simple two-step equation on the board, such as 3x - 2 = 7. This will reinforce their understanding and provide a quick assessment of their progress.
+
+**Homework**: Assign a set of practice questions for students to complete at home, focusing on solving two-step equations with addition and subtraction.</code></pre>
+<h2>Check it against the template</h2>
+<table>
+<thead><tr><th>Rule</th><th>Kept?</th></tr></thead>
+<tbody>
+<tr><td>The six headings</td><td>Yes</td></tr>
+<tr><td>Times add up to 60 or less</td><td>Yes: 5 + 20 + 25 = 50 (plus 5 for the exit question)</td></tr>
+<tr><td>Under 200 words</td><td>Yes, about 160</td></tr>
+<tr><td>Australian spelling</td><td>Yes: "Emphasise"</td></tr>
+</tbody>
+</table>
+<p>A tutor would still change things: two-step equations like 2x + 5 = 11 also need division, not only "addition and subtraction", and the homework is vague. That's the point of keeping a person in charge. The words "Lesson Plan:" at the top weren't asked for either — small models often add a little extra.</p>
+<h2>Why templates beat a chat box</h2>
+<ul>
+<li><strong>Consistent results</strong>: every plan has the same layout, so tutors know where to look</li>
+<li><strong>Tested once, used often</strong>: you improve the template, and every tutor benefits</li>
+<li><strong>Safer</strong>: users fill in short fields instead of writing their own instructions</li>
+</ul>
+<h3>Try it</h3>
+<ol>
+<li>Run it for a different subject and year. Check each rule in the table.</li>
+<li>Add a rule to the template: <em>"In Teach, include one worked example with every step."</em> Run it again.</li>
+<li>Make a second template for an end-of-term report comment, with the student's name, subject and two strengths as blanks.</li>
+</ol>

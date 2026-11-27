@@ -1,0 +1,96 @@
+<h2>Zero-shot and few-shot</h2>
+<p>A <strong>zero-shot</strong> prompt asks for something with no examples. A <strong>few-shot</strong> prompt shows two or three worked examples first, so the model copies the pattern. It's one of the most reliable ways to make a small model behave.</p>
+<p>Brightside wants to sort parent messages into BOOKING, BILLING, COMPLAINT or OTHER. Open <code>module-4/few_shot.py</code>:</p>
+<p><strong>module-4/few_shot.py</strong></p><pre><code>"""Zero-shot vs few-shot: show the model examples of the answer you want."""
+import ollama
+
+MODEL = "llama3.2"
+
+zero_shot = "Sort this parent message into a category: 'Can Mia move to Thursdays next term?'"
+
+few_shot = """Sort each parent message into one category: BOOKING, BILLING, COMPLAINT or OTHER.
+Answer with the category only.
+
+Message: How much is a term of one-on-one English?
+Category: BILLING
+
+Message: The tutor was 20 minutes late again today.
+Category: COMPLAINT
+
+Message: Can Mia move to Thursdays next term?
+Category:"""
+
+for name, prompt in [("Zero-shot", zero_shot), ("Few-shot", few_shot)]:
+    reply = ollama.chat(model=MODEL, messages=[{"role": "user", "content": prompt}])
+    print(f"--- {name} ---")
+    print(reply["message"]["content"].strip())</code></pre>
+<pre><code>cd module-4
+python few_shot.py</code></pre><p><strong>Result:</strong></p><pre><code>--- Zero-shot ---
+I would sort this parent message into the category of "Education" or "School Administration".
+--- Few-shot ---
+BOOKING</code></pre>
+<p>The zero-shot answer isn't wrong, but it's useless to a program: it made up its own categories and wrapped them in a sentence. The few-shot prompt did three things:</p>
+<ul>
+<li>Listed the <strong>allowed answers</strong></li>
+<li>Showed <strong>examples</strong> of the exact format</li>
+<li>Ended with <code>Category:</code> — a <strong>cue</strong> that makes the next token the answer</li>
+</ul>
+<p>Pick examples that cover different categories, and don't always put the same one last, or the model may just copy it.</p>
+<h2>Step by step</h2>
+<p>Models write one token at a time and can't "think" before they start. Asking for the working first gives the model room to reason in its own output, which often makes the final answer better. This is called <strong>chain-of-thought</strong> prompting.</p>
+<p><strong>module-4/step_by_step.py</strong></p><pre><code>"""Ask for the working, then check it yourself."""
+import ollama
+
+MODEL = "llama3.2"
+
+question = (
+    "Brightside charges $45 for a small-group lesson. Siblings get 10% off when both "
+    "are enrolled. Two sisters each take 10 lessons. What is the total?"
+)
+
+prompts = {
+    "Answer only": question + " Reply with the number only.",
+    "Step by step": question + " Work it out step by step, then give the total on the last line.",
+}
+
+for name, prompt in prompts.items():
+    reply = ollama.chat(model=MODEL, messages=[{"role": "user", "content": prompt}],
+                        options={"temperature": 0})
+    print(f"--- {name} ---")
+    print(reply["message"]["content"].strip())
+
+print("--- Checked by Python ---")
+print(2 * 10 * 45 * 0.9)</code></pre>
+<p><code>options={"temperature": 0}</code> makes the answers as repeatable as possible (Module 4.3).</p>
+<pre><code>python step_by_step.py</code></pre><p><strong>Result:</strong></p><pre><code>--- Answer only ---
+$630
+--- Step by step ---
+To find the total cost, we need to calculate the cost of one lesson for each sister, then apply the 10% discount for both sisters, and finally multiply by 10 (the number of lessons each sister takes).
+
+1. Cost of one lesson: $45
+2. Since both sisters are taking 10 lessons, the total cost for one sister is: $45 x 10 = $450
+3. Apply 10% discount for both sisters: 10% of $450 = 0.10 x $450 = $45
+4. Subtract the discount from the total cost for one sister: $450 - $45 = $405
+5. Since both sisters are taking the same number of lessons, the total cost for both sisters is: $405 x 2 = $810
+
+Total: $810
+--- Checked by Python ---
+810.0</code></pre>
+<p>Asked for just the number, llama3.2 said <strong>$630</strong>, which is nowhere near. Given room to work, it got <strong>$810</strong> — the same model that got $405 in Module 2.4. Step-by-step helps a lot, but it isn't a guarantee.</p>
+<blockquote><strong>The rule for apps:</strong> if a number matters, have your code calculate it. Use the model to understand the request ("two sisters, 10 lessons each") and Python to do the sum.</blockquote>
+<h2>More techniques</h2>
+<table>
+<thead><tr><th>Technique</th><th>How</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Give it the facts first</strong></td><td>Put the information it needs in the prompt, instead of relying on what it remembers</td><td>Paste the price list, then ask (Module 6 does this automatically)</td></tr>
+<tr><td><strong>Self-check</strong></td><td>Ask it to review its own answer against your rules</td><td>"Check your plan: does it add up to 60 minutes? Fix it if not."</td></tr>
+<tr><td><strong>Break it up</strong></td><td>Split a big job into smaller prompts</td><td>First list the topics, then write each section</td></tr>
+<tr><td><strong>Ask it to explain</strong></td><td>Ask why, and check the reasons make sense</td><td>"Explain each step of your answer"</td></tr>
+</tbody>
+</table>
+<h3>Try it</h3>
+<ol>
+<li>Run both programs.</li>
+<li>Add a fourth example to the few-shot prompt, and test it with three new messages of your own, including one that could fit two categories.</li>
+<li>In <code>step_by_step.py</code>, change the numbers (three brothers, 8 lessons each). Does step-by-step still get it right? Change the Python check to match.</li>
+</ol>

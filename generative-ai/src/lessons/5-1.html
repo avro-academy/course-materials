@@ -1,0 +1,58 @@
+<h2>From chatting to building</h2>
+<p>A <strong>text-generation app</strong> is a program that sends a prompt to a model and does something with the reply: shows it, saves it, emails it. Every AI app you'll build in this course has the same three steps:</p>
+<ol>
+<li><strong>Build the prompt</strong> — from your instructions plus what the user typed</li>
+<li><strong>Send it to a model</strong> — here, through Ollama on your computer</li>
+<li><strong>Use the reply</strong></li>
+</ol>
+<h2>Your first app</h2>
+<p>Make sure your virtual environment is on (Module 2.3). Open <code>module-5/first_app.py</code>:</p>
+<p><strong>module-5/first_app.py</strong></p><pre><code>"""Your first text-generation program: one prompt in, one answer out."""
+import ollama
+
+MODEL = "llama3.2"
+
+topic = input("What should the quiz question be about? ")
+
+response = ollama.chat(
+    model=MODEL,
+    messages=[{"role": "user", "content": f"Write one multiple-choice quiz question about {topic} "
+                                          "for a Year 6 student, with four options and the answer."}],
+)
+print()
+print(response["message"]["content"])</code></pre>
+<ul>
+<li><code>import ollama</code> loads Ollama's Python library, which talks to the Ollama app running on your computer</li>
+<li><code>ollama.chat</code> sends a list of <strong>messages</strong> to the model and waits for the whole reply. Each message is a dictionary with a <code>role</code> and its <code>content</code>. Here there's just one, from the <code>user</code></li>
+<li>The prompt is an f-string, so the user's topic is dropped into the middle of your instructions</li>
+<li>The reply's text is in <code>response["message"]["content"]</code></li>
+</ul>
+<pre><code>cd module-5
+python first_app.py</code></pre><p><strong>Result</strong> (typing <em>equivalent fractions</em>):</p><pre><code>What should the quiz question be about? equivalent fractions
+
+Here's a multiple-choice quiz question about equivalent fractions for a Year 6 student:
+
+Question: Which of the following fractions are equivalent to 1/2?
+
+A) 1/3
+B) 2/4
+C) 3/6
+D) 4/8
+
+Answer: C) 3/6</code></pre>
+<p>It works — and it's wrong. B, C and D are <em>all</em> equal to 1/2, but it says only C. If a tutor printed this for a class, students who chose B or D would be marked wrong for a right answer.</p>
+<p>This is exactly why apps need more than a one-line prompt: clearer instructions ("exactly one correct option"), testing, a stronger model for maths, and a person checking before anything reaches students. You'll add all of these as the module goes on.</p>
+<p><em>An AI's answer is a little different every time, so yours won't match this.</em></p>
+<h2>What else is in the response</h2>
+<p>The response also holds useful numbers:</p>
+<pre><code>print("Tokens in:", response["prompt_eval_count"])
+print("Tokens out:", response["eval_count"])</code></pre>
+<p>Hosted AI services charge by these counts, so apps often log them to track costs.</p>
+<h2>Using a hosted model instead</h2>
+<p>Hosted AI services (OpenAI, Anthropic, Google and others) work the same way: a list of messages in, a reply out. The differences are a different Python library, an <strong>API key</strong> (a secret password for your account, kept in an environment variable, never in your code) and a bill per token. Everything else in this course carries over.</p>
+<h3>Try it</h3>
+<ol>
+<li>Run <code>first_app.py</code> three times with different topics. Check every answer yourself.</li>
+<li>Improve the prompt: ask for <strong>exactly one</strong> correct option, and for a one-line explanation of the answer. Is it more reliable?</li>
+<li>Print the tokens in and out.</li>
+</ol>

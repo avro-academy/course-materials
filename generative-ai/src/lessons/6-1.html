@@ -1,0 +1,61 @@
+<h2>Searching by meaning</h2>
+<p>A normal search matches <strong>words</strong>. Ask "Can I get my money back?" and it won't find a page titled "Refunds", because none of the words match. <strong>Semantic search</strong> matches <strong>meaning</strong>, so it finds the refunds page anyway.</p>
+<p>It works with <strong>embeddings</strong>: an embedding model turns a piece of text into a long list of numbers that describes what it means. Texts with similar meanings get similar lists of numbers, even if they share no words.</p>
+<h2>See it for real</h2>
+<p><strong>module-6/embed_demo.py</strong></p><pre><code>"""Turn sentences into embeddings and see which ones are close in meaning."""
+import math
+
+import ollama
+
+EMBED_MODEL = "nomic-embed-text"
+
+
+def cosine(a, b):
+    dot = sum(x * y for x, y in zip(a, b))
+    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))
+
+
+sentences = [
+    "How much does a lesson cost?",
+    "What are your prices?",
+    "Is my child safe with your tutors?",
+    "The cat sat on the mat.",
+]
+
+vectors = ollama.embed(model=EMBED_MODEL, input=sentences)["embeddings"]
+print(f"Each embedding has {len(vectors[0])} numbers. The first five: {[round(x, 3) for x in vectors[0][:5]]}")
+print()
+
+for i, sentence in enumerate(sentences[1:], start=1):
+    print(f"{cosine(vectors[0], vectors[i]):.3f}  '{sentences[0]}' vs '{sentence}'")</code></pre>
+<ul>
+<li><code>ollama.embed</code> sends a list of texts to the embedding model and returns one embedding (a list of numbers) for each</li>
+<li><code>cosine</code> measures how closely two embeddings point the same way (next section)</li>
+</ul>
+<pre><code>cd module-6
+python embed_demo.py</code></pre><p><strong>Result:</strong></p><pre><code>Each embedding has 768 numbers. The first five: [-0.011, 0.084, -0.165, -0.039, 0.016]
+
+0.538  'How much does a lesson cost?' vs 'What are your prices?'
+0.499  'How much does a lesson cost?' vs 'Is my child safe with your tutors?'
+0.381  'How much does a lesson cost?' vs 'The cat sat on the mat.'</code></pre>
+<p>"How much does a lesson cost?" and "What are your prices?" share no important words, but they score highest. The cat sentence scores lowest. The tutoring safety question sits in between: it's about the same business, but a different topic.</p>
+<p>You can't read meaning from the numbers themselves; what matters is how embeddings compare with each other.</p>
+<h2>Cosine similarity</h2>
+<p>Think of each embedding as an arrow pointing in a direction, in 768 dimensions instead of the usual 2 or 3. <strong>Cosine similarity</strong> measures the angle between two arrows:</p>
+<ul>
+<li>Close to <strong>1</strong>: pointing the same way, similar meaning</li>
+<li>Near <strong>0</strong>: unrelated</li>
+</ul>
+<p>The scores depend on the model, so don't compare them between models; compare them with each other. With this model, 0.54 against 0.38 is a big difference.</p>
+<h2>What embeddings are used for</h2>
+<ul>
+<li><strong>Search</strong> by meaning (next lesson)</li>
+<li><strong>RAG</strong>: finding the right notes to give a chat model (Module 6.3)</li>
+<li><strong>Recommendations</strong>: "students who liked this worksheet also…"</li>
+<li><strong>Grouping</strong> similar messages, and spotting duplicates</li>
+</ul>
+<h3>Try it</h3>
+<ol>
+<li>Run <code>embed_demo.py</code>.</li>
+<li>Add the sentences <em>"Do you offer refunds?"</em> and <em>"Is it expensive?"</em> to the list. Which do you expect to score highest against the first sentence? Were you right?</li>
+</ol>

@@ -1,0 +1,68 @@
+<style>body{font-size:7.9pt} pre{font-size:6.7pt;line-height:1.3} td{padding-top:1px;padding-bottom:1px} td code{white-space:normal;word-break:break-word}</style>
+<section><h2>The words</h2><table>
+<tr><td>Generative AI</td><td>AI that makes new text, images, code or audio</td></tr>
+<tr><td>LLM</td><td>Large language model: predicts the next token, again and again</td></tr>
+<tr><td>Token</td><td>A word or piece of one. 100 tokens ≈ 75 words</td></tr>
+<tr><td>Parameters</td><td>The numbers a model learned (3B = 3 billion)</td></tr>
+<tr><td>Context window</td><td>How many tokens it can see at once</td></tr>
+<tr><td>Temperature</td><td>0 = predictable, ~1 = varied</td></tr>
+<tr><td>Hallucination</td><td>A confident, made-up answer</td></tr>
+<tr><td>System prompt</td><td>Your hidden instructions: job, rules, tone</td></tr>
+<tr><td>Embedding</td><td>A list of numbers that captures meaning</td></tr>
+<tr><td>RAG</td><td>Retrieve notes, add them to the prompt, generate</td></tr>
+<tr><td>Tool use</td><td>The model asks your code to run a function</td></tr>
+<tr><td>Agent</td><td>A model that uses tools in a loop until the job is done</td></tr>
+<tr><td>Fine-tuning</td><td>Training a model more on your own examples</td></tr>
+<tr><td>Prompt injection</td><td>Text that tries to override your rules</td></tr>
+</table></section>
+<section><h2>Choosing a model</h2><table>
+<tr><td>Closed (hosted)</td><td>Most capable; pay per token; data goes to the provider</td></tr>
+<tr><td>Open-weight</td><td>Free to download; can run privately; check its licence</td></tr>
+<tr><td>1–4B</td><td>8 GB laptops: sorting, summaries, answers from notes</td></tr>
+<tr><td>7–14B</td><td>16 GB: better writing and reasoning</td></tr>
+</table><p>Test with <strong>your own</strong> questions, with known good answers, at temperature 0. Write test questions that can only be read one way.</p></section>
+<section class="coral"><h2>Ollama</h2><table>
+<tr><td><code>ollama pull llama3.2</code></td><td>Download a model</td></tr>
+<tr><td><code>ollama list</code></td><td>Your models</td></tr>
+<tr><td><code>ollama run llama3.2</code></td><td>Chat (<code>/bye</code> to stop)</td></tr>
+<tr><td><code>ollama show llama3.2</code></td><td>Details and licence</td></tr>
+<tr><td><code>ollama rm gemma3:4b</code></td><td>Delete a model</td></tr>
+</table></section>
+<section class="coral"><h2>Python: chat</h2><pre>import ollama
+reply = ollama.chat(
+    model="llama3.2",
+    messages=[
+      {"role": "system", "content": "Be brief."},
+      {"role": "user", "content": "Hi!"}],
+    options={"temperature": 0})
+print(reply["message"]["content"])</pre>
+<p>Memory: append each <code>user</code> and <code>assistant</code> message to <code>messages</code>. Streaming: <code>stream=True</code>, then loop over the chunks.</p></section>
+<section class="amber"><h2>Prompt patterns</h2><table>
+<tr><td>Parts</td><td>Instruction · content · context · examples · format · cue</td></tr>
+<tr><td>Few-shot</td><td>Show 2–3 worked examples first</td></tr>
+<tr><td>Step by step</td><td>"Work it out step by step, then give the answer on the last line." Check numbers with code</td></tr>
+<tr><td>Way out</td><td>"If the notes don't say, say you don't know"</td></tr>
+<tr><td>Template</td><td>A prompt with <code>{blanks}</code> your code fills in</td></tr>
+<tr><td>Structured</td><td><code>format=schema</code> returns JSON your code can use</td></tr>
+</table></section>
+<section><h2>Embeddings and RAG</h2><pre>v = ollama.embed(model="nomic-embed-text",
+      input=["search_query: " + q])["embeddings"][0]</pre>
+<p><strong>Cosine similarity</strong>: closer to 1 = closer in meaning. RAG = 1. split notes into chunks · 2. embed them once · 3. embed the question · 4. take the top 3 · 5. put them in the system prompt · 6. show sources.</p></section>
+<section class="coral"><h2>Tool use</h2><pre>def check_free_places(subject: str, day: str) -> str:
+    """Check free places ... Args: ..."""
+
+r = ollama.chat(model=M, messages=msgs,
+                tools=[check_free_places])
+for call in r["message"].get("tool_calls") or []:
+    ...  # run it, append {"role": "tool", ...}</pre>
+<p>Your code checks the rules. Cap the steps. A person approves what can't be undone.</p></section>
+<section class="amber"><h2>Responsible and safe</h2><table>
+<tr><td>Principles</td><td>Fairness · reliability and safety · privacy and security · inclusiveness · transparency · accountability</td></tr>
+<tr><td>Layers</td><td>Model · safety filters · system prompt · user experience</td></tr>
+<tr><td>Threats</td><td>Prompt injection (direct and hidden in documents) · jailbreaks · data leaks · poisoned data · too much power · overuse</td></tr>
+<tr><td>Defences</td><td>Least power · no secrets in prompts · check actions in code · a person approves · limits · logs</td></tr>
+<tr><td>Red-team</td><td>Try to break it, record, fix, test again</td></tr>
+</table></section>
+<section><h2>From prototype to product</h2><p>Idea → build → <strong>evaluate</strong> (quality, safety, speed, cost) → deploy to a few people → monitor → improve. Re-run your tests after every change of prompt, model or notes.</p>
+<p>Fine-tune only after better prompts, a different model and RAG.</p></section>
+<section><h2>About</h2><p>Course adapted from Microsoft's <em>Generative AI for Beginners</em>, MIT licence. Avro Academy is not affiliated with or endorsed by Microsoft.</p></section>

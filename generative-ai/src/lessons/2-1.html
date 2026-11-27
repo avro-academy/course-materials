@@ -1,0 +1,39 @@
+<h2>Not one AI, but many models</h2>
+<p>"AI" in the news usually means one of hundreds of <strong>models</strong>, each trained for different jobs. Picking the right one is one of the first decisions when you build something.</p>
+<h2>Sorted by what they make</h2>
+<table>
+<thead><tr><th>Kind</th><th>Input → output</th><th>Example use at Brightside</th></tr></thead>
+<tbody>
+<tr><td><strong>Language model</strong> (LLM)</td><td>Text → text</td><td>Lesson plans, answering parents' questions</td></tr>
+<tr><td><strong>Embedding model</strong></td><td>Text → a list of numbers that captures its meaning</td><td>Searching the notes by meaning (Module 6)</td></tr>
+<tr><td><strong>Image model</strong></td><td>Text → image</td><td>A poster for the holiday workshops (Module 7)</td></tr>
+<tr><td><strong>Vision model</strong></td><td>Image + text → text</td><td>Reading a photo of a worksheet</td></tr>
+<tr><td><strong>Speech models</strong></td><td>Speech → text, or text → speech</td><td>Turning a recorded lesson into notes</td></tr>
+</tbody>
+</table>
+<h2>Base models and chat models</h2>
+<p>A <strong>base model</strong> (also called a foundation model) has only learned to continue text. Ask it a question and it might reply with three more questions, because that's what often follows a question on the web. A <strong>chat</strong> or <strong>instruct</strong> model has had extra training to follow instructions and hold a conversation. For apps you nearly always want the chat or instruct version; names often end in <code>-instruct</code> or <code>-chat</code>.</p>
+<h2>Closed and open models</h2>
+<table>
+<thead><tr><th></th><th>Closed (hosted)</th><th>Open-weight</th></tr></thead>
+<tbody>
+<tr><td>Examples</td><td>OpenAI's GPT, Anthropic's Claude, Google's Gemini</td><td>Meta's Llama, Alibaba's Qwen, Google's Gemma, Mistral, Microsoft's Phi</td></tr>
+<tr><td>Where it runs</td><td>The company's servers; you send your text over the internet</td><td>Anywhere: your laptop, your own server, or a cloud service</td></tr>
+<tr><td>Cost</td><td>Pay per token (some free tiers)</td><td>Free to download; you pay for the computer that runs it</td></tr>
+<tr><td>Quality</td><td>Usually the most capable</td><td>Small ones are less capable, but improving fast</td></tr>
+<tr><td>Privacy</td><td>Your text goes to the provider</td><td>Can stay entirely on your computer</td></tr>
+<tr><td>Control</td><td>The provider can change or retire a model</td><td>You keep the exact version, and can fine-tune it (Module 8)</td></tr>
+</tbody>
+</table>
+<p>"Open-weight" means you can download the trained model. It doesn't always mean you can use it for anything: each model has its own licence. Some, like Qwen and Mistral's small models, use the Apache 2.0 licence; Llama and Gemma have their own terms with some limits. Read the licence before you build a business on one.</p>
+<h2>So which one?</h2>
+<p>Ask four questions:</p>
+<ol>
+<li><strong>What's the job?</strong> Text, search, images? Simple sorting or hard reasoning?</li>
+<li><strong>How private is the data?</strong> Student details might be a reason to keep things local</li>
+<li><strong>How fast and how cheap must it be?</strong> A smaller model is faster and cheaper</li>
+<li><strong>How good is good enough?</strong> Test with your own examples (Module 2.4) rather than trusting rankings</li>
+</ol>
+<p>In this course you'll use small open models, because they're free and private. Everything you learn works the same way with the big hosted ones.</p>
+<h3>Try it</h3>
+<p>For each Brightside job in Module 1.4, write down which kind of model it needs, and whether you'd choose a closed or an open model, and why.</p>

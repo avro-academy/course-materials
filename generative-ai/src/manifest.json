@@ -1,0 +1,40 @@
+{"modules": [
+ {"title": "Module 1: What generative AI is", "description": "How we got here, how large language models write, what they get right and wrong, and the Brightside project.", "lessons": [
+   ["1-1", "From chatbots to ChatGPT: how we got here", 12, true],
+   ["1-2", "How a large language model writes", 15, true],
+   ["1-3", "What it's good at, and what it gets wrong", 12, true],
+   ["1-4", "Meet Brightside Tutoring and Study Buddy", 10, true]]},
+ {"title": "Module 2: Choosing a model", "description": "Kinds of models, big and small open models, setting up Ollama and Python, and comparing models fairly.", "lessons": [
+   ["2-1", "Kinds of models: text, image, embedding, open and closed", 15, false],
+   ["2-2", "Big and small models: Llama, Qwen, Gemma, Mistral and Phi", 12, false],
+   ["2-3", "Set up Ollama and Python", 25, false],
+   ["2-4", "Compare models fairly with a test sheet", 25, false]]},
+ {"title": "Module 3: Using AI responsibly and safely", "description": "Responsible AI principles, harms and the layers that reduce them, AI security threats, and red-teaming.", "lessons": [
+   ["3-1", "Principles of responsible AI", 12, false],
+   ["3-2", "Harms and the layers that reduce them", 12, false],
+   ["3-3", "Security threats: prompt injection, data leaks and more", 15, false],
+   ["3-4", "Red-team your own app", 20, false]]},
+ {"title": "Module 4: Prompting for builders", "description": "Parts of a prompt and system prompts, few-shot and step-by-step prompting, temperature, templates and JSON.", "lessons": [
+   ["4-1", "Parts of a prompt and the system prompt", 15, false],
+   ["4-2", "Examples, step-by-step thinking and self-checking", 20, false],
+   ["4-3", "Controlling output: temperature, templates and JSON", 20, false]]},
+ {"title": "Module 5: Build text apps", "description": "Your first text-generation program, a template app with streaming, a chat with memory, and tool use.", "lessons": [
+   ["5-1", "Your first text-generation program", 15, false],
+   ["5-2", "A lesson-plan generator with prompt templates", 20, false],
+   ["5-3", "A chat app with memory", 20, false],
+   ["5-4", "Let the model call your functions", 25, false]]},
+ {"title": "Module 6: Search and your own data", "description": "Embeddings and cosine similarity, semantic search over your notes, RAG with sources, and testing answers.", "lessons": [
+   ["6-1", "Embeddings and searching by meaning", 15, false],
+   ["6-2", "Build a search for Brightside's notes", 25, false],
+   ["6-3", "RAG: answers from your own documents", 20, false],
+   ["6-4", "Checking answers are right", 20, false]]},
+ {"title": "Module 7: Images, design and no-code", "description": "How image generation works and how to use it well, designing AI apps people trust, and AI without code.", "lessons": [
+   ["7-1", "Image generation, and using it well", 15, false],
+   ["7-2", "Designing AI apps people trust", 12, false],
+   ["7-3", "AI without code: automations and builders", 12, false]]},
+ {"title": "Module 8: Beyond the basics", "description": "AI agents, when fine-tuning helps, the AI app lifecycle, your next steps and about this course.", "lessons": [
+   ["8-1", "AI agents: models that take steps", 25, false],
+   ["8-2", "Fine-tuning: when it helps and when it doesn't", 12, false],
+   ["8-3", "From prototype to product: the app lifecycle", 12, false],
+   ["8-4", "Your Study Buddy, next steps and about this course", 10, false]]}
+]}

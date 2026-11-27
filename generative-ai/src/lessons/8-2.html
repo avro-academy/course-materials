@@ -1,0 +1,31 @@
+<h2>What fine-tuning is</h2>
+<p><strong>Fine-tuning</strong> means training an existing model a little more, on your own examples, so it gets better at one job. You start from a model that already knows language, and teach it your style or task with hundreds or thousands of examples of "this input → this ideal output".</p>
+<h2>Try these first</h2>
+<p>Fine-tuning takes time, data and skills, and you have to redo it when a better base model comes out. Most problems are solved more cheaply by the steps you already know, roughly in this order:</p>
+<ol>
+<li><strong>Better prompts</strong> (Module 4) — clearer instructions and examples</li>
+<li><strong>A different model</strong> (Module 2) — sometimes just a bigger or newer one</li>
+<li><strong>Giving it your information</strong> with RAG (Module 6) — for facts that change, like prices</li>
+<li><strong>Fine-tuning</strong> — when the problem is <em>how</em> it answers, not <em>what it knows</em></li>
+</ol>
+<h2>When fine-tuning helps</h2>
+<table>
+<thead><tr><th>Good reasons</th><th>Poor reasons</th></tr></thead>
+<tbody>
+<tr><td>A consistent style or format that prompts can't hold, like Brightside's report-card wording</td><td>Teaching it facts that change, like this term's prices (use RAG)</td></tr>
+<tr><td>Making a small, cheap model do one narrow job as well as a big one</td><td>You haven't tried better prompts yet</td></tr>
+<tr><td>Prompts have become very long, and cost too much per request</td><td>You have only a handful of examples</td></tr>
+<tr><td>A specialised vocabulary or task, like sorting messages into your own 20 categories</td><td>You want it to "know" your private documents</td></tr>
+</tbody>
+</table>
+<h2>How it's done</h2>
+<ol>
+<li><strong>Collect examples</strong> — usually as a file with one conversation per line: a prompt and the perfect reply. Quality matters more than quantity; every bad example teaches a bad habit</li>
+<li><strong>Split them</strong> into training examples and test examples the model never sees in training</li>
+<li><strong>Train</strong> — with a hosted service's fine-tuning feature, or free tools for open models (popular ones use a method called <strong>LoRA</strong>, which trains only a small add-on so it fits on one graphics card)</li>
+<li><strong>Evaluate</strong> against the test examples and your old prompt-only version. Is it actually better?</li>
+<li><strong>Deploy and watch</strong> it, like any new model</li>
+</ol>
+<p>Fine-tuning builds on machine learning ideas like training data, test data and overfitting. Our <a href="/learn/machine-learning-basics">Machine Learning Basics with Python</a> course explains them.</p>
+<h3>Try it</h3>
+<p>Brightside wants end-of-term report comments in Priya's exact style. Write three example pairs (student notes → ideal report comment) as they'd go in a training file. Then decide: would you fine-tune, or would examples in the prompt be enough?</p>

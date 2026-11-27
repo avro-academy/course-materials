@@ -1,0 +1,37 @@
+<h2>Size is measured in parameters</h2>
+<p>A model's size is the number of <strong>parameters</strong> (the numbers it learned in training), written like <strong>3B</strong> for 3 billion. As a rough guide:</p>
+<table>
+<thead><tr><th>Size</th><th>Runs on</th><th>Good at</th></tr></thead>
+<tbody>
+<tr><td>1B to 4B ("small language models")</td><td>Most laptops with 8 GB of memory, and phones</td><td>Simple chat, sorting, summarising, pulling out details, answering from notes you give it</td></tr>
+<tr><td>7B to 14B</td><td>Laptops with 16 GB or more</td><td>Better writing and reasoning</td></tr>
+<tr><td>30B to 70B</td><td>Powerful desktops with a big graphics card, or servers</td><td>Close to the hosted models for many jobs</td></tr>
+<tr><td>Hundreds of billions</td><td>Data centres</td><td>The hardest reasoning, coding and writing</td></tr>
+</tbody>
+</table>
+<h2>Why small models matter</h2>
+<p><strong>Small language models</strong> (SLMs) are trained more carefully on better-chosen data, so a 3B model today can beat much bigger models from a few years ago. They're useful when you need:</p>
+<ul>
+<li><strong>Privacy</strong> — nothing leaves the device</li>
+<li><strong>Speed and low cost</strong> — no internet round trip, no per-token bill</li>
+<li><strong>Offline use</strong> — a classroom app that works without Wi-Fi</li>
+<li><strong>A narrow job done well</strong> — like sorting messages, where a giant model is overkill</li>
+</ul>
+<p>The trade-off: they know less, make more mistakes on hard questions, and need clearer prompts.</p>
+<h2>Families you'll meet</h2>
+<p>Open models come in <strong>families</strong>: one company releases several sizes of the same design. Names and versions change often, but these are some of the main families available free in Ollama, the tool you'll install next:</p>
+<table>
+<thead><tr><th>Family</th><th>From</th><th>Small sizes</th><th>Known for</th></tr></thead>
+<tbody>
+<tr><td>Llama</td><td>Meta</td><td>llama3.2: 1B, 3B</td><td>A popular all-rounder; tool use</td></tr>
+<tr><td>Qwen</td><td>Alibaba</td><td>qwen3: 0.6B to 8B and up</td><td>Strong reasoning and tool use for its size; many languages</td></tr>
+<tr><td>Gemma</td><td>Google</td><td>gemma3: 1B, 4B and up</td><td>Good writing; larger sizes can read images</td></tr>
+<tr><td>Mistral</td><td>Mistral AI (France)</td><td>mistral: 7B</td><td>Efficient; European languages</td></tr>
+<tr><td>Phi</td><td>Microsoft</td><td>phi4-mini: 3.8B</td><td>Small models trained on carefully chosen data</td></tr>
+</tbody>
+</table>
+<p>A model's page in the <a href="https://ollama.com/library" rel="noopener noreferrer">Ollama library</a> shows its sizes, what it supports (tools, vision, embeddings) and its licence.</p>
+<h2>Quantisation: making models fit</h2>
+<p>Each parameter is normally stored with lots of decimal places. <strong>Quantisation</strong> stores them with fewer, making the model about a quarter of the size, with only a small drop in quality. That's how a 3B model fits in about 2 GB. The models Ollama downloads are already quantised.</p>
+<h3>Try it</h3>
+<p>Open the <a href="https://ollama.com/library" rel="noopener noreferrer">Ollama library</a>. Find <strong>llama3.2</strong>, <strong>qwen3</strong> and <strong>gemma3</strong>. For each, note the smallest size, its download size and its licence.</p>

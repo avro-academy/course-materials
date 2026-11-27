@@ -1,0 +1,136 @@
+[
+ {
+  "q": "What makes an agent different from a single tool call?",
+  "exp": "It plans its own steps and uses tools in a loop until the task is done.",
+  "o": [
+   [
+    "It decides its own steps and uses tools in a loop until the task is done",
+    1
+   ],
+   [
+    "It uses a bigger model",
+    0
+   ],
+   [
+    "It never uses tools",
+    0
+   ],
+   [
+    "It can only answer one question",
+    0
+   ]
+  ]
+ },
+ {
+  "q": "Which belong in a safe agent design? (Choose all that apply)",
+  "multi": true,
+  "exp": "Small tools, rules in code, a step limit and a log.",
+  "o": [
+   [
+    "Rules checked in code, like 'only book a day with a free place'",
+    1
+   ],
+   [
+    "A limit on the number of steps",
+    1
+   ],
+   [
+    "A log of every step",
+    1
+   ],
+   [
+    "Access to every system, just in case",
+    0
+   ]
+  ]
+ },
+ {
+  "q": "With llama3.2, the agent told the parent it had booked a lesson, but bookings.csv was empty. What's the lesson?",
+  "exp": "Check what actually happened before anything goes to a parent.",
+  "o": [
+   [
+    "Don't trust the summary; check what actually happened",
+    1
+   ],
+   [
+    "Agents always lie",
+    0
+   ],
+   [
+    "Delete bookings.csv",
+    0
+   ],
+   [
+    "Use a higher temperature",
+    0
+   ]
+  ]
+ },
+ {
+  "q": "Brightside's prices change every term. What's the best way to keep answers right?",
+  "exp": "RAG suits facts that change; fine-tuning suits how it answers.",
+  "o": [
+   [
+    "RAG: update the notes and rebuild the index",
+    1
+   ],
+   [
+    "Fine-tune the model every term",
+    0
+   ],
+   [
+    "Put the prices in the model's name",
+    0
+   ],
+   [
+    "Ask students to check",
+    0
+   ]
+  ]
+ },
+ {
+  "q": "When can fine-tuning be worth it?",
+  "exp": "Try better prompts, another model and RAG first.",
+  "o": [
+   [
+    "When you need a consistent style or format that prompts can't hold",
+    1
+   ],
+   [
+    "Before you've tried better prompts",
+    0
+   ],
+   [
+    "To teach it this week's timetable",
+    0
+   ],
+   [
+    "When you have five examples",
+    0
+   ]
+  ]
+ },
+ {
+  "q": "Which are part of running an AI app after launch? (Choose all that apply)",
+  "multi": true,
+  "exp": "Monitor, keep testing, and keep a person in charge.",
+  "o": [
+   [
+    "Re-run your tests after every prompt, model or notes change",
+    1
+   ],
+   [
+    "Watch feedback, speed and cost",
+    1
+   ],
+   [
+    "Have a person who can switch it off",
+    1
+   ],
+   [
+    "Never change anything once it's live",
+    0
+   ]
+  ]
+ }
+]

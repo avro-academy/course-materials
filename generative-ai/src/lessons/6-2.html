@@ -1,0 +1,127 @@
+<h2>Three steps</h2>
+<ol>
+<li><strong>Split</strong> the documents into <strong>chunks</strong>: pieces small enough to be about one thing</li>
+<li><strong>Index</strong> them: work out every chunk's embedding once, and save them</li>
+<li><strong>Search</strong>: embed the question, compare it with every chunk, and return the closest few</li>
+</ol>
+<h2>Split the notes</h2>
+<p>Brightside's notes are Markdown files with headings, so <code>notes.py</code> makes one chunk per heading section:</p>
+<p><strong>module-6/notes.py</strong></p><pre><code>"""Load Brightside's notes and split them into chunks: one chunk per heading section."""
+from pathlib import Path
+
+NOTES_DIR = Path(__file__).resolve().parent.parent / "data" / "brightside-notes"
+
+
+def load_chunks():
+    chunks = []
+    for path in sorted(NOTES_DIR.glob("*.md")):
+        title = ""
+        section = []
+        for line in path.read_text(encoding="utf-8").splitlines():
+            if line.startswith("#"):
+                if section:
+                    chunks.append({"source": path.name, "title": title, "text": "\n".join(section).strip()})
+                title = line.lstrip("# ").strip()
+                section = [line]
+            else:
+                section.append(line)
+        if section:
+            chunks.append({"source": path.name, "title": title, "text": "\n".join(section).strip()})
+    return [c for c in chunks if len(c["text"].split()) &gt; 5]
+
+
+if __name__ == "__main__":
+    for chunk in load_chunks():
+        print(f"{chunk['source']:20} {chunk['title']:35} {len(chunk['text'].split())} words")</code></pre>
+<p>Each chunk remembers its <strong>source</strong> file and heading, so answers can say where they came from. The last line drops chunks that are only a heading.</p>
+<pre><code>python notes.py</code></pre><p><strong>Result:</strong></p><pre><code>about.md             About Brightside Tutoring           95 words
+policies.md          Missed lessons and cancellations    50 words
+policies.md          Refunds                             29 words
+policies.md          Homework                            18 words
+policies.md          Safety                              27 words
+policies.md          Phones                              16 words
+prices.md            Prices and payment                  111 words
+subjects.md          Maths (Years 3 to 12)               27 words
+subjects.md          English (Years 3 to 12)             20 words
+subjects.md          Science (Years 7 to 12)             30 words
+term-dates-2027.md   Term dates 2027                     98 words</code></pre>
+<p>Eleven chunks, each about one topic. Real documents need more care: very long sections are split into pieces of a few hundred words, often overlapping a little so no sentence is cut off from its meaning. Our <a href="/learn/rag-in-depth">RAG in Depth</a> course covers chunking properly.</p>
+<h2>Index and search</h2>
+<p><strong>module-6/search.py</strong></p><pre><code>"""Search Brightside's notes by meaning, not by matching words."""
+import json
+import math
+from pathlib import Path
+
+import ollama
+
+from notes import load_chunks
+
+EMBED_MODEL = "nomic-embed-text"
+INDEX_FILE = Path(__file__).resolve().parent / "index.json"
+
+
+def cosine(a, b):
+    dot = sum(x * y for x, y in zip(a, b))
+    return dot / (math.sqrt(sum(x * x for x in a)) * math.sqrt(sum(y * y for y in b)))
+
+
+def build_index():
+    chunks = load_chunks()
+    # nomic-embed-text works best with these prefixes
+    vectors = ollama.embed(model=EMBED_MODEL,
+                           input=["search_document: " + c["text"] for c in chunks])["embeddings"]
+    for chunk, vector in zip(chunks, vectors):
+        chunk["vector"] = vector
+    INDEX_FILE.write_text(json.dumps(chunks), encoding="utf-8")
+    return chunks
+
+
+def load_index():
+    if INDEX_FILE.exists():
+        return json.loads(INDEX_FILE.read_text(encoding="utf-8"))
+    return build_index()
+
+
+def search(question, k=3):
+    chunks = load_index()
+    q = ollama.embed(model=EMBED_MODEL, input="search_query: " + question)["embeddings"][0]
+    scored = sorted(chunks, key=lambda c: cosine(q, c["vector"]), reverse=True)
+    return [(round(cosine(q, c["vector"]), 3), c) for c in scored[:k]]
+
+
+if __name__ == "__main__":
+    build_index()
+    while True:
+        question = input("\nSearch (or 'quit'): ")
+        if question.strip().lower() == "quit":
+            break
+        for score, chunk in search(question):
+            print(f"{score}  {chunk['source']} &gt; {chunk['title']}")</code></pre>
+<ul>
+<li><code>build_index</code> embeds every chunk in one call and saves the chunks and their embeddings to <code>index.json</code>, so you don't redo it for every question. Run it again whenever the notes change</li>
+<li><code>search_document:</code> and <code>search_query:</code> are prefixes this embedding model was trained with: they tell it which side is which, and improve results</li>
+<li><code>search</code> scores every chunk and returns the top <code>k</code></li>
+</ul>
+<pre><code>python search.py</code></pre><p><strong>Result:</strong></p><pre><code>Search (or 'quit'): Can I get my money back if we stop coming?
+0.642  policies.md &gt; Refunds
+0.623  policies.md &gt; Missed lessons and cancellations
+0.497  policies.md &gt; Safety
+
+Search (or 'quit'): is there a discount for siblings
+0.611  prices.md &gt; Prices and payment
+0.577  policies.md &gt; Refunds
+0.56  policies.md &gt; Missed lessons and cancellations
+
+Search (or 'quit'): who teaches HSC biology
+0.743  subjects.md &gt; Science (Years 7 to 12)
+0.678  subjects.md &gt; English (Years 3 to 12)
+0.677  subjects.md &gt; Maths (Years 3 to 12)
+
+Search (or 'quit'): quit</code></pre>
+<p>All three found the right chunk first, though the refunds note never says "money back", the prices note says "brothers and sisters" not "siblings", and nothing says "HSC biology" in a heading.</p>
+<p>Comparing with every chunk is fine for a few hundred chunks. For millions, apps use a <strong>vector database</strong> (like pgvector or Chroma) that finds the closest embeddings quickly.</p>
+<h3>Try it</h3>
+<ol>
+<li>Run <code>search.py</code> with five questions a parent might ask. Did the right chunk come first each time?</li>
+<li>Add a new file to <code>data/brightside-notes</code> — say, <code>holiday-workshops.md</code> with two sections — and run it again. Can you find it?</li>
+</ol>

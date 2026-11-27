@@ -1,0 +1,76 @@
+<h2>Temperature in action</h2>
+<p>In Module 1.2 you learned that temperature controls how adventurous the model's choices are. Here it is for real:</p>
+<p><strong>module-4/temperature.py</strong></p><pre><code>"""The same prompt three times at a low and a high temperature."""
+import ollama
+
+MODEL = "llama3.2"
+prompt = "Suggest a name for a homework club for Year 5 students. Reply with the name only."
+
+for temperature in [0, 1.2]:
+    print(f"--- temperature {temperature} ---")
+    for _ in range(3):
+        reply = ollama.chat(model=MODEL, messages=[{"role": "user", "content": prompt}],
+                            options={"temperature": temperature})
+        print(reply["message"]["content"].strip())</code></pre>
+<pre><code>python temperature.py</code></pre><p><strong>Result:</strong></p><pre><code>--- temperature 0 ---
+BrainBoosters
+BrainBoosters
+BrainBoosters
+--- temperature 1.2 ---
+BrainBoosters
+BrainSpark
+Brain Buzz Club</code></pre>
+<p>At 0 you get the same answer every time: good for sorting, extracting and answering from notes, and essential for testing. At 1.2 you get variety: good for brainstorming. Most writing sits in between, around 0.4 to 0.8.</p>
+<h2>Prompt templates</h2>
+<p>An app rarely sends the same prompt twice. It uses a <strong>template</strong>: a prompt with blanks that your code fills in from what the user typed. Python's <code>format</code> does this:</p>
+<pre><code>TEMPLATE = "Write a {length}-word welcome message for a new {subject} student in Year {year}."
+prompt = TEMPLATE.format(length=50, subject="science", year=9)</code></pre>
+<p>The template holds everything that stays the same — the instructions, format and rules, carefully tested — and the user only fills in the gaps. You'll build a full template app in Module 5.2.</p>
+<h2>Structured output: JSON</h2>
+<p>When your <em>program</em> needs the answer, not a person, ask for <strong>JSON</strong>: data with named fields, which Python can read straight into a dictionary. Ollama can force the reply to match a <strong>schema</strong>, a description of the fields and their types.</p>
+<p>Brightside gets enquiry emails and wants the details typed into its system automatically:</p>
+<p><strong>module-4/json_output.py</strong></p><pre><code>"""Get an answer your program can use: JSON that matches a schema."""
+import json
+
+import ollama
+
+MODEL = "llama3.2"
+
+schema = {
+    "type": "object",
+    "properties": {
+        "student_name": {"type": "string"},
+        "year_level": {"type": "integer"},
+        "subject": {"type": "string", "enum": ["maths", "english", "science"]},
+        "preferred_day": {"type": "string"},
+    },
+    "required": ["student_name", "year_level", "subject", "preferred_day"],
+}
+
+message = ("Hi, my son Leo is in Year 8 and really struggling with algebra. "
+           "Wednesdays after school would suit us best. Thanks, Anna")
+
+reply = ollama.chat(
+    model=MODEL,
+    messages=[{"role": "user", "content": "Pull the enrolment details out of this message:\n\n" + message}],
+    format=schema,
+    options={"temperature": 0},
+)
+
+enquiry = json.loads(reply["message"]["content"])
+print(enquiry)
+print(f"New {enquiry['subject']} enquiry for {enquiry['student_name']} (Year {enquiry['year_level']})")</code></pre>
+<ul>
+<li>The schema lists each field and its type. <code>"enum"</code> limits <code>subject</code> to three allowed values</li>
+<li><code>format=schema</code> tells Ollama the reply must match it</li>
+<li><code>json.loads</code> turns the JSON text into a Python dictionary</li>
+</ul>
+<pre><code>python json_output.py</code></pre><p><strong>Result:</strong></p><pre><code>{'student_name': 'Leo', 'year_level': 8, 'subject': 'maths', 'preferred_day': 'Wednesday'}
+New maths enquiry for Leo (Year 8)</code></pre>
+<p>Notice the model worked out that "algebra" means <strong>maths</strong> — something a simple keyword search would miss. The schema makes sure the <em>shape</em> is right; it can't make sure the <em>values</em> are right. Before saving, your code should still check them (is the year between 3 and 12?), and a person should check anything that looks odd.</p>
+<h3>Try it</h3>
+<ol>
+<li>Run <code>temperature.py</code> twice. Are the temperature 0 answers the same both times?</li>
+<li>In <code>json_output.py</code>, add a field <code>"urgent"</code> of type <code>"boolean"</code> to the schema (and to <code>required</code>). Test it with a message that says "Her exam is next week!"</li>
+<li>Try a message with no year level in it. What does the model put there? How would your code catch it?</li>
+</ol>

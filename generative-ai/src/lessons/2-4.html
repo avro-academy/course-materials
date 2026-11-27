@@ -1,0 +1,107 @@
+<h2>Don't trust the rankings, test</h2>
+<p>Websites rank models on general tests, but what matters is how a model does on <strong>your</strong> job. A fair comparison has:</p>
+<ul>
+<li><strong>The same questions</strong> for every model, taken from the real job</li>
+<li><strong>A known good answer</strong> for each, written before you look at the results</li>
+<li><strong>A score</strong> for each answer, given the same way every time</li>
+<li><strong>Speed</strong> and, for hosted models, cost</li>
+</ul>
+<h2>Run the comparison</h2>
+<p>Open <code>module-2/compare_models.py</code>:</p>
+<p><strong>module-2/compare_models.py</strong></p><pre><code>"""Ask several models the same questions and save the answers to a CSV file to compare."""
+import csv
+import time
+
+import ollama
+
+MODELS = ["llama3.2", "qwen3:4b-instruct", "gemma3:4b"]
+
+QUESTIONS = [
+    "Explain what a fraction is to a Year 4 student, in two sentences.",
+    "Two brothers each take 10 small-group lessons at $45 a lesson. Siblings get 10% off. What is the total?",
+    "Write a one-line reminder text for a parent about tomorrow's 4 pm maths lesson.",
+]
+
+with open("model-results.csv", "w", newline="", encoding="utf-8") as f:
+    writer = csv.writer(f)
+    writer.writerow(["model", "question", "answer", "seconds"])
+    for model in MODELS:
+        for question in QUESTIONS:
+            start = time.time()
+            response = ollama.chat(model=model, messages=[{"role": "user", "content": question}])
+            seconds = round(time.time() - start, 1)
+            answer = response["message"]["content"].strip()
+            writer.writerow([model, question, answer, seconds])
+            print(f"{model} ({seconds}s): {answer[:70]}...")
+
+print("Saved model-results.csv")</code></pre>
+<ul>
+<li><code>ollama.chat</code> sends a list of messages to a model and waits for the reply. You'll learn it properly in Module 5</li>
+<li>Each answer goes into a row of a CSV file, which opens in any spreadsheet app</li>
+<li><code>time.time()</code> before and after measures how long each answer took</li>
+</ul>
+<pre><code>cd module-2
+python compare_models.py</code></pre><p><strong>Result:</strong></p><pre><code>llama3.2 (8.0s): A fraction is a way to show part of a whole, like if you have a pizza ...
+llama3.2 (11.3s): To find the total, we need to calculate the cost before the discount, ...
+llama3.2 (2.3s): "Reminder: Your child has maths at 4 pm tomorrow, don't forget to pick...
+qwen3:4b-instruct (5.4s): A fraction is a way to show part of something that has been divided in...
+qwen3:4b-instruct (20.9s): Let's break down the problem step by step.
+
+Each brother takes **10 sm...
+qwen3:4b-instruct (1.9s): Reminder: Don’t forget tomorrow’s 4 PM maths lesson! 📚⏰...
+gemma3:4b (8.1s): A fraction is a way of showing part of a whole – like if you have a pi...
+gemma3:4b (33.7s): Let the cost of one small-group lesson be $45.
+Each brother takes 10 l...
+gemma3:4b (2.5s): Don't forget! Your child has a maths lesson tomorrow at 4 pm. 😊...
+Saved model-results.csv</code></pre>
+<p>It took about a minute and a half on a 4-core computer with no graphics card. Yours may be faster or slower, and the answers will be a little different.</p>
+<h2>Read the answers</h2>
+<p>Open <code>model-results.csv</code>. The interesting one is the maths question. The right answer is 2 × 10 × $45 = $900, less 10% = <strong>$810</strong>.</p>
+<p><strong>llama3.2</strong> (the end of its answer):</p><pre><code>Each brother takes 10 lessons at $45 per lesson, so the total cost before discount is:
+
+10 lessons x $45 per lesson = $450
+
+Since the siblings get 10% off, we need to calculate the discount amount:
+
+$450 x 10% = $450 x 0.10 = $45
+
+Now, we subtract the discount from the original cost:
+
+$450 - $45 = $405
+
+So, the total cost with the 10% discount is $405.</code></pre>
+<p>Clear, confident and <strong>wrong</strong>: it forgot the second brother. <strong>qwen3:4b-instruct</strong> and <strong>gemma3:4b</strong> both got $810:</p><pre><code>So, apply 10% discount to the total:
+
+$$
+10\% \text{ of } \$900 = 0.10 \times 900 = \$90
+$$
+
+Subtract that discount:
+
+$$
+\$900 - \$90 = \$810
+$$
+
+✅ **Final Answer: \$810**.</code></pre>
+<p>Notice the <code>$$</code> and <code>\text</code>: that's LaTeX, a way of writing maths that some apps turn into neat formulas. In a plain text message to a parent it would look messy. That's worth a note on your test sheet too.</p>
+<p>The other questions show differences in style: Qwen and Gemma added emoji to the reminder; llama3.2 added "don't forget to pick them up after school", which nobody asked for. Would Priya want either?</p>
+<h2>Score it</h2>
+<p>Open <code>model-test-sheet.csv</code> in a spreadsheet. For each question it has "what a good answer has". Give each model's answer a score from 1 to 5, and note anything odd. Scores from this run might look like:</p>
+<table>
+<thead><tr><th>Question</th><th>llama3.2</th><th>qwen3:4b-instruct</th><th>gemma3:4b</th></tr></thead>
+<tbody>
+<tr><td>Fraction for Year 4</td><td>4</td><td>5</td><td>4 (uses "numerator")</td></tr>
+<tr><td>Sibling total ($810)</td><td>1 (wrong)</td><td>4 (right, LaTeX)</td><td>4 (right, long)</td></tr>
+<tr><td>Reminder text</td><td>3 (added a pick-up line)</td><td>4</td><td>4</td></tr>
+<tr><td>Average seconds</td><td>7.2</td><td>9.4</td><td>14.8</td></tr>
+</tbody>
+</table>
+<p>Three questions aren't enough to decide, but even this small test shows something useful: for anything with sums, don't rely on llama3.2 — or do the maths in code (Module 4.2). Real tests use 20 to 50 questions.</p>
+<h3>Write test questions that can only be read one way</h3>
+<p>An earlier version of the maths question said "How much do 10 lessons cost for two brothers with a 10% discount on both?" Two of the three models read it as 10 lessons <em>shared</em>, not 10 each. If people could read your question two ways, so can a model, and your test measures the wording, not the model.</p>
+<h3>Try it</h3>
+<ol>
+<li>Run <code>compare_models.py</code> and score the answers in <code>model-test-sheet.csv</code>.</li>
+<li>Add two questions of your own from Brightside's work (a parent's email to reply to, a homework explanation), with what a good answer has. Run it again.</li>
+<li>Which model would you choose for Study Buddy? Write one sentence explaining why.</li>
+</ol>

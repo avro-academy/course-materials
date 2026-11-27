@@ -1,0 +1,90 @@
+<h2>Is it right? Test it like software</h2>
+<p>You can't check every answer by hand, every time you change something. So you write an <strong>evaluation set</strong>: questions with facts you know the answer must contain, and a program that checks them all. Run it after every change to the prompt, the model or the notes.</p>
+<p><strong>module-6/check_answers.py</strong></p><pre><code>"""Check Study Buddy's answers against facts we know are right."""
+from rag import answer
+
+TESTS = [
+    ("How much is a one-on-one lesson?", ["85"]),
+    ("Do you charge an enrolment fee?", ["no enrolment fee", "no fee", "there is no", "don't charge"]),
+    ("When does term 2 start in 2027?", ["26 april"]),
+    ("Who teaches chemistry?", ["okafor"]),
+    ("What happens if we cancel with only 2 hours' notice?", ["can't", "cannot", "not be"]),
+    ("Do you teach physics?", ["don't", "do not", "not"]),
+    ("Can I pay with Bitcoin?", ["9630 4471", "don't know", "not sure"]),
+    ("Are you open on Fridays?", ["closed", "not open"]),
+]
+
+passed = 0
+for question, any_of in TESTS:
+    text, sources = answer(question)
+    ok = any(word in text.lower() for word in any_of)
+    passed += ok
+    print(f"{'PASS' if ok else 'FAIL'}  {question}\n      {text[:110]}")
+    if not ok:
+        print(f"      Sources: {', '.join(sources)}")
+
+print(f"\n{passed} of {len(TESTS)} passed")</code></pre>
+<ul>
+<li>Each test is a question and a list of words; the answer passes if it contains <strong>any</strong> of them (in lower case)</li>
+<li>There's a test for a question the notes <em>can't</em> answer (Bitcoin): passing means admitting it, not inventing a payment policy</li>
+<li>Failures print their sources, to help find the cause</li>
+</ul>
+<pre><code>python check_answers.py</code></pre><p><strong>Result:</strong></p><pre><code>PASS  How much is a one-on-one lesson?
+      A one-on-one lesson is $85 per lesson, for 60 minutes.
+PASS  Do you charge an enrolment fee?
+      No, there is no enrolment fee at Brightside Tutoring.
+PASS  When does term 2 start in 2027?
+      Term 2 in 2027 starts on Monday, 26 April 2027.
+PASS  Who teaches chemistry?
+      Dr Ben Okafor teaches Chemistry.
+FAIL  What happens if we cancel with only 2 hours' notice?
+      I don't know the specific policy for cancellations with less than 24 hours' notice. You may want to call (02) 
+      Sources: policies.md, term-dates-2027.md
+PASS  Do you teach physics?
+      No, we don't currently offer physics as a subject. Our science tutoring focuses on general science for Years 7
+PASS  Can I pay with Bitcoin?
+      I don't know if Brightside Tutoring accepts Bitcoin as a payment method. You may want to call (02) 9630 4471 t
+PASS  Are you open on Fridays?
+      No, we are not open on Fridays. Our opening hours during school terms are Monday to Thursday 3:30 pm to 8:00 p
+
+7 of 8 passed</code></pre>
+<h2>Find the cause</h2>
+<p>The cancellation answer says "I don't know", but <code>policies.md</code> was among the sources, so <strong>search worked</strong>. The notes say "With less than 24 hours' notice the lesson can't be made up or refunded". The model even repeated "less than 24 hours' notice" — it just didn't work out that 2 hours is less than 24. So the problem is in the <strong>generate</strong> step, and the fix goes in the prompt.</p>
+<p>Change the start of <code>SYSTEM</code> in <code>rag.py</code> to:</p>
+<pre><code>SYSTEM = """You answer questions from parents and students about Brightside Tutoring.
+Use ONLY the notes below. The notes may use different words from the question, so apply
+their rules to the person's situation (for example, 2 hours' notice is less than 24 hours).
+If the notes don't have the answer, say you don't know and suggest calling (02) 9630 4471.
+Keep answers to 3 sentences or fewer.</code></pre>
+<pre><code>python check_answers.py</code></pre><p><strong>Result:</strong></p><pre><code>PASS  How much is a one-on-one lesson?
+      A one-on-one lesson is $85 per lesson, for 60 minutes.
+PASS  Do you charge an enrolment fee?
+      No, there is no enrolment fee at Brightside Tutoring. The first lesson for a new student is a free trial.
+PASS  When does term 2 start in 2027?
+      Term 2 in 2027 starts on Monday, 26 April 2027.
+PASS  Who teaches chemistry?
+      Dr Ben Okafor teaches HSC Biology and Chemistry.
+PASS  What happens if we cancel with only 2 hours' notice?
+      If you cancel with only 2 hours' notice, the lesson can't be made up or refunded, except for illness with a do
+PASS  Do you teach physics?
+      No, we don't currently offer physics tutoring. Our tutors specialize in general science for Years 7 to 10, HSC
+PASS  Can I pay with Bitcoin?
+      I don't know if Brightside Tutoring accepts Bitcoin as a payment method. You might want to call us on (02) 963
+PASS  Are you open on Fridays?
+      No, we are not open on Fridays. Our opening hours during school terms are Monday to Thursday 3:30 pm to 8:00 p
+
+8 of 8 passed</code></pre>
+<p>All eight pass, and nothing that worked before broke. The <code>rag.py</code> in the starter files already has this fix.</p>
+<h2>Limits of word checks</h2>
+<p>Checking for words is quick and clear, but rough. The Bitcoin answer passes, yet a better answer would say Brightside takes bank transfer or card, which <em>is</em> in the notes. "specialize" slipped in with American spelling. Bigger evaluation sets also:</p>
+<ul>
+<li>Have a person score a sample of answers each week</li>
+<li>Use a second model as a <strong>judge</strong>, with a marking guide ("Is every fact in the answer found in the notes?")</li>
+<li>Track the pass rate over time, so you notice if a change makes things worse</li>
+</ul>
+<h3>Try it</h3>
+<ol>
+<li>Run <code>check_answers.py</code>.</li>
+<li>Add four tests of your own, including one the notes can't answer and one that needs a small calculation (like the cost of a term of one-on-one lessons).</li>
+<li>Change <code>MODEL</code> in <code>rag.py</code> to <code>qwen3:4b-instruct</code> and run the tests. Record both scores in your model test sheet.</li>
+</ol>

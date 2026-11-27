@@ -1,0 +1,35 @@
+<h2>Prompting when you're the builder</h2>
+<p>When you chat with AI, you can fix a weak prompt with a follow-up. When you build an app, the prompt is written once, in your code, and used thousands of times by people you'll never meet. It has to work every time. That's <strong>prompt engineering</strong>: designing and testing prompts until they're reliable.</p>
+<p>If you'd like a gentle start with everyday prompting first, our <a href="/learn/prompt-right">Prompt Right</a> course covers it in depth.</p>
+<h2>The parts of a prompt</h2>
+<table>
+<thead><tr><th>Part</th><th>What it does</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td><strong>Instruction</strong></td><td>The task</td><td>"Write a lesson plan…"</td></tr>
+<tr><td><strong>Primary content</strong></td><td>The text to work on</td><td>The parent's email, the notes, the student's question</td></tr>
+<tr><td><strong>Context</strong></td><td>What it needs to know</td><td>"…for a 60-minute small-group lesson, Year 8 maths, fractions"</td></tr>
+<tr><td><strong>Examples</strong></td><td>Show what a good answer looks like</td><td>Two emails already sorted correctly (Module 4.2)</td></tr>
+<tr><td><strong>Format</strong></td><td>The shape of the answer</td><td>"Use these headings…", "Reply with JSON"</td></tr>
+<tr><td><strong>Cues</strong></td><td>The start of the answer, to steer it</td><td>Ending the prompt with "Category:"</td></tr>
+</tbody>
+</table>
+<h2>Messages and roles</h2>
+<p>Chat models take a list of <strong>messages</strong>, each with a <strong>role</strong>:</p>
+<ul>
+<li><code>system</code> — your instructions for the whole conversation: the bot's job, rules and tone. The user doesn't see it</li>
+<li><code>user</code> — what the person typed</li>
+<li><code>assistant</code> — what the model replied earlier</li>
+</ul>
+<p>The <strong>system prompt</strong> is where most of an app's personality and safety rules live. A good one is specific:</p>
+<blockquote><strong>Vague:</strong> You are a helpful tutor.<br /><br /><strong>Specific:</strong> You are Study Buddy, a homework helper for Brightside Tutoring students in Years 3 to 12. Don't give final answers to homework; give a hint or the first step, then ask the student to try. Keep replies to 4 sentences. Use simple words and Australian spelling. If you aren't sure something is right, say so.</blockquote>
+<h2>Good habits</h2>
+<ul>
+<li><strong>Be specific</strong> about length, audience and format</li>
+<li><strong>Put instructions first</strong>, then the content, and mark where the content starts and ends (with <code>"""</code> or headings)</li>
+<li><strong>Say what to do</strong>, not only what not to do</li>
+<li><strong>Give it a way out</strong>: "If the notes don't say, reply 'I don't know'"</li>
+<li><strong>Test with lots of inputs</strong>, including strange ones — then change one thing at a time</li>
+<li><strong>Keep prompts in your code</strong>, with version control, like any other code</li>
+</ul>
+<h3>Try it</h3>
+<p>Write a system prompt for a bot that helps Brightside's tutors write end-of-term reports for parents. Include its job, its audience, its tone, a length limit and one thing it must never do.</p>

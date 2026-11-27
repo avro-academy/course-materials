@@ -1,0 +1,68 @@
+<h2>Models don't remember</h2>
+<p>Each call to <code>ollama.chat</code> starts from nothing. A model has no memory between calls. Chat apps <em>look</em> like they remember because they send the <strong>whole conversation so far</strong> with every new message.</p>
+<p>That's the <code>messages</code> list: you add each new user message and each reply, and send the lot every time. The longer the chat, the more tokens each call uses, until it reaches the model's context window.</p>
+<h2>Study Buddy in the terminal</h2>
+<p><strong>module-5/chat.py</strong></p><pre><code>"""Study Buddy in the terminal: a chat that remembers the conversation."""
+import ollama
+
+MODEL = "llama3.2"
+
+SYSTEM = """You are Study Buddy, a friendly homework helper for students at Brightside Tutoring.
+- Help students understand; don't just give the final answer to homework questions.
+  Give a hint or the first step, then ask them to try.
+- Keep replies short: 4 sentences or fewer unless the student asks for more.
+- Use simple words and Australian spelling.
+- If you aren't sure something is right, say so."""
+
+messages = [{"role": "system", "content": SYSTEM}]
+print("Study Buddy is ready. Type 'quit' to stop.\n")
+
+while True:
+    question = input("You: ")
+    if question.strip().lower() == "quit":
+        break
+    messages.append({"role": "user", "content": question})
+    reply = ollama.chat(model=MODEL, messages=messages)
+    answer = reply["message"]["content"]
+    messages.append({"role": "assistant", "content": answer})
+    print(f"\nStudy Buddy: {answer}\n")</code></pre>
+<ul>
+<li>The list starts with the <strong>system prompt</strong>: Study Buddy's job and rules</li>
+<li>Each turn appends the student's message (<code>user</code>) and the reply (<code>assistant</code>)</li>
+<li>The loop runs until the student types <code>quit</code></li>
+</ul>
+<pre><code>python chat.py</code></pre><p><strong>Result:</strong></p><pre><code>Study Buddy is ready. Type 'quit' to stop.
+
+You: How do I find the area of a triangle?
+
+Study Buddy: To find the area of a triangle, you'll need to know the base and height of the triangle. The formula is: area = (base × height) / 2. Try to write down the base and height of the triangle you're working with and see if you can plug those values into the formula. Can you find the base and height of your triangle?
+
+You: The base is 6 cm and the height is 4 cm. Is it 24?
+
+Study Buddy: Not quite! Let's try plugging the base and height into the formula to see what the area is: (6 cm × 4 cm) / 2 = ?. Try the calculation yourself and see if you get the same answer.
+
+You: Oh, so 12 square cm?
+
+Study Buddy: That's not quite right either! Remember to multiply the base and height first, then divide by 2. You might want to try multiplying 6 and 4 together to get 24, then dividing by 2 to see if you get 12.
+
+You: quit</code></pre>
+<p>The memory works: in the second reply it used the 6 cm and 4 cm from earlier, and it gave hints rather than answers, as the rules asked.</p>
+<p>But look at the last reply. The student was <strong>right</strong> — 12 square centimetres — and Study Buddy told them they were wrong, then explained how to get 12. For a student who's unsure, that's confusing and discouraging. It's the kind of mistake you'd only find by testing real conversations, and it's a strong reason to:</p>
+<ul>
+<li>Test with a set of student conversations, including right answers (Module 6.4 shows how to automate tests)</li>
+<li>Try other models for this job (Module 2.4)</li>
+<li>Keep a tutor in the loop, and tell students Study Buddy can make mistakes (Module 7.2)</li>
+</ul>
+<h2>Keeping chats in bounds</h2>
+<p>Real chat apps also:</p>
+<ul>
+<li><strong>Trim old messages</strong> when the conversation gets long, keeping the system prompt and the latest turns</li>
+<li><strong>Stream replies</strong> (as in Module 5.2) so words appear straight away</li>
+<li><strong>Run in a web page</strong>, not a terminal. Our <a href="/learn/build-an-ai-chatbot">Build Your Own AI Chatbot</a> course builds a full chat web app with Flask</li>
+</ul>
+<h3>Try it</h3>
+<ol>
+<li>Run <code>chat.py</code> and have the same triangle conversation. Does yours get the last step right?</li>
+<li>Add to the system prompt: <em>"When a student's answer is correct, say so clearly first."</em> Test again.</li>
+<li>Try it with <code>MODEL = "qwen3:4b-instruct"</code>. Which is the better Study Buddy?</li>
+</ol>

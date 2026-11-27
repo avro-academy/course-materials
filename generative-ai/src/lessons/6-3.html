@@ -1,0 +1,88 @@
+<h2>Retrieval-augmented generation</h2>
+<p>A model doesn't know Brightside's prices, and if you ask, it will happily make some up. <strong>RAG</strong> (retrieval-augmented generation) fixes that in three steps:</p>
+<ol>
+<li><strong>Retrieve</strong>: search the notes for the chunks closest to the question (Module 6.2)</li>
+<li><strong>Augment</strong>: put those chunks into the prompt, with an instruction to use only them</li>
+<li><strong>Generate</strong>: the model writes the answer from the notes</li>
+</ol>
+<p>It's how most business chatbots answer from their own documents. Compared with retraining a model, it's cheap, the information is always up to date (change the notes, rebuild the index), and you can show where each answer came from.</p>
+<h2>Study Buddy answers from the notes</h2>
+<p><strong>module-6/rag.py</strong> (the first version: the one in the starter files already has the fix from Module 6.4)</p><pre><code>"""Study Buddy answers questions about Brightside from its notes, and says where the answer came from."""
+import ollama
+
+from search import search
+
+MODEL = "llama3.2"
+
+SYSTEM = """You answer questions from parents and students about Brightside Tutoring.
+Use ONLY the notes below. If the notes don't have the answer, say you don't know and
+suggest calling (02) 9630 4471. Keep answers to 3 sentences or fewer.
+
+Notes:
+{notes}"""
+
+
+def answer(question):
+    results = search(question, k=3)
+    notes = "\n\n".join(f"[{c['source']}]\n{c['text']}" for _, c in results)
+    reply = ollama.chat(
+        model=MODEL,
+        messages=[{"role": "system", "content": SYSTEM.format(notes=notes)},
+                  {"role": "user", "content": question}],
+        options={"temperature": 0},
+    )
+    sources = sorted({c["source"] for _, c in results})
+    return reply["message"]["content"].strip(), sources
+
+
+if __name__ == "__main__":
+    while True:
+        question = input("\nAsk Study Buddy (or 'quit'): ")
+        if question.strip().lower() == "quit":
+            break
+        text, sources = answer(question)
+        print(f"\n{text}\n\nSources: {', '.join(sources)}")</code></pre>
+<ul>
+<li>The <strong>system prompt</strong> is a template: <code>{notes}</code> is replaced with the three closest chunks, each labelled with its file name</li>
+<li>It gives the model <strong>a way out</strong>: if the notes don't say, admit it and give the phone number</li>
+<li><strong>Temperature 0</strong> keeps it close to the notes</li>
+<li><code>sources</code> lists the files the chunks came from, without repeats</li>
+</ul>
+<pre><code>python rag.py</code></pre><p><strong>Result:</strong></p><pre><code>Ask Study Buddy (or 'quit'): Can I get my money back if we stop coming?
+
+If you leave part way through a term, you can get a refund for the lessons not yet taken, minus a $30 admin fee. You'll need to ask before week 8 of the term to arrange this.
+
+Sources: policies.md
+
+Ask Study Buddy (or 'quit'): Do you teach physics?
+
+No, we don't currently offer physics as a subject. Our science tutoring focuses on general science for Years 7 to 10, and HSC Biology and Chemistry.
+
+Sources: subjects.md
+
+Ask Study Buddy (or 'quit'): What time do you close on Saturday?
+
+We close on Saturday at 1:00 pm.
+
+Sources: about.md, policies.md, term-dates-2027.md
+
+Ask Study Buddy (or 'quit'): quit</code></pre>
+<p>All three are right, and come from Brightside's own notes. Compare with Module 5.4, where a model with no information invented "free maths places" at the local library.</p>
+<h2>A note on sources</h2>
+<p>The last answer lists three files, but only <code>about.md</code> has the opening hours. The list shows which chunks were <em>given</em> to the model, not which one it <em>used</em>. Simple apps accept that. Better ones ask the model to name its source for each sentence, or show only chunks above a minimum score. It's another thing worth testing.</p>
+<h2>When RAG goes wrong</h2>
+<table>
+<thead><tr><th>Problem</th><th>Cause</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>"I don't know" when the notes do say</td><td>Search didn't find the right chunk, or the model didn't connect the question to it</td><td>Check what was retrieved; improve chunks or the prompt (next lesson)</td></tr>
+<tr><td>A made-up answer</td><td>The model ignored "use only the notes"</td><td>Stronger instructions, a better model, tests</td></tr>
+<tr><td>Out-of-date answers</td><td>The index wasn't rebuilt after the notes changed</td><td>Rebuild the index whenever the notes change</td></tr>
+<tr><td>Instructions hidden in a document</td><td>Indirect prompt injection (Module 3.3)</td><td>Control who edits the notes</td></tr>
+</tbody>
+</table>
+<h3>Try it</h3>
+<ol>
+<li>Run <code>rag.py</code> with your five parent questions from Module 6.2.</li>
+<li>Ask something the notes don't cover, like <em>"Is there parking?"</em> Does it admit it doesn't know?</li>
+<li>Change <code>k=3</code> to <code>k=1</code>. Which answers get worse, and why?</li>
+</ol>
